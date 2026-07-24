@@ -1,0 +1,235 @@
+openapi: 3.0.0
+info:
+  x-logo:
+    url: https://docs.shiftleft.io/img/sl-logo.svg
+  version: 4.0.0
+  title: alerting analyze API
+  description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
+
+
+    # Authentication
+
+
+    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
+
+    '
+servers:
+- url: https://app.shiftleft.io/api/v4
+tags:
+- name: analyze
+paths:
+  /orgs/{orgID}/analyze-failures:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    get:
+      tags:
+      - analyze
+      summary: List analyze failures for an organization
+      operationId: ListAnalyzeFailures
+      description: 'Returns a list of client-side analyze failures that occurred before cloud submission.
+
+        These records provide visibility into local analysis issues.
+
+        '
+      security:
+      - BearerToken:
+        - org_runs:read
+      parameters:
+      - name: limit
+        in: query
+        description: Maximum number of results to return (default 100, max 100)
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 100
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  response:
+                    type: object
+                    properties:
+                      failures:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/AnalyzeFailure'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/analyze-failures/{failureId}:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - name: failureId
+      in: path
+      required: true
+      description: The unique identifier of the analyze failure
+      schema:
+        type: string
+        format: uuid
+    get:
+      tags:
+      - analyze
+      summary: Get a single analyze failure
+      operationId: GetAnalyzeFailure
+      description: 'Returns details of a specific client-side analyze failure.
+
+        '
+      security:
+      - BearerToken:
+        - org_runs:read
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  response:
+                    $ref: '#/components/schemas/AnalyzeFailure'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  parameters:
+    orgID:
+      name: orgID
+      in: path
+      description: The org ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
+            type: string
+            description: A description of the validation error
+    AnalyzeFailure:
+      type: object
+      description: A client-side analyze failure record
+      required:
+      - id
+      - organization_id
+      - app_name
+      - category
+      - message
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique identifier for this failure
+        organization_id:
+          type: string
+          format: uuid
+          description: The organization ID
+        project_id:
+          type: string
+          format: uuid
+          description: The project ID if available
+        app_name:
+          type: string
+          description: The application name
+        compound_id:
+          type: string
+          description: The compound ID if available
+        polyglot_scan_id:
+          type: integer
+          description: The polyglot scan ID if available
+        domain:
+          type: string
+          description: The component domain that generated the error (e.g., sl, java2cpg, py2cpg)
+        category:
+          type: string
+          description: The failure category
+          enum:
+          - config_load
+          - language_detection
+          - language_exclusion
+          - compound_guess
+          - input_validation
+          - auth_validation
+          - remediation_config
+          - project_creation
+          - subscription_limit
+          - cpg_generation
+          - resource_download
+          - sca_analysis
+          - unknown
+        code:
+          type: string
+          description: A machine-readable error code for programmatic handling
+        affects:
+          type: string
+          description: What functionality is affected by this failure
+          enum:
+          - all
+          - sast
+          - sca
+        message:
+          type: string
+          description: The error message
+        is_partial:
+          type: boolean
+          description: Whether this is a partial failure (some analysis succeeded)
+        details:
+          type: object
+          description: Additional structured details about the failure (includes sl_version, os, arch, log_trace, etc.)
+        log_trace_s3_url:
+          type: string
+          description: S3 URL for longer log traces (when log_trace exceeds inline limit)
+        created_at:
+          type: string
+          format: date-time
+          description: The timestamp when the failure was recorded
+  securitySchemes:
+    BearerToken:
+      description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\
+
+        `Authorization: Bearer {access token}`
+
+        '
+      type: http
+      scheme: bearer

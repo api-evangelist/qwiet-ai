@@ -1,0 +1,233 @@
+openapi: 3.0.0
+info:
+  x-logo:
+    url: https://docs.shiftleft.io/img/sl-logo.svg
+  version: 4.0.0
+  title: alerting reports API
+  description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
+
+
+    # Authentication
+
+
+    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
+
+    '
+servers:
+- url: https://app.shiftleft.io/api/v4
+tags:
+- name: reports
+  x-displayName: Reports
+  description: 'The summaries of applications and their findings for a specific organization.
+
+
+    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-b675d7af-bdd5-49a4-982b-4e57c4f4a44c?action=collection%2Ffork&collection-url=entityId%3D9829310-b675d7af-bdd5-49a4-982b-4e57c4f4a44c%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
+
+    '
+paths:
+  /orgs/{orgID}/apps/{appID}/scans/{scanID}/reports/pci_dss/html:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/appID'
+    - $ref: '#/components/parameters/scanID'
+    - in: query
+      name: ignore_info_findings
+      schema:
+        type: boolean
+      description: Whether findings marked as informational should be included in the report or not
+    get:
+      tags:
+      - reports
+      operationId: ReadScanPCIDSSReport
+      summary: Read HTML PCI DSS report for a scan
+      security:
+      - BearerToken:
+        - findings:list
+      responses:
+        '200':
+          description: Success
+          content:
+            text/html:
+              example: "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"utf-8\" />\n        <!-- report data -->\n    </head>\n    <body></body>\n</html>\n"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/apps/{appID}/scans/{scanID}/reports/owasp-{year}.{ext}:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/appID'
+    - $ref: '#/components/parameters/scanID'
+    - $ref: '#/components/parameters/reportExtension'
+    - name: year
+      in: path
+      description: the year wanted
+      required: true
+      schema:
+        type: string
+        example: '2025'
+        enum:
+        - '2017'
+        - '2021'
+        - '2025'
+    - in: query
+      name: comments
+      schema:
+        type: boolean
+      description: Whether to include comments
+    - in: query
+      name: status
+      description: 'The status filter. By default, only `unset` findings are included.
+
+        '
+      schema:
+        $ref: '#/components/schemas/Status'
+    - in: query
+      name: tz
+      description: The timezone for any times shown in the report. By default, times are shown in UTC.
+      schema:
+        type: string
+      example: America/New_York
+    get:
+      tags:
+      - reports
+      operationId: ReadDetailedOWASPReport
+      summary: Read Detailed OWASP report for a scan
+      security:
+      - BearerToken:
+        - findings:list
+      responses:
+        '200':
+          description: Success
+          content:
+            text/html:
+              example: "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"utf-8\" />\n        <!-- report data -->\n    </head>\n    <body></body>\n</html>\n"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/apps/{appID}/scans/{scanID}/reports/cwe.{ext}:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/appID'
+    - $ref: '#/components/parameters/scanID'
+    - $ref: '#/components/parameters/reportExtension'
+    - in: query
+      name: comments
+      schema:
+        type: boolean
+      description: Whether to include comments
+    - in: query
+      name: status
+      description: 'The status filter. By default, only `unset` findings are included.
+
+        '
+      schema:
+        $ref: '#/components/schemas/Status'
+    - in: query
+      name: tz
+      description: The timezone for any times shown in the report. By default, times are shown in UTC.
+      schema:
+        type: string
+      example: America/New_York
+    get:
+      tags:
+      - reports
+      operationId: ReadCWEReport
+      summary: Read CWE report for a scan
+      security:
+      - BearerToken:
+        - findings:list
+      responses:
+        '200':
+          description: Success
+          content:
+            text/html:
+              example: "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"utf-8\" />\n        <!-- report data -->\n    </head>\n    <body></body>\n</html>\n"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  parameters:
+    appID:
+      name: appID
+      in: path
+      description: The app ID (e.g., `HelloQwiet`)
+      required: true
+      schema:
+        type: string
+    orgID:
+      name: orgID
+      in: path
+      description: The org ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    scanID:
+      name: scanID
+      in: path
+      description: ID of the scan
+      required: true
+      schema:
+        type: string
+    reportExtension:
+      name: ext
+      in: path
+      description: the extension wanted
+      required: true
+      schema:
+        type: string
+        example: pdf
+        enum:
+        - html
+        - pdf
+  schemas:
+    Status:
+      type: string
+      enum:
+      - unset
+      - fixed
+      - ignored
+      - 3rdparty
+      - any
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
+            type: string
+            description: A description of the validation error
+  securitySchemes:
+    BearerToken:
+      description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\
+
+        `Authorization: Bearer {access token}`
+
+        '
+      type: http
+      scheme: bearer

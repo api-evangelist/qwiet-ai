@@ -1,0 +1,1791 @@
+openapi: 3.0.0
+info:
+  x-logo:
+    url: https://docs.shiftleft.io/img/sl-logo.svg
+  version: 4.0.0
+  title: alerting findings API
+  description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
+
+
+    # Authentication
+
+
+    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
+
+    '
+servers:
+- url: https://app.shiftleft.io/api/v4
+tags:
+- name: findings
+  x-displayName: Findings
+  description: 'The results of a scan (which can include vulnerabilities, secrets, or insights).
+
+    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-156075f8-c7cf-4e2c-95fa-0823a3313658?action=collection%2Ffork&collection-url=entityId%3D9829310-156075f8-c7cf-4e2c-95fa-0823a3313658%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
+
+    '
+paths:
+  /orgs/{orgID}/apps/{appID}/findings:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/appID'
+    - $ref: '#/components/parameters/type'
+    - $ref: '#/components/parameters/severity'
+    - $ref: '#/components/parameters/tags'
+    - $ref: '#/components/parameters/finding_tags'
+    - $ref: '#/components/parameters/assignee'
+    - $ref: '#/components/parameters/assignment'
+    - $ref: '#/components/parameters/category'
+    - $ref: '#/components/parameters/details_tags'
+    - $ref: '#/components/parameters/status'
+    - $ref: '#/components/parameters/sort'
+    - $ref: '#/components/parameters/order'
+    - $ref: '#/components/parameters/only_counts'
+    - $ref: '#/components/parameters/page'
+    - $ref: '#/components/parameters/per_page'
+    - in: query
+      name: version
+      description: Version to filter findings for; defaults to the latest scan
+      schema:
+        type: string
+    - in: query
+      name: scan
+      description: ID of the scan to filter to; defaults to the latest scan
+      schema:
+        type: string
+    - $ref: '#/components/parameters/optionalComparableVersionIdentifierSource'
+    - in: query
+      name: diff
+      description: Return a diff of findings (as compared to the source)
+      schema:
+        $ref: '#/components/schemas/Diff'
+    - in: query
+      name: fields
+      description: Specifies the fields included or excluded in the response.
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+          - -description
+          - -details
+          - -related_findings
+    get:
+      tags:
+      - findings
+      summary: List app findings
+      operationId: ListAppFindings
+      description: List findings for the specified app. Results are filtered to a single scan (by default, this is the latest scan).
+      security:
+      - BearerToken:
+        - findings:list
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    next_page:
+                      $ref: '#/components/schemas/NextPage'
+                    response:
+                      type: object
+                      properties:
+                        has_more:
+                          type: boolean
+                          example: true
+                          description: Whether asking for the next page would return additional findings.
+                        scan:
+                          $ref: '#/components/schemas/Scan'
+                        findings:
+                          type: array
+                          description: 'The findings relevant to the query. This entry will not be present if there are no matching findings (or if `only_counts` is specified).
+
+                            '
+                          items:
+                            $ref: '#/components/schemas/Finding'
+                        counts:
+                          type: array
+                          description: 'Summaries of the tags of the findings relevant to the query. This entry will not be present if there are no matching findings. Only tags with a non-zero count will be present.
+
+                            '
+                          items:
+                            $ref: '#/components/schemas/TagCount'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/compounds/named/{compoundName}/findings:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/compoundName'
+    - $ref: '#/components/parameters/type'
+    - $ref: '#/components/parameters/severity'
+    - $ref: '#/components/parameters/tags'
+    - $ref: '#/components/parameters/finding_tags'
+    - $ref: '#/components/parameters/assignee'
+    - $ref: '#/components/parameters/assignment'
+    - $ref: '#/components/parameters/category'
+    - $ref: '#/components/parameters/details_tags'
+    - $ref: '#/components/parameters/status'
+    - $ref: '#/components/parameters/sort'
+    - $ref: '#/components/parameters/order'
+    - $ref: '#/components/parameters/only_counts'
+    - $ref: '#/components/parameters/page'
+    - $ref: '#/components/parameters/per_page'
+    - in: query
+      name: version
+      description: Version to filter findings for; defaults to the latest scan
+      schema:
+        type: string
+    - in: query
+      name: scan
+      description: Polyglot scan ID to filter to; defaults to the latest scan
+      schema:
+        type: string
+    - $ref: '#/components/parameters/optionalComparableVersionIdentifierSource'
+    - in: query
+      name: diff
+      description: Return a diff of findings (as compared to the source)
+      schema:
+        $ref: '#/components/schemas/Diff'
+    - in: query
+      name: fields
+      description: Specifies the fields included or excluded in the response.
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+          - -description
+          - -details
+          - -related_findings
+    get:
+      deprecated: true
+      tags:
+      - findings
+      summary: List compound findings
+      operationId: ListCompoundFindingsDEPRECATED
+      description: DEPRECATED - use /orgs/{orgID}/compounds/byname/{compoundName}/findings instead. List findings for the specified compound. Results are filtered to a single scan (by default, this is the latest scan).
+      security:
+      - BearerToken:
+        - findings:list
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    next_page:
+                      $ref: '#/components/schemas/NextPage'
+                    response:
+                      type: object
+                      properties:
+                        has_more:
+                          type: boolean
+                          example: true
+                          description: Whether asking for the next page would return additional findings.
+                        scan:
+                          $ref: '#/components/schemas/Scan'
+                        findings:
+                          type: array
+                          description: 'The findings relevant to the query. This entry will not be present if there are no matching findings (or if `only_counts` is specified).
+
+                            '
+                          items:
+                            $ref: '#/components/schemas/Finding'
+                        counts:
+                          type: array
+                          description: 'Summaries of the tags of the findings relevant to the query. This entry will not be present if there are no matching findings. Only tags with a non-zero count will be present.
+
+                            '
+                          items:
+                            $ref: '#/components/schemas/TagCount'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/compounds/byname/{compoundName}/findings:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/compoundName'
+    - in: query
+      name: polyglot_scan
+      description: Polyglot scan ID to filter to; defaults to the latest scan.
+      schema:
+        type: string
+    - in: query
+      name: scan_version
+      description: The version of the code at scan time. Ignored if polyglot_scan is given.
+      schema:
+        type: string
+    - in: query
+      name: scan_branch
+      description: The code branch at scan time. Ignored if polygot_scan or scan_version are given.
+      schema:
+        type: string
+    - in: query
+      name: scan_tag
+      description: Tags passed to the analyzer at scan time. Ignored if polygot_scan, scan_version, or scan_branch are given.
+      schema:
+        type: string
+        pattern: ^(?<key>.*?)__eq__(?<value>.*)$
+    - in: query
+      name: scan_platform
+      description: The analysis platform. Cannot be specified together with scan_language.
+      schema:
+        $ref: '#/components/schemas/ScanPlatform'
+    - in: query
+      name: scan_language
+      description: The analysis language. Cannot be specified together with scan_platform.
+      schema:
+        $ref: '#/components/schemas/ScanLanguage'
+    - in: query
+      name: counts_exclude
+      description: 'The tags to exclude from ''counts'' in the response. Can be specified more than once. The default filters out a small set of tags that don''t add too much value in the kind of aggregate that ''counts'' contains. An empty value resets the list.
+
+        '
+      schema:
+        type: string
+    - in: query
+      name: finding_type
+      description: Only list findings of the given type. Can be specified multiple times.
+      schema:
+        type: string
+        enum:
+        - vuln
+        - secret
+        - insight
+        - extscan
+        - oss_vuln
+        - container
+        - security_issue
+    - in: query
+      name: finding_status
+      description: Only list findings with the given status. Can be specified multiple times.
+      schema:
+        type: string
+        enum:
+        - ignored
+        - fixed
+        - 3rdparty
+    - in: query
+      name: finding_assignee
+      description: Only list findings with the given assignee. Cannot be specified together with finding_assignment.
+      schema:
+        type: string
+        format: email
+    - in: query
+      name: finding_assignment
+      description: Only list findings of the given assignment state.
+      schema:
+        type: string
+        enum:
+        - assigned
+        - unassigned
+    - in: query
+      name: finding_tag
+      description: 'Only list findings matching the given tag query. Can be specified up to 20 times. A finding will match a series of tag queries if it matches all of them.
+
+        '
+      schema:
+        type: string
+        pattern: ^(?<key>.*?)__(?<operator>.*?)__(?<value>.*)$
+      examples:
+        equality:
+          value: category__equal__SQL Injection
+          summary: 'Matches findings with a tag of the given key and a value that is equal to that given.
+
+            Operator aliases: eq.
+
+            '
+        inequality:
+          value: category__not_equal__SQL Injection
+          summary: 'Matches findings with a tag of the given key and a value that is _not_ equal to that given.
+
+            Operator aliases: ne, neq.
+
+            '
+        case-insensitive equality:
+          value: category__equal_fold__sql injection
+          summary: 'Matches findings with a tag of the given key and a value that is equal under simple Unicode case-folding to that given.
+
+            Operator aliases: ieq.
+
+            '
+        case-insensitive inequality:
+          value: category__not_equal_fold__sql injection
+          summary: 'Matches findings with a tag of the given key and a value that is _not_ equal under simple Unicode case-folding to that given.
+
+            Operator aliases: nieq, ineq, ine.
+
+            '
+        containment:
+          value: category__contains__SQL
+          summary: 'Matches findings with a tag of the given key and a value that contains the given value.
+
+            Operator aliases: has.
+
+            '
+        non-containment:
+          value: category__not_contains__SQL
+          summary: 'Matches findings with a tag of the given key and a value that does _not_ contain the given value.
+
+            Operator aliases: nhas.
+
+            '
+        case-insensitive containment:
+          value: category__contains_fold__SQL
+          summary: 'Matches findings with a tag of the given key and a value that contains the given value under simple Unicode case-folding.
+
+            Operator aliases: ihas.
+
+            '
+        case-insensitive non-containment:
+          value: category__not_contains_fold__SQL
+          summary: 'Matches findings with a tag of the given key and a value that does _not_ contain the given value under simple Unicode case-folding.
+
+            Operator aliases: nihas, inhas.
+
+            '
+        inclusion:
+          value: category__in__foo,bar
+          summary: 'Matches findings with a tag of the given key and a value equal to one of the elements in the given comma-separated list.
+
+            '
+        exclusion:
+          value: category__not_in__foo,bar
+          summary: 'Matches findings with a tag of the given key and a value that is _not_ equal to one of the elements in the given comma-separated list.
+
+            Operator aliases: nin.
+
+            '
+        case-insensitive inclusion:
+          value: category__in_fold__foo,bar
+          summary: 'Matches findings with a tag of the given key and a value equal under simple Unicode case-folding to one of the elements in the given comma-separated list.
+
+            Operator aliases: iin.
+
+            '
+        case-insensitive exclusion:
+          value: category__not_in_fold__foo,bar
+          summary: 'Matches findings with a tag of the given key and a value that is _not_ equal under simple Unicode case-folding to one of the elements in the given comma-separated list.
+
+            Operator aliases: niin.
+
+            '
+        approximate floating-point value:
+          value: cvss_score__approx__2
+          summary: 'Matches findings with a tag of the given key and a value that when interpreted as a floating point is less than 0.09 away from that given.
+
+            '
+        less than floating-point value:
+          value: cvss_score__lt__2
+          summary: 'Matches findings with a tag of the given key and a value that when interpreted as a floating point is less than that given.
+
+            '
+        less than or equal to floating-point value:
+          value: cvss_score__lte__2
+          summary: 'Matches findings with a tag of the given key and a value that when interpreted as a floating point is less than or equal to that given.
+
+            '
+        greater than floating-point value:
+          value: cvss_score__gt__2
+          summary: 'Matches findings with a tag of the given key and a value that when interpreted as a floating point is greater than that given.
+
+            '
+        greater than or equal to floating-point value:
+          value: cvss_score__gte__2
+          summary: 'Matches findings with a tag of the given key and a value that when interpreted as a floating point is greater than or equal to that given.
+
+            '
+    - in: query
+      name: finding_search
+      description: 'Only list findings containing the given value (under simple Unicode case-folding) in their title or description. Can be specified up to 5 times.  A finding will match a series of searches if it matches all of them.
+
+        '
+      schema:
+        type: string
+    - in: query
+      name: finding_reachable
+      description: 'Only list reachable findings.
+
+        '
+      schema:
+        type: boolean
+    - in: query
+      name: finding_exploitable
+      description: 'Only list exploitable findings.
+
+        '
+      schema:
+        type: boolean
+    - in: query
+      name: finding_has_ai_fix
+      description: 'Only list findings with an AI fix available.
+
+        '
+      schema:
+        type: boolean
+    - in: query
+      name: finding_sort
+      description: 'The field used to sort results.
+
+        If not given, the default is to sort by ID in descending order. When given, sort by that criterion, defaulting to ascending order.
+
+        '
+      schema:
+        type: string
+        enum:
+        - id
+        - title
+        - severity
+        - created_at
+    - in: query
+      name: finding_order
+      description: 'How results are sorted. See the note on finding_sort for defaults.
+
+        '
+      schema:
+        type: string
+        enum:
+        - desc
+        - asc
+    - in: query
+      name: page
+      description: 'The page of results to fetch. Only the findings portion of the response is paginated; counts and scans are present every time.
+
+        '
+      schema:
+        type: integer
+        minimum: 1
+    - in: query
+      name: per_page
+      description: Number of results per page; defaults to 50
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 250
+    - in: query
+      name: finding_fields
+      description: 'Specifies the fields included or excluded in the findings in the response. Can be specified more than once.
+
+        '
+      schema:
+        type: string
+        enum:
+        - -description
+    get:
+      tags:
+      - findings
+      summary: List compound findings
+      operationId: ListCompoundFindings
+      description: 'List findings for the specified compound. Results are for a single polyglot scan (by default, this is the latest scan).
+
+        '
+      security:
+      - BearerToken:
+        - findings:list
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    next_page:
+                      $ref: '#/components/schemas/NextPage'
+                    response:
+                      type: object
+                      properties:
+                        has_more:
+                          type: boolean
+                          example: true
+                          description: Whether asking for the next page would return additional findings.
+                        polyglot_scan:
+                          type: object
+                          properties:
+                            compound_id:
+                              type: string
+                              format: uuid
+                              description: 'The compound ID of the polyglot scan. Will be omitted iff the scan is not part of a compound.
+
+                                '
+                            polyglot_scan_id:
+                              type: integer
+                              minimum: 1
+                              description: 'The polyglot scan ID. Will be omitted iff the scan is not part of the compound.
+
+                                '
+                            scans:
+                              type: array
+                              description: 'The element scans that form the polyglot scan. Can be empty if all elements were filtered by language or platform filtering.
+
+                                '
+                              items:
+                                $ref: '#/components/schemas/Scan'
+                        findings:
+                          type: array
+                          description: 'The findings relevant to the query. This entry will empty if there are no matching findings.
+
+                            '
+                          items:
+                            $ref: '#/components/schemas/Finding'
+                        total_count:
+                          type: integer
+                          minimum: 0
+                          description: 'The total number of findings matching the query, before pagination.
+
+                            '
+                        counts:
+                          type: array
+                          description: 'Summaries of the tags of the findings relevant to the query. This entry be omitted if there are no matching findings.
+
+                            NOTE that some tags are multi-valued and so the count can be greater than the number of findings.
+
+                            '
+                          items:
+                            type: object
+                            properties:
+                              key:
+                                type: string
+                              value_counts:
+                                type: object
+                                additionalProperties:
+                                  type: integer
+                            example:
+                              key: cvss_31_severity_ratings
+                              value_counts:
+                                critical: 1
+                                high: 2
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/apps/{appID}/findings/{findingID}:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/appID'
+    - $ref: '#/components/parameters/findingID'
+    get:
+      tags:
+      - findings
+      summary: Read app finding detail
+      operationId: ReadAppFinding
+      description: Read the details for a single finding
+      security:
+      - BearerToken:
+        - findings:read
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      $ref: '#/components/schemas/Finding'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/apps/{appID}/findings/{findingID}/status:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/appID'
+    - $ref: '#/components/parameters/findingID'
+    put:
+      tags:
+      - findings
+      summary: Set finding status
+      operationId: SetAppFindingStatus
+      description: Set the current status for a finding
+      security:
+      - BearerToken:
+        - finding_status:update
+        - finding_fixed:update
+        - finding_ignore:update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FindingStatusUpdate'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/apps/{appID}/findings/{findingID}/assignment:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/appID'
+    - $ref: '#/components/parameters/findingID'
+    put:
+      tags:
+      - findings
+      summary: Set finding assignee
+      operationId: SetAppFindingAssignee
+      description: Set the current assignee for a finding
+      security:
+      - BearerToken:
+        - finding_assign:update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FindingAssigneeUpdate'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/apps/{appID}/findings_status:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/appID'
+    put:
+      tags:
+      - findings
+      summary: Set multiple findings status
+      operationId: SetAppMultipleFindingsStatus
+      description: Set the current status for multiple findings
+      security:
+      - BearerToken:
+        - finding_status:update
+        - finding_fixed:update
+        - finding_ignore:update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MultipleFindingsStatusUpdate'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/apps/{appID}/findings_assignment:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/appID'
+    put:
+      tags:
+      - findings
+      summary: Set multiple findings assignee
+      operationId: SetAppMultipleFindingsAssignee
+      description: Set the current assignee for a finding
+      security:
+      - BearerToken:
+        - finding_assign:update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MultipleFindingsAssigneeUpdate'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/compounds/named/{compoundName}/sca/packages:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/compoundName'
+    get:
+      tags:
+      - findings
+      summary: Read the SCA packages of a compound scan
+      operationId: ReadCompoundSCAPackages
+      description: Return information about the packages found in a scan of an app
+      security:
+      - BearerToken:
+        - sca:read
+      parameters:
+      - in: query
+        name: polyglot_scan
+        description: Polyglot scan ID of the scan to filter to; defaults to the latest scan.
+        example: 42
+        schema:
+          type: integer
+      - in: query
+        name: scan_version
+        description: The version of which to get the latest scan. This is usually a SHA1. Ignored if polyglot_scan is given.
+        example: 9b7e138e1b16dc5261803cceffb86c36800c2c7f
+        schema:
+          type: string
+      - in: query
+        name: scan_branch
+        description: The branch of which to get the latest scan. Ignored if polygot_scan or scan_version are given.
+        example: feature/1234
+        schema:
+          type: string
+      - in: query
+        name: scan_tag
+        description: Tags passed to the analyzer at scan time. Ignored if polygot_scan, scan_version, or scan_branch are given.
+        schema:
+          type: string
+          pattern: ^(?<key>.*?)__eq__(?<value>.*)$
+      - in: query
+        name: scan_platform
+        description: The analysis platform. Cannot be specified together with scan_language.
+        schema:
+          $ref: '#/components/schemas/ScanPlatform'
+      - in: query
+        name: scan_language
+        description: The analysis language. Cannot be specified together with scan_platform.
+        schema:
+          $ref: '#/components/schemas/ScanLanguage'
+      - in: query
+        name: type
+        description: The package finding types to include.
+        example: package
+        schema:
+          type: string
+          enum:
+          - package
+          - container_package
+      - in: query
+        name: tag
+        description: a tag query used to filter the findings
+        example: package_type__eq__alpine
+        schema:
+          type: string
+      - in: query
+        name: per_page
+        description: The number of results per page.
+        schema:
+          type: integer
+          minimum: 1
+          default: 100
+          maximum: 10000
+      - in: query
+        name: page
+        description: The specific page of the results to fetch.
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+      - in: query
+        name: sort
+        description: How to sort results; defaults to ID
+        schema:
+          type: string
+          enum:
+          - package
+          - url
+          - name
+          - namespace
+          - type
+          - version
+          - license
+          - created_at
+          - num_vulns
+          - num_reachable
+          - num_exploitable
+      - $ref: '#/components/parameters/order'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      type: object
+                      required:
+                      - packages
+                      - total_count
+                      - has_more
+                      - scans
+                      properties:
+                        packages:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/SCAPackage'
+                        has_more:
+                          type: boolean
+                          example: true
+                          description: Whether asking for the next page would give you more results
+                        total_count:
+                          type: integer
+                          example: 42
+                          description: The total number of results available
+                        compound_id:
+                          type: string
+                          description: The compound ID, if this is a compound endpoint
+                          example: a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d
+                        polyglot_scan_id:
+                          type: string
+                          description: The polyglot scan ID selected for this response
+                          example: '1'
+                        scans:
+                          type: array
+                          description: The scans whose packages are included in this response
+                          items:
+                            type: object
+                            required:
+                            - id
+                            - app
+                            properties:
+                              id:
+                                type: string
+                                description: The scan ID
+                                example: '1234'
+                              app:
+                                type: string
+                                description: The project ID for this scan
+                                example: hello-qwiet
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/apps/{appID}/sca/packages:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/appID'
+    get:
+      tags:
+      - findings
+      summary: Read the count of multiple tags of an app.
+      operationId: ReadAppSCAPackages
+      description: Return information about the packages found in a scan of an app
+      security:
+      - BearerToken:
+        - sca:read
+      parameters:
+      - in: query
+        name: scan
+        description: The ID of the scan to filter to. Defaults to the latest scan.
+        example: 42
+        schema:
+          type: integer
+      - in: query
+        name: branch
+        description: The branch of which to get the latest scan.
+        example: feature/1234
+        schema:
+          type: string
+      - in: query
+        name: type
+        description: The package finding types to include.
+        example: package
+        schema:
+          type: string
+          enum:
+          - package
+          - container_package
+      - in: query
+        name: tag
+        description: a tag query used to filter the findings
+        example: package_type__eq__alpine
+        schema:
+          type: string
+      - $ref: '#/components/parameters/per_page'
+      - $ref: '#/components/parameters/page'
+      - in: query
+        name: sort
+        description: How to sort results; defaults to ID
+        schema:
+          type: string
+          enum:
+          - package
+          - url
+          - name
+          - namespace
+          - type
+          - version
+          - license
+          - created_at
+          - num_vulns
+          - num_reachable
+          - num_exploitable
+      - $ref: '#/components/parameters/order'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      type: object
+                      required:
+                      - packages
+                      - total_count
+                      - has_more
+                      - scans
+                      properties:
+                        packages:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/SCAPackage'
+                        total_count:
+                          type: integer
+                          example: 42
+                          description: The total number of results available
+                        has_more:
+                          type: boolean
+                          example: true
+                          description: Whether asking for the next page would give you more results
+                        scans:
+                          type: array
+                          description: The scans whose packages are included in this response
+                          items:
+                            type: object
+                            required:
+                            - id
+                            - app
+                            properties:
+                              id:
+                                type: string
+                                description: The scan ID
+                                example: '1234'
+                              app:
+                                type: string
+                                description: The project ID for this scan
+                                example: hello-qwiet
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/findings:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/tags'
+    - $ref: '#/components/parameters/finding_tags'
+    - $ref: '#/components/parameters/type'
+    - $ref: '#/components/parameters/severity'
+    - $ref: '#/components/parameters/assignee'
+    - $ref: '#/components/parameters/assignment'
+    - $ref: '#/components/parameters/category'
+    - $ref: '#/components/parameters/details_tags'
+    - $ref: '#/components/parameters/status'
+    - $ref: '#/components/parameters/sort'
+    - $ref: '#/components/parameters/order'
+    - $ref: '#/components/parameters/only_counts'
+    - $ref: '#/components/parameters/page'
+    - $ref: '#/components/parameters/per_page'
+    get:
+      tags:
+      - findings
+      summary: List org findings
+      operationId: ListOrgFindings
+      description: Return all findings for the org.
+      security:
+      - BearerToken:
+        - findings:list
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    next_page:
+                      $ref: '#/components/schemas/NextPage'
+                    response:
+                      type: object
+                      properties:
+                        has_more:
+                          type: boolean
+                          example: true
+                          description: Whether asking for the next page would return additional findings.
+                        findings:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/Finding'
+                        counts:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/TagCount'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/findings/summary:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/tags'
+    - $ref: '#/components/parameters/type'
+    - $ref: '#/components/parameters/default_branch'
+    get:
+      tags:
+      - findings
+      summary: Read org findings summary
+      operationId: ReadOrgFindingsSummary
+      description: Return a summary of findings for the org.
+      security:
+      - BearerToken:
+        - findings:summary
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      type: object
+                      properties:
+                        findings_summaries:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/FindingsSummary'
+                        apps:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              app:
+                                type: string
+                                description: The ID of the app for this summary
+                              findings_summaries:
+                                type: array
+                                items:
+                                  $ref: '#/components/schemas/FindingsSummary'
+                              scan:
+                                $ref: '#/components/schemas/Scan'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Diff:
+      type: string
+      enum:
+      - new
+      - regression
+      - common
+      - fixed
+    Tag:
+      anyOf:
+      - $ref: '#/components/schemas/TagWithString'
+      - $ref: '#/components/schemas/TagWithNumber'
+    SCAPackage:
+      type: object
+      required:
+      - package
+      - package_url
+      - name
+      - namespace
+      - type
+      - version
+      - license
+      - first_seen
+      - total_vulns
+      - total_reachable
+      - total_exploitable
+      - total_apps
+      - risk_type
+      description: Information about an SCA package
+      properties:
+        package:
+          type: string
+          description: The full package identifier (namespace/name)
+          example: github.com/concourse/s3-resource
+        package_url:
+          type: string
+          description: The package URL (PURL)
+          example: pkg:golang/github.com/concourse/s3-resource@%28devel%29
+        name:
+          type: string
+          description: The package name
+          example: s3-resource
+        namespace:
+          type: string
+          description: The package namespace
+          example: github.com/concourse
+        type:
+          type: string
+          description: The package type
+          example: golang
+        version:
+          type: string
+          description: The package version
+          example: (devel)
+        license:
+          type: string
+          description: The package license
+          example: Apache-2.0
+        first_seen:
+          type: string
+          format: date-time
+          description: When the package was first seen
+          example: '2023-05-26T15:04:07.278721+01:00'
+        total_vulns:
+          type: integer
+          description: Total number of vulnerabilities
+          example: 5
+        total_reachable:
+          type: integer
+          description: Number of reachable vulnerabilities
+          example: 3
+        total_exploitable:
+          type: integer
+          description: Number of exploitable vulnerabilities
+          example: 0
+        total_apps:
+          type: integer
+          description: Number of applications this package appears in
+          example: 2
+        apps:
+          type: array
+          description: Application names where this package appears
+          items:
+            type: string
+          example:
+          - my-app
+          - other-app
+        vulns:
+          type: array
+          description: CVE identifiers of vulnerabilities affecting this package
+          items:
+            type: string
+          example:
+          - CVE-2021-23337
+          - CVE-2020-28500
+        reachable:
+          type: array
+          description: CVE identifiers of reachable vulnerabilities
+          items:
+            type: string
+          example:
+          - CVE-2021-23337
+        exploitable:
+          type: array
+          description: CVE identifiers of exploitable vulnerabilities
+          items:
+            type: string
+        risk_type:
+          type: object
+          description: OSS supply-chain risk indicators for this package
+          properties:
+            is_malicious:
+              type: boolean
+            is_squatted:
+              type: boolean
+            is_abandoned:
+              type: boolean
+            is_repo_hijackable:
+              type: boolean
+    MultipleFindingsAssigneeUpdate:
+      type: object
+      properties:
+        findings:
+          type: array
+          items:
+            type: integer
+        assignee:
+          type: string
+          description: The email of the person to be assigned to the findings
+    Scan:
+      type: object
+      required:
+      - id
+      - app
+      - version
+      - successful
+      properties:
+        id:
+          type: string
+          description: The unique identifier for the scan
+          example: '1234'
+        app:
+          type: string
+          description: The app represented by the scan
+          example: hello-qwiet
+        version:
+          type: string
+          description: The app version represented by the scan
+          example: f348b507198fee7b6b57a460ef8a6c94783c59258f823dfcde41a2b5cb69765f
+        successful:
+          type: boolean
+          description: Whether the scan was successful or not
+        is_default_branch:
+          type: boolean
+          description: Whether the is a scan of the app's default branch or not
+        started_at:
+          type: string
+          format: date-time
+          description: When the scan was started
+        completed_at:
+          type: string
+          format: date-time
+          description: When the scan was completed
+        language:
+          type: string
+          description: The language of the analyzed application
+          example: javascript
+        number_of_expressions:
+          type: integer
+          description: The number of expressions found in the application
+          example: 10
+        tags:
+          type: object
+          description: The tags associated with this scan
+        oss_info:
+          $ref: '#/components/schemas/OSSScan'
+        counts:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagCount'
+        findings_summaries:
+          type: array
+          items:
+            $ref: '#/components/schemas/FindingsSummary'
+        total:
+          description: The total count across all summaries, excluding fixed and ignored
+          type: integer
+          example: 101
+        total_fixed:
+          description: The total fixed across all summaries
+          type: integer
+          example: 42
+        total_ignored:
+          description: The total ignored across all summaries
+          type: integer
+          example: 17
+    Severity:
+      type: string
+      enum:
+      - low
+      - medium
+      - high
+      - critical
+      description: The severity of a finding
+    TagWithString:
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+          description: The key for the tag key-value pair
+          example: category
+        value:
+          type: string
+          description: The value for the tag key-value pair
+          example: XSS
+    NextPage:
+      type: string
+      description: URL for the next page of results
+      example: https://api.shiftleft.io/orgs/4c07962d-745f-4465-9965-002f6cf3c7ff/findings?page=2
+    Finding:
+      type: object
+      required:
+      - id
+      - app
+      - type
+      - internal_id
+      properties:
+        id:
+          type: string
+          description: The unique identifier for this finding
+          example: '1'
+        app:
+          type: string
+          description: The app to which this finding belongs
+          example: hello-qwiet
+        type:
+          type: string
+          description: The type of finding
+          example: vuln
+        title:
+          type: string
+          description: The title of the finding
+          example: 'Sensitive Data Leak: Sensitive data contained in HTTP request/response'
+        description:
+          type: string
+          description: The description of the finding
+          example: Sensitive data included in HTTP request/response. This could result in sensitive data exposure
+        severity:
+          $ref: '#/components/schemas/Severity'
+        owasp_category:
+          type: string
+          description: The OWASP category of the finding
+          example: a3-sensitive-data-exposure
+        category:
+          type: string
+          description: The category of the finding
+          example: Sensitive Data Leak
+        status:
+          $ref: '#/components/schemas/Status'
+        assignee:
+          type: string
+          description: The email address of the user assigned to this finding
+        version_first_seen:
+          type: string
+          description: The app version when this finding was first seen
+        details:
+          type: object
+          description: The specific details regarding the finding
+        internal_id:
+          type: string
+          description: The internal violation ID for this finding. Do not use.
+          example: sensitive-to-http/f5ecc6f0cae821f47a06c939d1b9c7ee
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          example:
+          - key: severity
+            value: info
+          - key: cvss_score
+            value: 2
+    FindingAssigneeUpdate:
+      type: object
+      properties:
+        assignee:
+          type: string
+          description: The email of the person to be assigned to the finding
+    FindingsSummary:
+      type: object
+      required:
+      - total
+      properties:
+        finding_type:
+          type: string
+          description: The type of finding this summary is for
+          example: vuln
+        total:
+          type: integer
+          description: The total number of findings
+          example: 10
+        total_reachable:
+          type: integer
+          description: The total number of reachable findings
+        total_ignored:
+          type: integer
+          description: The total number of ignored findings
+          example: 1
+        total_fixed:
+          type: integer
+          description: The total number of fixed findings
+          example: 3
+        by_severity:
+          type: object
+          description: The summary of findings (by severity)
+          example:
+            info:
+              total: 6
+            critical:
+              total: 3
+              total_fixed: 3
+            moderate:
+              total: 1
+              total_ignored: 1
+        by_category:
+          type: object
+          description: The summary of findings (by category)
+          example:
+            Sensitive Data Leak:
+              total: 10
+              total_fixed: 3
+              total_ignored: 1
+        by_assignee:
+          type: object
+          description: The summary of findings (by assignee)
+          example:
+            test@qwiet.ai:
+              total: 10
+              total_fixed: 3
+              total_ignored: 1
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
+            type: string
+            description: A description of the validation error
+    TagWithNumber:
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+          description: The key for the tag key-value pair
+          example: cvss_score
+        value:
+          type: number
+          description: The value for the tag key-value pair
+          example: 5.2
+    Assignment:
+      type: string
+      enum:
+      - unassigned
+      - assigned
+    ScanPlatform:
+      type: string
+      description: The analysis platform identifier.
+      enum:
+      - java
+      - go
+      - csharp
+      - javascript
+      - c
+      - python
+      - terraform_hcl
+      - ruby
+      - php
+      - fuzzytestlang
+      - kotlin
+      - javasrc
+      - pythonsrc
+      - jssrc
+      - secrets
+      - swiftsrc
+      - plsql
+      - apex
+      - groovy
+    FindingStatusUpdate:
+      type: object
+      properties:
+        status:
+          type: string
+          description: The status to be set; leaving it blank will remove status
+          enum:
+          - fixed
+          - ignore
+          - codeviolationfixed
+          - codeviolationignore
+          - codeviolationremovestatus
+        optional_comment:
+          type: string
+          description: Optional text to be used as the comment that is created along with every status.
+    OSSScan:
+      type: object
+      required:
+      - enabled
+      properties:
+        enabled:
+          type: boolean
+          description: A flag indicating whether OSS Scan was enabled and allowed
+        successful:
+          type: boolean
+          description: A flag indicating whether OSS Scan was successfully performed on the project
+        failure_reason:
+          type: string
+          description: A status message with the reason for the OSS scan failure (if the scan was unsuccessful)
+    MultipleFindingsStatusUpdate:
+      type: object
+      properties:
+        findings:
+          type: array
+          items:
+            type: integer
+        status:
+          type: string
+          description: The status to be set; leaving it blank will remove status
+          enum:
+          - fixed
+          - ignore
+          - codeviolationfixed
+          - codeviolationignore
+          - codeviolationremovestatus
+    ScanLanguage:
+      type: string
+      description: The analysis language identifier.
+      enum:
+      - java
+      - go
+      - csharp
+      - javascript
+      - c
+      - python
+      - terraform_hcl
+      - ruby
+      - php
+      - fuzzytestlang
+      - kotlin
+      - swift
+      - plsql
+      - apex
+      - groovy
+    TagCount:
+      allOf:
+      - $ref: '#/components/schemas/Tag'
+      - type: object
+        properties:
+          finding_type:
+            type: string
+            description: The type of finding
+            example: vuln
+          count:
+            type: integer
+            example: 42
+    SuccessResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful or not
+    Status:
+      type: string
+      enum:
+      - unset
+      - fixed
+      - ignored
+      - 3rdparty
+      - any
+  parameters:
+    assignment:
+      in: query
+      name: assignment
+      description: 'The assignment status filter. By default, all findings, both `unassigned` and `assigned`, are returned.
+
+        '
+      schema:
+        $ref: '#/components/schemas/Assignment'
+    assignee:
+      name: assignee
+      in: query
+      description: The email addresses of users assigned to this finding
+      schema:
+        type: string
+    sort:
+      in: query
+      name: sort
+      description: How to sort results; defaults to ID
+      schema:
+        type: string
+    default_branch:
+      in: query
+      name: default_branch
+      description: Return findings from scans of the app's configured default branch
+      schema:
+        type: boolean
+    type:
+      in: query
+      name: type
+      description: The type of findings. Accepted values are `oss_vuln`, `vuln`, and `secret`
+      schema:
+        type: string
+    status:
+      in: query
+      name: status
+      description: 'The status filter. By default, only `unset` findings are included.
+
+        '
+      schema:
+        $ref: '#/components/schemas/Status'
+    findingID:
+      name: findingID
+      in: path
+      description: The finding ID
+      required: true
+      schema:
+        type: string
+    orgID:
+      name: orgID
+      in: path
+      description: The org ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    category:
+      name: category
+      in: query
+      description: The category filter
+      schema:
+        type: string
+    per_page:
+      in: query
+      name: per_page
+      description: Number of results per page; defaults to 50
+      schema:
+        type: integer
+    tags:
+      name: tags
+      in: query
+      description: The scan tags to filter by (e.g., `branch=main`)
+      schema:
+        items:
+          type: string
+    finding_tags:
+      name: finding_tags
+      in: query
+      description: The findings' filtering tag
+      schema:
+        items:
+          type: string
+          example: category=XSS
+    compoundName:
+      name: compoundName
+      in: path
+      description: A compound's name
+      required: true
+      schema:
+        type: string
+    order:
+      in: query
+      name: order
+      description: Direction of the sort; defaults to descending
+      schema:
+        type: string
+        enum:
+        - desc
+        - asc
+    only_counts:
+      in: query
+      name: only_counts
+      description: Whether to include only finding counts; excludes the list of findings
+      schema:
+        type: boolean
+    details_tags:
+      name: details_tags
+      in: query
+      description: The filter for the finding's details tags
+      style: form
+      schema:
+        items:
+          type: string
+    optionalComparableVersionIdentifierSource:
+      name: source
+      in: query
+      description: The source scan for a comparision
+      schema:
+        type: string
+        pattern: ^scan\.\d+|tag\.\w=\w$
+        example: scan.128|tag.branch=samplebranch
+    appID:
+      name: appID
+      in: path
+      description: The app ID (e.g., `HelloQwiet`)
+      required: true
+      schema:
+        type: string
+    severity:
+      in: query
+      name: severity
+      description: The severity filter
+      schema:
+        $ref: '#/components/schemas/Severity'
+    page:
+      in: query
+      name: page
+      description: 'The page of results to fetch. Results are not guaranteed to be deterministic using this approach; we recommended using the `next_page` URL in a paginated response
+
+        '
+      schema:
+        type: integer
+  securitySchemes:
+    BearerToken:
+      description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\
+
+        `Authorization: Bearer {access token}`
+
+        '
+      type: http
+      scheme: bearer

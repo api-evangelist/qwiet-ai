@@ -1,0 +1,388 @@
+openapi: 3.0.0
+info:
+  x-logo:
+    url: https://docs.shiftleft.io/img/sl-logo.svg
+  version: 4.0.0
+  title: alerting versions API
+  description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
+
+
+    # Authentication
+
+
+    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
+
+    '
+servers:
+- url: https://app.shiftleft.io/api/v4
+tags:
+- name: versions
+  x-displayName: Versions
+  description: 'The specific instances of an application scanned using Qwiet AI by Harness.
+
+    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-d8e4a6f2-bdce-4807-a8ca-74fc00dbc089?action=collection%2Ffork&collection-url=entityId%3D9829310-d8e4a6f2-bdce-4807-a8ca-74fc00dbc089%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
+
+    '
+paths:
+  /orgs/{orgID}/apps/{appID}/versions:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/appID'
+    - $ref: '#/components/parameters/tags'
+    - $ref: '#/components/parameters/type'
+    get:
+      tags:
+      - versions
+      summary: List app versions
+      operationId: ListAppVersions
+      description: Return a list of the versions of the app that Qwiet has scanned
+      security:
+      - BearerToken:
+        - versions:list
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      $ref: '#/components/schemas/Versions'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/apps/{appID}/versions/{versionID}:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/appID'
+    - $ref: '#/components/parameters/versionID'
+    - $ref: '#/components/parameters/type'
+    - in: query
+      name: scan
+      description: The ID of the scan to filter to. Defaults to the latest scan
+      schema:
+        type: string
+    get:
+      tags:
+      - versions
+      summary: Read summary of findings for an app version
+      operationId: ReadAppVersion
+      description: Return a summary of findings for a single version
+      security:
+      - BearerToken:
+        - versions:read
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      $ref: '#/components/schemas/Version'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    TagWithString:
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+          description: The key for the tag key-value pair
+          example: category
+        value:
+          type: string
+          description: The value for the tag key-value pair
+          example: XSS
+    TagCount:
+      allOf:
+      - $ref: '#/components/schemas/Tag'
+      - type: object
+        properties:
+          finding_type:
+            type: string
+            description: The type of finding
+            example: vuln
+          count:
+            type: integer
+            example: 42
+    Tag:
+      anyOf:
+      - $ref: '#/components/schemas/TagWithString'
+      - $ref: '#/components/schemas/TagWithNumber'
+    Version:
+      type: object
+      required:
+      - version
+      - scan
+      properties:
+        version:
+          type: string
+          example: 0a907104bfe6175e3a3ea375e2cb7728
+        scan:
+          $ref: '#/components/schemas/Scan'
+        findings_summaries:
+          type: array
+          items:
+            $ref: '#/components/schemas/FindingsSummary'
+        total:
+          description: The total count across all summaries, excluding findings that are fixed and ignored
+          type: integer
+          example: 1489
+        total_fixed:
+          description: The total fixed across all summaries
+          type: integer
+          example: 131
+        total_ignored:
+          description: The total ignored across all summaries
+          type: integer
+          example: 197
+    TagWithNumber:
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+          description: The key for the tag key-value pair
+          example: cvss_score
+        value:
+          type: number
+          description: The value for the tag key-value pair
+          example: 5.2
+    Scan:
+      type: object
+      required:
+      - id
+      - app
+      - version
+      - successful
+      properties:
+        id:
+          type: string
+          description: The unique identifier for the scan
+          example: '1234'
+        app:
+          type: string
+          description: The app represented by the scan
+          example: hello-qwiet
+        version:
+          type: string
+          description: The app version represented by the scan
+          example: f348b507198fee7b6b57a460ef8a6c94783c59258f823dfcde41a2b5cb69765f
+        successful:
+          type: boolean
+          description: Whether the scan was successful or not
+        is_default_branch:
+          type: boolean
+          description: Whether the is a scan of the app's default branch or not
+        started_at:
+          type: string
+          format: date-time
+          description: When the scan was started
+        completed_at:
+          type: string
+          format: date-time
+          description: When the scan was completed
+        language:
+          type: string
+          description: The language of the analyzed application
+          example: javascript
+        number_of_expressions:
+          type: integer
+          description: The number of expressions found in the application
+          example: 10
+        tags:
+          type: object
+          description: The tags associated with this scan
+        oss_info:
+          $ref: '#/components/schemas/OSSScan'
+        counts:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagCount'
+        findings_summaries:
+          type: array
+          items:
+            $ref: '#/components/schemas/FindingsSummary'
+        total:
+          description: The total count across all summaries, excluding fixed and ignored
+          type: integer
+          example: 101
+        total_fixed:
+          description: The total fixed across all summaries
+          type: integer
+          example: 42
+        total_ignored:
+          description: The total ignored across all summaries
+          type: integer
+          example: 17
+    OSSScan:
+      type: object
+      required:
+      - enabled
+      properties:
+        enabled:
+          type: boolean
+          description: A flag indicating whether OSS Scan was enabled and allowed
+        successful:
+          type: boolean
+          description: A flag indicating whether OSS Scan was successfully performed on the project
+        failure_reason:
+          type: string
+          description: A status message with the reason for the OSS scan failure (if the scan was unsuccessful)
+    SuccessResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful or not
+    FindingsSummary:
+      type: object
+      required:
+      - total
+      properties:
+        finding_type:
+          type: string
+          description: The type of finding this summary is for
+          example: vuln
+        total:
+          type: integer
+          description: The total number of findings
+          example: 10
+        total_reachable:
+          type: integer
+          description: The total number of reachable findings
+        total_ignored:
+          type: integer
+          description: The total number of ignored findings
+          example: 1
+        total_fixed:
+          type: integer
+          description: The total number of fixed findings
+          example: 3
+        by_severity:
+          type: object
+          description: The summary of findings (by severity)
+          example:
+            info:
+              total: 6
+            critical:
+              total: 3
+              total_fixed: 3
+            moderate:
+              total: 1
+              total_ignored: 1
+        by_category:
+          type: object
+          description: The summary of findings (by category)
+          example:
+            Sensitive Data Leak:
+              total: 10
+              total_fixed: 3
+              total_ignored: 1
+        by_assignee:
+          type: object
+          description: The summary of findings (by assignee)
+          example:
+            test@qwiet.ai:
+              total: 10
+              total_fixed: 3
+              total_ignored: 1
+    Versions:
+      type: array
+      items:
+        $ref: '#/components/schemas/Version'
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
+            type: string
+            description: A description of the validation error
+  parameters:
+    type:
+      in: query
+      name: type
+      description: The type of findings. Accepted values are `oss_vuln`, `vuln`, and `secret`
+      schema:
+        type: string
+    orgID:
+      name: orgID
+      in: path
+      description: The org ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    appID:
+      name: appID
+      in: path
+      description: The app ID (e.g., `HelloQwiet`)
+      required: true
+      schema:
+        type: string
+    versionID:
+      name: versionID
+      in: path
+      description: The version ID (e.g., `7d0...8b10`)
+      required: true
+      schema:
+        type: string
+    tags:
+      name: tags
+      in: query
+      description: The scan tags to filter by (e.g., `branch=main`)
+      schema:
+        items:
+          type: string
+  securitySchemes:
+    BearerToken:
+      description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\
+
+        `Authorization: Bearer {access token}`
+
+        '
+      type: http
+      scheme: bearer

@@ -1,0 +1,707 @@
+openapi: 3.0.0
+info:
+  x-logo:
+    url: https://docs.shiftleft.io/img/sl-logo.svg
+  version: 4.0.0
+  title: alerting orgs API
+  description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
+
+
+    # Authentication
+
+
+    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
+
+    '
+servers:
+- url: https://app.shiftleft.io/api/v4
+tags:
+- name: orgs
+  x-displayName: Organizations
+  description: 'The logical grouping (e.g., tenant/account) within Qwiet that defines a set of users, teams, and applications.
+
+
+    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-f0ae38d5-6c27-41a9-a1c3-9721d39f5df0?action=collection%2Ffork&collection-url=entityId%3D9829310-f0ae38d5-6c27-41a9-a1c3-9721d39f5df0%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
+
+    '
+paths:
+  /orgs/{orgID}/audit/csv/{auditYear}/{auditMonth}:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/auditYear'
+    - $ref: '#/components/parameters/auditMonth'
+    get:
+      tags:
+      - orgs
+      summary: Download audit log CSV
+      operationId: DownloadAuditLog
+      description: 'Download the CSV formatted audit log for an organization for a specific month. This feature is disabled by default. Contact Qwiet AI Customer Success to enable it.
+
+        '
+      security:
+      - BearerToken:
+        - org_audit_trail:read
+      responses:
+        '200':
+          description: Success
+          content:
+            application/csv:
+              schema:
+                type: string
+  /orgs/{orgID}/audit/csv/{auditYear}/{auditMonth}/{auditDay}:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/auditYear'
+    - $ref: '#/components/parameters/auditMonth'
+    - $ref: '#/components/parameters/auditDay'
+    get:
+      tags:
+      - orgs
+      summary: Download Daily CSV audit log
+      operationId: DownloadDailyAuditLog
+      description: 'Download the CSV formatted audit log for an organization for a specific day. This feature is disabled by default. Contact Qwiet AI Customer Success to enable it.
+
+        '
+      security:
+      - BearerToken:
+        - org_audit_trail:read
+      responses:
+        '200':
+          description: Success
+          content:
+            application/csv:
+              schema:
+                type: string
+  /orgs/{orgID}/checkanalysis/policies/{reference}:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/reference'
+    put:
+      tags:
+      - orgs
+      summary: Upsert check-analysis Configuration
+      operationId: UpsertCheckAnalysisConfiguration
+      description: 'Upload configuration file for the `check-analysis` server-side configuration and
+
+        returns the hash of the uploaded file when successful.
+
+        The reference here takes no tag, just a name.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/checkAnalysisTags'
+      - $ref: '#/components/parameters/useDefaults'
+      security:
+      - BearerToken:
+        - check_analysis_configuration:write
+      requestBody:
+        content:
+          application/yaml:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      type: object
+                      required:
+                      - contentHash
+                      - tags
+                      properties:
+                        contentHash:
+                          type: string
+                        tags:
+                          type: array
+                          items:
+                            type: string
+              example:
+                ok: true
+                response:
+                  contentHash: cf070ba492a9ec9d411e615e7399c0c94d11be0888862c5385b7184a5da53ec7
+                  tags:
+                  - v1
+                  - v2
+                  - latest
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      tags:
+      - orgs
+      summary: Resolve check-analysis Configuration
+      operationId: ResolveCheckAnalysisConfiguration
+      description: 'Resolve the given reference (name plus a tag, which is usually a version number) and
+
+        return the raw file back to the caller.
+
+        '
+      security:
+      - BearerToken:
+        - check_analysis_configuration:read
+      responses:
+        '200':
+          description: Success
+          content:
+            application/yaml:
+              schema:
+                type: string
+                format: binary
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/checkanalysis/policies:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    get:
+      tags:
+      - orgs
+      summary: List check-analysis Configurations
+      operationId: ListCheckAnalysisConfiguration
+      description: 'List all check-analysis configurations for the given
+
+        '
+      security:
+      - BearerToken:
+        - check_analysis_configuration:list
+      parameters:
+      - name: name
+        in: query
+        description: Any names to filter for, only those policies tagged with these names will be returned
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      type: array
+                      items:
+                        type: object
+                        required:
+                        - contentHash
+                        - tags
+                        properties:
+                          contentHash:
+                            type: string
+                          tags:
+                            type: array
+                            items:
+                              type: object
+                              required:
+                              - name
+                              - tags
+                              properties:
+                                name:
+                                  type: string
+                                tags:
+                                  type: array
+                                  items:
+                                    type: string
+              example:
+                ok: true
+                response:
+                - contentHash: 18269b4a713bfc9aa8e8c74d9b9c6a5ced89b4d46364644e2ede7ffa39f54aa9
+                  tags:
+                  - name: blah
+                    tags:
+                    - latest
+                    - v1
+                    - v2
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/scm-secrets-audit-log:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    get:
+      tags:
+      - orgs
+      summary: Returns the audit log report for the org's SCM secrets
+      operationId: GetOrgSCMSecretsAuditLog
+      description: 'Returns the audit log report for the org''s SCM secrets, showing the number of times secrets were attempted to be committed to a repository. The report can be grouped by project or user. One of the ''by-project'' or ''by-user'' query parameters must be specified.
+
+        '
+      security:
+      - BearerToken:
+        - org_runs:read
+      parameters:
+      - name: days
+        in: query
+        description: Specifies the number of days for which the audit log should be calculated; defaults to 31.
+        schema:
+          type: integer
+          default: 31
+      - name: by-project
+        in: query
+        required: false
+        description: If present, the report will be grouped by project.
+        schema:
+          type: boolean
+      - name: by-user
+        in: query
+        required: false
+        description: If present, the report will be grouped by user.
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      type: object
+                      required:
+                      - total_attempts
+                      - projects
+                      properties:
+                        total_attempts:
+                          type: integer
+                          description: The number of times one or more secrets were attempted to be committed to a repository
+                          example: 3
+                        total_user_ids:
+                          type: array
+                          description: The user IDs of the users who attempted to commit secrets
+                          items:
+                            type: string
+                            example: 261f1203-748d-4010-a57d-4cf3107f8647
+                        total_token_ids:
+                          type: array
+                          description: The token IDs which attempted to commit secrets
+                          items:
+                            type: string
+                            example: 261f1203-748d-4010-a57d-4cf3107f8647
+                        projects:
+                          type: array
+                          description: For each project with a non-zero amount of attempts, the project's name and the number of attempts
+                          items:
+                            type: object
+                            description: Project and number of attempts for it
+                            properties:
+                              project_id:
+                                type: string
+                                description: The project ID
+                                example: hsl
+                              attempts:
+                                type: integer
+                                description: The number of times one or more secrets were attempted to be committed to a repository for this project
+                                example: 3
+                              user_ids:
+                                type: array
+                                description: The user IDs of the users who attempted to commit secrets
+                                items:
+                                  type: string
+                                  example: 261f1203-748d-4010-a57d-4cf3107f8647
+                              token_ids:
+                                type: array
+                                description: The token IDs which attempted to commit secrets
+                                items:
+                                  type: string
+                                  example: 261f1203-748d-4010-a57d-4cf3107f8647
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/configuration:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    put:
+      tags:
+      - orgs
+      summary: Update org configuration
+      operationId: UpdateOrgConfig
+      description: 'Update configuration options for the organization. Note that this endpoint will overwrite all configuration existing configuration options.
+
+        We recommend using the GET endpoint to obtain the current configuration for your records before proceeding.
+
+        Alternatively, if you intend to change only analysis configuration, then you can use UpdateOrgAnalysisConfig endpoint
+
+        '
+      security:
+      - BearerToken:
+        - org_configuration:write
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrgConfig'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      tags:
+      - orgs
+      summary: Patch org configuration
+      operationId: PatchOrgConfig
+      description: 'Partially update configuration options for the organization. Only fields present in the request body
+
+        will be updated; all other fields are preserved. This is safer than PUT when you only need to change
+
+        a subset of the configuration.
+
+        '
+      security:
+      - BearerToken:
+        - org_configuration:write
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrgConfig'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      tags:
+      - orgs
+      summary: Read org configuration
+      operationId: ReadOrgConfig
+      description: Return the configuration options for the organization
+      security:
+      - BearerToken:
+        - org_configuration:read
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      $ref: '#/components/schemas/OrgConfig'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/autofix_configuration:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    get:
+      tags:
+      - orgs
+      summary: Read AutoFix configuration for the organization
+      operationId: ReadOrgAutoFixConfig
+      description: Return the AutoFix configuration options for the organization
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      $ref: '#/components/schemas/OrgAutoFixConfig'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/configuration/analysis:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    put:
+      tags:
+      - orgs
+      summary: Update org analysis configuration
+      operationId: CreateOrgAnalysisConfig
+      description: Create analysis analysis configuration options for the organization. Doesn't touch other parts of configuration (like e.g. default_saml_config)
+      security:
+      - BearerToken:
+        - org_configuration:write
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrgAnalysisConfiguration'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      tags:
+      - orgs
+      summary: Update org analysis configuration
+      operationId: UpdateOrgAnalysisConfig
+      description: Update analysis analysis configuration options for the organization. Doesn't touch other parts of configuration (like e.g. default_saml_config)
+      security:
+      - BearerToken:
+        - org_configuration:write
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrgAnalysisConfiguration'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Severity:
+      type: string
+      enum:
+      - low
+      - medium
+      - high
+      - critical
+      description: The severity of a finding
+    OrgAutoFixConfig:
+      description: An object describing the AutoFix configuration options of an organization
+      type: object
+      properties:
+        autofix_configuration:
+          $ref: '#/components/schemas/AutoFixConfig'
+    SuccessResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful or not
+    SecretsConfiguration:
+      description: Secrets detection configuration
+      type: object
+      properties:
+        entropy:
+          type: number
+          description: Entropy threshold. A floating number in range from 0.0 to 1.0
+        disable:
+          type: boolean
+          description: set to true to disable secrets detection altogether
+    AutoFixConfig:
+      description: An object describing the AutoFix configuration options of an organization
+      type: object
+      properties:
+        enable:
+          type: boolean
+          description: set to true if AutoFix is enabled for the organization
+        disable:
+          type: boolean
+          description: set to true if AutoFix is disabled for the organization
+        auto_run:
+          type: boolean
+          description: set to true if AutoFix should run automatically
+        auto_run_disable:
+          type: boolean
+          description: set to true if AutoFix should stop running automatically, this will be stored as auto_run = false
+        manual:
+          type: boolean
+          description: set to true if AutoFix should run manually
+        manual_disable:
+          type: boolean
+          description: set to true if AutoFix should stop running manually, this will be stored as manual = false
+        max_fixes_per_run:
+          type: integer
+          description: The maximum number of AutoFix suggestions that can be generated in a single run
+        fix_only_severities:
+          type: array
+          items:
+            $ref: '#/components/schemas/Severity'
+          description: The severities of findings for which AutoFix will generate suggestions
+    OrgConfig:
+      description: An object describing the configuration options of an organization
+      type: object
+      properties:
+        sso_name:
+          type: string
+          description: The unique name assigned to the organization that can be used to log in via SSO
+        default_saml_config:
+          type: string
+          description: The name of the SAML config to use as the default for this organization
+        allowed_non_admin_auth_providers:
+          type: array
+          description: A list of auth providers that non-admins are allowed to use to access the org.
+          items:
+            type: string
+            enum:
+            - google
+            - github
+            - username-password
+            - sl-saml2
+        security_training_provider:
+          type: string
+          enum:
+          - kontra
+          - secure-code-warrior
+        analysis_configuration:
+          $ref: '#/components/schemas/OrgAnalysisConfiguration'
+        autofix_configuration:
+          $ref: '#/components/schemas/AutoFixConfig'
+        session_timeout_hours:
+          type: integer
+          description: The number of hours after which the session will expire. The default value is 168 hours (7 days).
+    OrgAnalysisConfiguration:
+      description: Organization level analysis configuration
+      type: object
+      properties:
+        secrets:
+          $ref: '#/components/schemas/SecretsConfiguration'
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
+            type: string
+            description: A description of the validation error
+  parameters:
+    useDefaults:
+      name: useDefaults
+      in: query
+      description: whether to apply the default versioning mechanism
+      schema:
+        type: boolean
+    reference:
+      name: reference
+      in: path
+      description: the reference
+      required: true
+      schema:
+        type: string
+    auditYear:
+      name: auditYear
+      in: path
+      description: The year for a requested report
+      required: true
+      schema:
+        type: number
+    orgID:
+      name: orgID
+      in: path
+      description: The org ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    auditDay:
+      name: auditDay
+      in: path
+      description: The day for a requested report
+      required: true
+      schema:
+        type: number
+    auditMonth:
+      name: auditMonth
+      in: path
+      description: The month for a requested report
+      required: true
+      schema:
+        type: number
+    checkAnalysisTags:
+      name: tag
+      in: query
+      description: the tags
+      schema:
+        type: string
+  securitySchemes:
+    BearerToken:
+      description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\
+
+        `Authorization: Bearer {access token}`
+
+        '
+      type: http
+      scheme: bearer

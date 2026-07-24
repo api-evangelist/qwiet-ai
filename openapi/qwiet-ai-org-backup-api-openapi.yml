@@ -1,0 +1,157 @@
+openapi: 3.0.0
+info:
+  x-logo:
+    url: https://docs.shiftleft.io/img/sl-logo.svg
+  version: 4.0.0
+  title: alerting org_backup API
+  description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
+
+
+    # Authentication
+
+
+    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
+
+    '
+servers:
+- url: https://app.shiftleft.io/api/v4
+tags:
+- name: org_backup
+  x-displayName: Organization Backup
+  description: 'The endpoints for downloading backups of an organization''s data.
+
+    '
+paths:
+  /orgs/{orgID}/backup/download:
+    get:
+      tags:
+      - org_backup
+      summary: Download Organization Backup
+      operationId: DownloadOrganizationBackup
+      description: Downloads the backup for the specified organization.
+      parameters:
+      - $ref: '#/components/parameters/orgID'
+      - in: query
+        name: backup_id
+        description: Backup ID to filter to; defaults to the latest backup.
+        schema:
+          type: string
+      security:
+      - BearerToken:
+        - org_backup:read
+      responses:
+        '200':
+          description: Organization backup file streamed as a `.tar.gz` download
+          content:
+            application/gzip:
+              schema:
+                type: string
+                format: binary
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/backup:
+    get:
+      tags:
+      - org_backup
+      summary: List Organization Backups
+      operationId: ListOrganizationBackups
+      description: Lists the existing backups for the specified organization.
+      parameters:
+      - $ref: '#/components/parameters/orgID'
+      security:
+      - BearerToken:
+        - org_backup:read
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListOrganizationBackupsResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    ListOrganizationBackupsResponse:
+      type: object
+      properties:
+        ok:
+          type: boolean
+          description: ok/error message
+        response:
+          type: array
+          items:
+            type: object
+            properties:
+              organization_id:
+                type: string
+                description: Unique identifier for the organization
+              backup_id:
+                type: string
+                format: uuid
+                description: Unique identifier for the backup
+              status:
+                type: string
+                enum:
+                - completed
+                - failed
+                description: Represents the current state of processing for an OrgBackup
+              created_at:
+                type: string
+                format: date-time
+                description: The timestamp when the backup was created
+              completed_at:
+                type: string
+                format: date-time
+                description: The timestamp when the backup was completed
+            description: List of backup records for the organization
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
+            type: string
+            description: A description of the validation error
+  parameters:
+    orgID:
+      name: orgID
+      in: path
+      description: The org ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  securitySchemes:
+    BearerToken:
+      description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\
+
+        `Authorization: Bearer {access token}`
+
+        '
+      type: http
+      scheme: bearer

@@ -1,0 +1,256 @@
+openapi: 3.0.0
+info:
+  x-logo:
+    url: https://docs.shiftleft.io/img/sl-logo.svg
+  version: 4.0.0
+  title: alerting team_config API
+  description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
+
+
+    # Authentication
+
+
+    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
+
+    '
+servers:
+- url: https://app.shiftleft.io/api/v4
+tags:
+- name: team_config
+  x-displayName: Team configuration
+  description: 'The endpoints to manage team-level configuration.
+
+    '
+paths:
+  /orgs/{orgID}/rbac/teams/{rbacTeamID}/configuration:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/rbacTeamID'
+    get:
+      tags:
+      - team_config
+      summary: Read team config
+      description: Return the configuration of a team.
+      operationId: ReadTeamConfig
+      security:
+      - BearerToken:
+        - teams:read
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      type: object
+                      properties:
+                        analysis_configuration:
+                          $ref: '#/components/schemas/TeamAnalysisConfiguration'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      tags:
+      - team_config
+      summary: Update team config
+      operationId: UpdateTeamConfig
+      description: Update the team's configuration.
+      security:
+      - BearerToken:
+        - teams:update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                analysis_configuration:
+                  $ref: '#/components/schemas/TeamAnalysisConfiguration'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      type: object
+                      properties:
+                        analysis_configuration:
+                          $ref: '#/components/schemas/TeamAnalysisConfiguration'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      tags:
+      - team_config
+      summary: Patch team config
+      operationId: PatchTeamConfig
+      description: 'Partially update the team''s configuration. Only fields present in the request body
+
+        will be updated; all other fields are preserved.
+
+        '
+      security:
+      - BearerToken:
+        - teams:update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                analysis_configuration:
+                  $ref: '#/components/schemas/TeamAnalysisConfiguration'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      type: object
+                      properties:
+                        analysis_configuration:
+                          $ref: '#/components/schemas/TeamAnalysisConfiguration'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/rbac/teams/{rbacTeamID}/configuration/merged:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/rbacTeamID'
+    get:
+      tags:
+      - team_config
+      summary: Read merged team config
+      description: Return the effective configuration of a team by taking the organization configuration before merging in the actual team configuration on top, overriding those defaults.
+      operationId: ReadMergedTeamConfig
+      security:
+      - BearerToken:
+        - teams:read
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      type: object
+                      properties:
+                        analysis_configuration:
+                          $ref: '#/components/schemas/TeamAnalysisConfiguration'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    TeamAnalysisConfiguration:
+      description: Team level analysis configuration
+      type: object
+      properties:
+        secrets:
+          $ref: '#/components/schemas/SecretsConfiguration'
+    SuccessResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful or not
+    SecretsConfiguration:
+      description: Secrets detection configuration
+      type: object
+      properties:
+        entropy:
+          type: number
+          description: Entropy threshold. A floating number in range from 0.0 to 1.0
+        disable:
+          type: boolean
+          description: set to true to disable secrets detection altogether
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
+            type: string
+            description: A description of the validation error
+  parameters:
+    orgID:
+      name: orgID
+      in: path
+      description: The org ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    rbacTeamID:
+      name: rbacTeamID
+      in: path
+      description: The team ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  securitySchemes:
+    BearerToken:
+      description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\
+
+        `Authorization: Bearer {access token}`
+
+        '
+      type: http
+      scheme: bearer

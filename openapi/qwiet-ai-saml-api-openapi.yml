@@ -1,0 +1,527 @@
+openapi: 3.0.0
+info:
+  x-logo:
+    url: https://docs.shiftleft.io/img/sl-logo.svg
+  version: 4.0.0
+  title: alerting SAML API
+  description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
+
+
+    # Authentication
+
+
+    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
+
+    '
+servers:
+- url: https://app.shiftleft.io/api/v4
+tags:
+- name: SAML
+  x-displayName: SAML
+  description: 'The integration endpoints allowing orgs to configure Qwiet to act as a SAML service provider (SP) that uses the customer''s identity provider (IdP) to log users in.
+
+
+    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-a411d1c3-c232-4843-a89d-b302df399d99?action=collection%2Ffork&collection-url=entityId%3D9829310-a411d1c3-c232-4843-a89d-b302df399d99%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
+
+    '
+paths:
+  /orgs/{orgID}/saml_configs:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    post:
+      tags:
+      - SAML
+      summary: Create a SAML configuration for an org
+      operationId: CreateOrgSAMLConfig
+      description: Create a SAML configuration that can be used to authenticate users for an organization
+      security:
+      - BearerToken:
+        - saml_config:create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SAMLConfigCreate'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      $ref: '#/components/schemas/SAMLConfig'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      tags:
+      - SAML
+      summary: List SAML configurations for an org
+      operationId: ListOrgSAMLConfigs
+      description: List the SAML Configurations that can be used to authenticate users in an organization
+      security:
+      - BearerToken:
+        - saml_config:list
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/SAMLConfig'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/saml_configs/{SAMLConfigName}:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/SAMLConfigName'
+    put:
+      tags:
+      - SAML
+      summary: Update SAML configuration for an org
+      operationId: UpdateOrgSAMLConfig
+      description: Update a SAML Configuration used to authenticate users for an organization
+      security:
+      - BearerToken:
+        - saml_config:update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SAMLConfigUpdate'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      $ref: '#/components/schemas/SAMLConfig'
+    delete:
+      tags:
+      - SAML
+      summary: Delete an org's SAML configuration
+      operationId: DeleteOrgSAMLConfig
+      description: Delete a SAML Configuration that is used to authenticate users in an organization
+      security:
+      - BearerToken:
+        - saml_config:delete
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/saml/provision:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    post:
+      tags:
+      - SAML
+      summary: Provision or update SAML users for an organization.
+      operationId: ProvisionSAMLUsers
+      description: Create or update SAML users and their org or team roles. Users cannot be deleted.
+      security:
+      - BearerToken:
+        - org_user:update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SAMLUserProvisioningRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      $ref: '#/components/schemas/SAMLUserProvisioningResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/saml/users/{userIDv2}/access_token/reset:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/userIDv2'
+    post:
+      tags:
+      - SAML
+      summary: Reset a SAML user's access token.
+      operationId: ResetSAMLUserAccessToken
+      description: 'Blanks the access token of a specific SAML user in the organization. The organization must have SAML enabled and the target user must be a SAML user.
+
+        '
+      security:
+      - BearerToken:
+        - org_user:update
+      responses:
+        '204':
+          description: Access token successfully reset.
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/saml/access_token/reset:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    post:
+      tags:
+      - SAML
+      summary: Bulk reset SAML user access tokens.
+      operationId: BulkResetSAMLUserAccessTokens
+      description: 'Blanks the access tokens of multiple SAML users in the organization. The organization must have SAML enabled. Users that are not found or are not SAML users are reported separately in the response.
+
+        '
+      security:
+      - BearerToken:
+        - org_user:update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SAMLUserAccessTokenResetRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      $ref: '#/components/schemas/SAMLUserAccessTokenResetResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    SAMLUserMembership:
+      type: object
+      description: contains information about a user's role in a team.
+      required:
+      - team_id
+      - role
+      properties:
+        team_id:
+          type: string
+          description: the id of the team
+        role:
+          type: string
+          description: the role of the user in the team
+          enum:
+          - TEAM_ADMIN
+          - TEAM_MEMBER
+          - TEAM_GUEST
+    SAMLConfig:
+      description: An object describing a SAML configuration for an organization
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/SAMLConfigCreate'
+      - type: object
+        required:
+        - sp_metadata_url
+        - sp_login_url
+        properties:
+          idp_default_relay_state:
+            type: string
+            description: 'The opaque configuration blob that should be set in the SAML identity provider configuration as the default relay state. Note that this field is only available if identity provider-initiated logins are enabled via the allow_idp_initiated_logins setting
+
+              '
+          sp_metadata_url:
+            type: string
+            description: The metadata URL that can be used to configure the SAML identity provider-initiated logins to Qwiet
+            format: uri
+          sp_login_url:
+            type: string
+            description: The login URL that can be used to start a service provider-initiated log in to Qwiet using the SAML identity provider
+            format: uri
+    SAMLUserProvisioningResponse:
+      type: object
+      description: contains the results of a bulk users provisioning.
+      properties:
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserMembershipInfo'
+        rejected_emails:
+          type: array
+          description: list of emails that were rejected due to their domain not being reserved to the user.
+          items:
+            type: string
+        rejected_org_roles:
+          type: array
+          description: list of roles that were considered invalid for an organization level role due to not conforming to the provided list.
+          items:
+            type: string
+        rejected_team_roles:
+          type: array
+          description: list of roles that were considered invalid for a team level role due to not conforming to the provided list.
+          items:
+            type: string
+    SAMLUserAccessTokenResetRequest:
+      type: object
+      description: contains the list of user IDs whose SAML access tokens should be reset.
+      required:
+      - user_ids
+      properties:
+        user_ids:
+          type: array
+          description: list of user IDs (v2) whose access tokens should be reset.
+          minItems: 1
+          items:
+            type: string
+            format: uuid
+    SAMLConfigUpdate:
+      description: An object describing a SAML configuration for an organization
+      type: object
+      properties:
+        idp_metadata_url:
+          type: string
+          description: The URL of the SAML Identity Provider's (IdP) metadata endpoint
+          format: uri
+        idp_metadata:
+          type: string
+          description: The raw XML metadata that can be provided instead of idp_metadata_url
+        allow_implicit_invites:
+          type: boolean
+          description: Sets whether any successful SAML-identified user should be allowed to join your org (true) or not (false)
+        default_org_role:
+          type: string
+          description: The default role that new users in the org are given when joining via SAML. If not specified, this defaults to "TEAM_DEFINED"
+        sign_auth_requests:
+          type: boolean
+          description: Whether to sign SAML requests sent from Qwiet to the SAML IdP
+        allow_idp_initiated_logins:
+          description: 'Whether SAML-initiated logins should be allowed or not. By default they are disabled, as *service provider* (SP) initiated logins are generally considered safer. When enabled, the saml_config endpoint will have another field, "idp_default_relay_state", which contains an opaque blob that needs to be set as the *default relay state* in the IdP configuration. This state will be sent on every request where no *relay state* was provided and contains some additional information to help the SP (Qwiet) properly route the request.
+
+            '
+          type: boolean
+    SAMLConfigCreate:
+      description: An object describing a SAML configuration for an organization
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/SAMLConfigUpdate'
+      - type: object
+        required:
+        - name
+        properties:
+          name:
+            $ref: '#/components/schemas/SAMLConfigName'
+    SuccessResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful or not
+    SAMLUser:
+      type: object
+      description: contains the all the necessary information to provision a SAML user.
+      required:
+      - email
+      - organization_role
+      properties:
+        name:
+          type: string
+          description: the name of the user
+        email:
+          type: string
+          description: the email of the user
+        organization_role:
+          type: string
+          enum:
+          - SUPER_ADMIN
+          - POWER_USER
+          - MEMBER
+          - GUEST
+          - TEAM_DEFINED
+        team_membership:
+          type: array
+          items:
+            $ref: '#/components/schemas/SAMLUserMembership'
+    UserMembershipInfo:
+      allOf:
+      - type: object
+        properties:
+          idv2:
+            type: string
+            format: uuid
+          idv1:
+            type: string
+          name:
+            type: string
+          email:
+            type: string
+            format: email
+          emailVerified:
+            type: boolean
+          membership:
+            type: array
+            items:
+              type: object
+              properties:
+                organization:
+                  type: string
+                  format: uuid
+                organizationName:
+                  type: string
+          invites:
+            type: array
+            items:
+              type: object
+              properties:
+                organization:
+                  type: string
+                  format: uuid
+                organizationName:
+                  type: string
+                inviteId:
+                  type: string
+                  format: uuid
+          lastLoginUTCTimestampHistory:
+            type: array
+            items:
+              type: integer
+              format: int64
+            description: List of nanosecond unix timestamps for last two user logins
+    SAMLUserProvisioningRequest:
+      type: array
+      items:
+        $ref: '#/components/schemas/SAMLUser'
+    SAMLConfigName:
+      description: The name and ID of the specified SAML configuration
+      type: string
+      pattern: ^[a-zA-Z0-9-_]{1,255}$
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
+            type: string
+            description: A description of the validation error
+    SAMLUserAccessTokenResetResponse:
+      type: object
+      description: contains the results of a bulk SAML user access token reset.
+      properties:
+        reset:
+          type: array
+          description: list of user IDs whose access tokens were successfully reset.
+          items:
+            type: string
+            format: uuid
+        not_found:
+          type: array
+          description: list of user IDs that were not found in the organization.
+          items:
+            type: string
+            format: uuid
+        not_saml:
+          type: array
+          description: list of user IDs that were rejected because they are not SAML users.
+          items:
+            type: string
+            format: uuid
+  parameters:
+    SAMLConfigName:
+      name: SAMLConfigName
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/SAMLConfigName'
+    orgID:
+      name: orgID
+      in: path
+      description: The org ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    userIDv2:
+      name: userIDv2
+      in: path
+      description: The user's ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  securitySchemes:
+    BearerToken:
+      description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\
+
+        `Authorization: Bearer {access token}`
+
+        '
+      type: http
+      scheme: bearer

@@ -1,0 +1,137 @@
+openapi: 3.0.0
+info:
+  x-logo:
+    url: https://docs.shiftleft.io/img/sl-logo.svg
+  version: 4.0.0
+  title: alerting slack API
+  description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
+
+
+    # Authentication
+
+
+    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
+
+    '
+servers:
+- url: https://app.shiftleft.io/api/v4
+tags:
+- name: slack
+  x-displayName: Slack
+  description: 'The integration endpoints enabling users to set up a Slack integration.
+
+    '
+paths:
+  /slack/authorize/orgs/{orgID}:
+    get:
+      tags:
+      - slack
+      summary: Authorize Slack
+      operationId: AuthorizeSlack
+      description: 'Authorize Slack for the given organization and redirect to Slack authorization prompt
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/orgID'
+      responses:
+        '302':
+          description: Redirect
+          headers:
+            Location:
+              schema:
+                description: The location to which the browser should redirect
+                type: string
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /slack/orgs/{orgID}:
+    get:
+      tags:
+      - slack
+      summary: Receive Slack OAuth 2.0 data
+      operationId: SlackCallback
+      description: 'Receive Slack OAuth 2.0 data and set up organization configuration with API token
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/orgID'
+      responses:
+        '302':
+          description: Redirect
+          headers:
+            Location:
+              schema:
+                description: The location to which the browser should redirect
+                type: string
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+      - slack
+      summary: Delete Slack OAuth 2.0 data
+      operationId: DeleteSlackConfiguration
+      description: 'Delete the Slack configuration for the given organization and revoke stored API token
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/orgID'
+      responses:
+        '200':
+          description: Success
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  parameters:
+    orgID:
+      name: orgID
+      in: path
+      description: The org ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
+            type: string
+            description: A description of the validation error
+  securitySchemes:
+    BearerToken:
+      description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\
+
+        `Authorization: Bearer {access token}`
+
+        '
+      type: http
+      scheme: bearer

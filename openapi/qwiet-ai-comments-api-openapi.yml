@@ -1,0 +1,254 @@
+openapi: 3.0.0
+info:
+  x-logo:
+    url: https://docs.shiftleft.io/img/sl-logo.svg
+  version: 4.0.0
+  title: alerting comments API
+  description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
+
+
+    # Authentication
+
+
+    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
+
+    '
+servers:
+- url: https://app.shiftleft.io/api/v4
+tags:
+- name: comments
+  x-displayName: Comments
+  description: 'The text threads (with individual comments ordered by time) attached to findings.
+
+
+    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-49dbc330-9cb4-4dac-9257-a9cc79b1103c?action=collection%2Ffork&collection-url=entityId%3D9829310-49dbc330-9cb4-4dac-9257-a9cc79b1103c%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
+
+    '
+paths:
+  /orgs/{orgID}/apps/{appID}/findings/{findingID}/comments:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/appID'
+    - $ref: '#/components/parameters/findingID'
+    post:
+      tags:
+      - comments
+      summary: Create app finding comment
+      operationId: CreateAppFindingComment
+      description: Create a comment on a finding.
+      security:
+      - BearerToken:
+        - comments:create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      $ref: '#/components/schemas/Comment'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      tags:
+      - comments
+      summary: List app finding comments
+      operationId: ListAppFindingComments
+      description: Return a list of the finding's comments thread.
+      security:
+      - BearerToken:
+        - comments:list
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/Comment'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/apps/{appID}/findings/{findingID}/comments/{commentID}:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/appID'
+    - $ref: '#/components/parameters/findingID'
+    - $ref: '#/components/parameters/commentID'
+    get:
+      tags:
+      - comments
+      summary: Read specific comment for a finding
+      operationId: ReadOneAppFindingComment
+      description: Read a comment for a specific finding for an app.
+      security:
+      - BearerToken:
+        - comments:read
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      $ref: '#/components/schemas/Comment'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  parameters:
+    commentID:
+      name: commentID
+      in: path
+      description: The comment ID
+      required: true
+      schema:
+        type: string
+    findingID:
+      name: findingID
+      in: path
+      description: The finding ID
+      required: true
+      schema:
+        type: string
+    appID:
+      name: appID
+      in: path
+      description: The app ID (e.g., `HelloQwiet`)
+      required: true
+      schema:
+        type: string
+    orgID:
+      name: orgID
+      in: path
+      description: The org ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    SuccessResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful or not
+    Comment:
+      type: object
+      required:
+      - id
+      - created_at
+      - app_id
+      - org_id
+      - finding_id
+      - comment
+      properties:
+        id:
+          type: string
+          description: The unique ID of this comment; should only be used in conjunction with the finding ID
+          example: '30'
+        created_at:
+          type: string
+          description: The date on which this comment was posted
+          format: date-time
+        app_id:
+          type: string
+          description: The application ID for the finding where the comment was posted
+          example: hsl
+        org_id:
+          type: string
+          description: The ID of the organization
+          example: 261f1203-748d-4010-a57d-4cf3107f8647
+        finding_id:
+          type: string
+          description: The ID of the finding where this comment was posted
+          example: '3'
+        owner:
+          type: object
+          description: Information about the user that posted the comment
+          properties:
+            email:
+              type: string
+              description: The email of the comment author
+            name:
+              type: string
+              description: The name of the comment author
+        comment:
+          type: string
+          description: The text of the comment
+    CommentRequest:
+      type: object
+      properties:
+        comment:
+          type: string
+          description: The text of the comment
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
+            type: string
+            description: A description of the validation error
+  securitySchemes:
+    BearerToken:
+      description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\
+
+        `Authorization: Bearer {access token}`
+
+        '
+      type: http
+      scheme: bearer

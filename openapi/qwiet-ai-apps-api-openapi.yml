@@ -1,0 +1,719 @@
+openapi: 3.0.0
+info:
+  x-logo:
+    url: https://docs.shiftleft.io/img/sl-logo.svg
+  version: 4.0.0
+  title: alerting apps API
+  description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
+
+
+    # Authentication
+
+
+    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
+
+    '
+servers:
+- url: https://app.shiftleft.io/api/v4
+tags:
+- name: apps
+  x-displayName: Applications
+  description: 'The applications submitted for analysis.
+
+
+    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-e9d0bf19-30bd-46f4-b40c-9df03d2a463a?action=collection%2Ffork&collection-url=entityId%3D9829310-e9d0bf19-30bd-46f4-b40c-9df03d2a463a%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
+
+    '
+paths:
+  /orgs/{orgID}/apps:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    put:
+      tags:
+      - apps
+      summary: Create Apps
+      operationId: CreateApp
+      description: 'Create one or more apps owned by an organization and potentially assigned to a team.
+
+        '
+      security:
+      - BearerToken:
+        - apps:create
+      parameters:
+      - $ref: '#/components/parameters/orgID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AppProvisionRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      $ref: '#/components/schemas/AppProvisionResponse'
+              example:
+                ok: true
+                response:
+                  id: BillingAPI
+                  name: BillingAPI
+                  tags:
+                  - key: group
+                    value: billing
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      tags:
+      - apps
+      summary: List apps
+      operationId: ListApps
+      description: 'Return a list of the apps owned by the org.
+
+        '
+      security:
+      - BearerToken:
+        - apps:list
+      parameters:
+      - $ref: '#/components/parameters/orgID'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/App'
+              example:
+                ok: true
+                response:
+                - id: BillingAPI
+                  name: BillingAPI
+                  tags:
+                  - key: group
+                    value: billing
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/apps/{appID}:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/appID'
+    delete:
+      tags:
+      - apps
+      summary: Delete app
+      operationId: DeleteApp
+      description: 'Delete an app owned by an organization.
+
+        '
+      security:
+      - BearerToken:
+        - project:delete
+      parameters:
+      - $ref: '#/components/parameters/orgID'
+      - $ref: '#/components/parameters/appID'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+              example:
+                ok: true
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      tags:
+      - apps
+      summary: Read app
+      operationId: ReadApp
+      description: 'Return an app owned by an organization.
+
+        '
+      security:
+      - BearerToken:
+        - project:read
+      parameters:
+      - $ref: '#/components/parameters/orgID'
+      - $ref: '#/components/parameters/appID'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      $ref: '#/components/schemas/App'
+              example:
+                ok: true
+                response:
+                  id: BillingAPI
+                  name: BillingAPI
+                  tags:
+                  - key: group
+                    value: billing
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/apps/branches:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    get:
+      tags:
+      - apps
+      summary: List app branches
+      operationId: ListAppsBranches
+      description: 'Return a list of the branches of a specific app scanned for an org.
+
+        '
+      security:
+      - BearerToken:
+        - apps:list
+      parameters:
+      - $ref: '#/components/parameters/orgID'
+      - name: app
+        in: query
+        description: App name
+        schema:
+          type: string
+      - name: from
+        in: query
+        description: The earliest scan time for a branch to be included. Value should be a Unix timestamp (in seconds). Defaults to 1 week ago
+        schema:
+          type: integer
+      - name: until
+        in: query
+        description: The latest scan time for a branch to be included. Value should be a Unix timestamp (in seconds). Defaults to now
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      type: array
+                      items:
+                        type: object
+                        required:
+                        - id
+                        - name
+                        properties:
+                          id:
+                            type: string
+                            description: The name of the app
+                          name:
+                            type: string
+                            description: An alternative name for the app (typically more human-readable)
+                          branches:
+                            type: array
+                            items:
+                              description: Branch name
+                              type: string
+                          languages:
+                            description: The app's languages
+                            type: array
+                            items:
+                              type: string
+                          default_branch:
+                            type: string
+                            description: The name of the default or mainline branch, as set in the app's config. Typically 'main', 'master' or 'trunk' (if present)
+              example:
+                ok: true
+                response:
+                - id: hsl
+                  name: hsl
+                  default_branch: master
+                  branches:
+                  - master
+                  - develop
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/apps/{appID}/configuration:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/appID'
+    get:
+      tags:
+      - apps
+      summary: Read app config
+      description: Return the configuration of an application.
+      operationId: ReadAppConfig
+      security:
+      - BearerToken:
+        - org_configuration:read
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      type: object
+                      properties:
+                        default_branch:
+                          type: string
+                          description: The repository's default branch
+                        analysis_configuration:
+                          $ref: '#/components/schemas/AppAnalysisConfiguration'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      tags:
+      - apps
+      summary: Update app config
+      operationId: UpdateAppConfig
+      description: Update the app's configuration.
+      security:
+      - BearerToken:
+        - org_configuration:write
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                default_branch:
+                  type: string
+                  description: The repository's default branch
+                analysis_configuration:
+                  $ref: '#/components/schemas/AppAnalysisConfiguration'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      type: object
+                      properties:
+                        default_branch:
+                          type: string
+                          description: The repository's default branch
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      tags:
+      - apps
+      summary: Patch app config
+      operationId: PatchAppConfig
+      description: 'Partially update the app''s configuration. Only fields present in the request body
+
+        will be updated; all other fields are preserved. This is safer than PUT when you
+
+        only need to change a subset of the configuration.
+
+        '
+      security:
+      - BearerToken:
+        - org_configuration:write
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                default_branch:
+                  type: string
+                  description: The repository's default branch
+                analysis_configuration:
+                  $ref: '#/components/schemas/AppAnalysisConfiguration'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      type: object
+                      properties:
+                        default_branch:
+                          type: string
+                          description: The repository's default branch
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/apps/{appID}/configuration/default_branch:
+    patch:
+      tags:
+      - apps
+      summary: Update Application Default Branch
+      operationId: UpdateAppDefaultBranch
+      description: Update the application's default branch.
+      parameters:
+      - $ref: '#/components/parameters/orgID'
+      - $ref: '#/components/parameters/appID'
+      security:
+      - BearerToken:
+        - project_branch:update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - default_branch
+              properties:
+                default_branch:
+                  type: string
+                  description: The repository's default branch
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      type: object
+                      properties:
+                        default_branch:
+                          type: string
+                          description: The repository's default branch
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/apps/{appID}/configuration/merged:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/appID'
+    get:
+      tags:
+      - apps
+      summary: Read merged app config
+      description: Return the effective configuration of an application by combining the organization configuration and the configuration of a potentially assigned team as defaults first, before merging in the actual app configuration on top, overriding those defaults.
+      operationId: ReadMergedAppConfig
+      security:
+      - BearerToken:
+        - org_configuration:read
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      type: object
+                      properties:
+                        default_branch:
+                          type: string
+                          description: The repository's default branch
+                        analysis_configuration:
+                          $ref: '#/components/schemas/AppAnalysisConfiguration'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    TagWithString:
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+          description: The key for the tag key-value pair
+          example: category
+        value:
+          type: string
+          description: The value for the tag key-value pair
+          example: XSS
+    Tag:
+      anyOf:
+      - $ref: '#/components/schemas/TagWithString'
+      - $ref: '#/components/schemas/TagWithNumber'
+    AppProvisionRequest:
+      type: array
+      items:
+        $ref: '#/components/schemas/AppSpec'
+    TagWithNumber:
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+          description: The key for the tag key-value pair
+          example: cvss_score
+        value:
+          type: number
+          description: The value for the tag key-value pair
+          example: 5.2
+    AppSpec:
+      type: object
+      description: contains the information necessary to provision an app.
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          pattern: '[a-zA-Z0-9]([a-zA-Z0-9_:.-]*[a-zA-Z0-9])?'
+          description: the id of the app
+        name:
+          type: string
+          description: the user friendly name of the app
+        team_id:
+          type: string
+          description: the id of the team the app belongs to
+        base_branch:
+          type: string
+          description: the name of the principal branch of the app.
+          example: master
+    StatusLog:
+      type: object
+      properties:
+        message_id:
+          type: string
+        message:
+          type: string
+        gh_pr_link:
+          type: string
+    SuccessResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful or not
+    SecretsConfiguration:
+      description: Secrets detection configuration
+      type: object
+      properties:
+        entropy:
+          type: number
+          description: Entropy threshold. A floating number in range from 0.0 to 1.0
+        disable:
+          type: boolean
+          description: set to true to disable secrets detection altogether
+    AppAnalysisConfiguration:
+      description: App level analysis configuration
+      type: object
+      properties:
+        secrets:
+          $ref: '#/components/schemas/SecretsConfiguration'
+        cpg2sp:
+          type: object
+          properties:
+            max-steps:
+              type: integer
+    App:
+      type: object
+      example:
+        id: shiftleft-python-demo
+        name: shiftleft-python-demo
+        can_delete: true
+        is_subscription_active: true
+        configuration:
+          analysis_configuration:
+            secrets: {}
+            cpg2sp: {}
+        avg_scan_duration_ms: 43674
+        compound: fab0089f-cc8c-44a8-a927-26e83f6eb6d4
+        labels:
+        - label1
+        - label2
+      properties:
+        id:
+          type: string
+          description: The name of the app
+        name:
+          type: string
+          description: An alternative (human-readable) name for the app
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        is_demo:
+          type: boolean
+          description: Indicates whether the app was created as a demo or not
+        potential_new_cves:
+          type: integer
+          description: The number of new CVEs found in a re-scan of the app
+        team_id:
+          type: string
+          description: The name of the team this application belongs to, if any
+        can_delete:
+          type: boolean
+          description: Indicates if the user making the request has deletion permissions on this App
+        is_subscription_active:
+          type: boolean
+          description: Indicates if the organization subscription allows accessing this App
+        latest_status_log:
+          $ref: '#/components/schemas/StatusLog'
+        avg_scan_duration_ms:
+          type: integer
+          description: 'The average duration of (successful) scans for this project. Absent if no scans finished successfully yet.
+
+            '
+        compound:
+          type: string
+          description: The id of the compound (multi language application) this app belongs to, if any.
+        labels:
+          type: array
+          items:
+            type: string
+    AppProvisionResponse:
+      type: object
+      description: contains the results of a bulk apps provisioning.
+      properties:
+        apps:
+          type: array
+          items:
+            $ref: '#/components/schemas/AppSpec'
+        rejected_ids:
+          type: array
+          description: list of ids that were rejected due to not conforming to the provided format.
+          items:
+            type: string
+        rejected_team_ids:
+          type: array
+          description: list of team ids that were rejected due to not existing.
+          items:
+            type: string
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
+            type: string
+            description: A description of the validation error
+  parameters:
+    orgID:
+      name: orgID
+      in: path
+      description: The org ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    appID:
+      name: appID
+      in: path
+      description: The app ID (e.g., `HelloQwiet`)
+      required: true
+      schema:
+        type: string
+  securitySchemes:
+    BearerToken:
+      description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\
+
+        `Authorization: Bearer {access token}`
+
+        '
+      type: http
+      scheme: bearer

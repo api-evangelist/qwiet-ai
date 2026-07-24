@@ -1,0 +1,358 @@
+openapi: 3.0.0
+info:
+  x-logo:
+    url: https://docs.shiftleft.io/img/sl-logo.svg
+  version: 4.0.0
+  title: alerting API
+  description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
+
+
+    # Authentication
+
+
+    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
+
+    '
+servers:
+- url: https://app.shiftleft.io/api/v4
+tags:
+- name: alerting
+  x-displayName: Alerting
+  description: 'Notification and alerting related endpoints (such as webhooks)
+
+    '
+paths:
+  /orgs/{orgID}/alerting/webhook:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/version'
+    put:
+      tags:
+      - alerting
+      summary: Set up a webhook
+      operationId: SetUpWebhook
+      description: 'Set up a webhook for the given organization
+
+        '
+      security:
+      - BearerToken:
+        - webhook:write
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterWebhookRequest'
+            examples:
+              bearerAuth:
+                summary: Bearer Token Authentication Example
+                description: Example request body for webhook registration using Bearer token authentication
+                value:
+                  url: https://example.com/webhook
+                  events:
+                  - name: scan.finished
+                  token:
+                    token: your-bearer-token
+                    renewalMetadata:
+                      url: https://example.com/renew-token
+                      method: POST
+                      bodyFields:
+                        client_id: your-client-id
+                        client_secret: your-client-secret
+                        grant_type: client_credentials
+                      asJson: false
+                      forceFormUrlEncoding: false
+                    responseHandling:
+                      tokenField: access_token
+                      ttlField: expires_in
+                      typeField: token_type
+                  authType: bearer
+                  enableEmailNotification: true
+              hmacAuth:
+                summary: HMAC Authentication Example
+                description: Example request body for webhook registration using HMAC secret authentication. This is the primary method used for UI-based webhook configuration.
+                value:
+                  url: https://simulate-400.free.beeceptor.com/webhook
+                  events:
+                  - name: scan.finished
+                  secret: my-test-secret
+                  authType: hmac
+                  enableEmailNotification: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegisterWebhookResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+      - alerting
+      summary: Delete a webhook
+      operationId: DeleteWebhook
+      description: 'Delete the webhook for the given organization
+
+        '
+      security:
+      - BearerToken:
+        - webhook:write
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      tags:
+      - alerting
+      summary: Get a webhook
+      operationId: GetWebhook
+      description: 'Get the webhook url and token ID for the given organization
+
+        '
+      security:
+      - BearerToken:
+        - webhook:read
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookConfigurationResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /alerting/events:
+    get:
+      tags:
+      - alerting
+      summary: Get alerting events
+      operationId: GetAlertingEvents
+      description: 'Get the list of events that can be subscribed to receive webhook notifications.
+
+        '
+      security:
+      - BearerToken:
+        - webhook:read
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListEventsResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    WebhookTokenRenewMetadata:
+      type: object
+      properties:
+        url:
+          type: string
+          description: The URL in which the token can be renewed
+        method:
+          type: string
+          description: The method to be used for the renewal
+        bodyFields:
+          type: object
+          description: The fields to be sent in the body and the values
+        asJson:
+          type: boolean
+          description: Whether the body should be sent as JSON or FORM data
+        forceFormUrlEncoding:
+          type: boolean
+          description: Whether the body should be sent as query arguments even if the method is POST
+    RegisterWebhookResponse:
+      type: object
+      properties:
+        ok:
+          type: boolean
+          description: Indicates whether the webhook was successfully registered
+        response:
+          type: object
+          properties:
+            secret:
+              type: string
+              description: secret used to sign the webhook events
+            authType:
+              type: string
+              description: The authentication type used for the webhook
+              enum:
+              - hmac
+              - bearer
+            url:
+              type: string
+              format: uri
+              description: The URL to which the webhook will send events
+            events:
+              type: array
+              items:
+                type: string
+                description: The list of events for which the webhook is registered
+    RegisterWebhookRequest:
+      type: object
+      required:
+      - url
+      - events
+      properties:
+        url:
+          type: string
+          format: uri
+          description: The URL to which the webhook should send events
+        events:
+          type: array
+          items:
+            type: object
+            required:
+            - name
+            properties:
+              name:
+                type: string
+                enum:
+                - scan.finished
+                description: The name of the event to subscribe to
+        token:
+          $ref: '#/components/schemas/AuthenticatedWebHookTokenConfiguration'
+        authType:
+          type: string
+          enum:
+          - hmac
+          - bearer
+          description: The authentication type to use for the webhook. Defaults to "hmac" if secret is provided, "bearer" if token is provided.
+        secret:
+          type: string
+          description: Secret key for HMAC authentication. If not provided and authType is "hmac", a secure secret will be generated automatically.
+        enableEmailNotification:
+          type: boolean
+          description: If true, organization administrators will receive email notifications when webhook event delivery fails.
+    WebhookConfigurationResponse:
+      type: object
+      properties:
+        url:
+          type: string
+          description: The URL to which the webhook will be sent
+        tokenID:
+          type: string
+          format: uuid
+          description: The token ID to be used for the webhook (only present if token based authentication was used while regsistering the webhook)
+        events:
+          type: array
+          items:
+            type: string
+          description: The events that are subscribed to this webhook url. A list of active events that can be fetched from the `/alerting/events` endpoint.
+    SuccessResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful or not
+    TokenRenewalResponseHandling:
+      type: object
+      properties:
+        tokenField:
+          type: string
+          description: The field in the response that contains the token
+        ttlField:
+          type: string
+          description: The field in the response that contains the time to live of the token
+        typeField:
+          type: string
+          description: The field in the response that contains the type of the token (only Bearer is supported for now)
+    ListEventsResponse:
+      type: object
+      properties:
+        events:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+            description: A list of events that can be subscribed to via webhooks
+    AuthenticatedWebHookTokenConfiguration:
+      type: object
+      description: Configuration for a webhook that requires a token
+      properties:
+        token:
+          type: string
+          description: The token to be used for the webhook
+        renewalMetadata:
+          $ref: '#/components/schemas/WebhookTokenRenewMetadata'
+        responseHandling:
+          $ref: '#/components/schemas/TokenRenewalResponseHandling'
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
+            type: string
+            description: A description of the validation error
+  parameters:
+    orgID:
+      name: orgID
+      in: path
+      description: The org ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    version:
+      name: version
+      in: query
+      description: Webhook configuration version to use (1 = legacy flow, 2 = normal flow). Defaults to 2 (normal flow) if not specified.
+      schema:
+        type: integer
+        enum:
+        - 1
+        - 2
+        default: 2
+        example: 2
+  securitySchemes:
+    BearerToken:
+      description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\
+
+        `Authorization: Bearer {access token}`
+
+        '
+      type: http
+      scheme: bearer

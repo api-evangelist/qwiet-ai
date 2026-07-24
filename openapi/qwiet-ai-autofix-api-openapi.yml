@@ -1,0 +1,252 @@
+openapi: 3.0.0
+info:
+  x-logo:
+    url: https://docs.shiftleft.io/img/sl-logo.svg
+  version: 4.0.0
+  title: alerting autofix API
+  description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
+
+
+    # Authentication
+
+
+    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
+
+    '
+servers:
+- url: https://app.shiftleft.io/api/v4
+tags:
+- name: autofix
+  x-displayName: AutoFix
+  description: 'The AutoFix suggestions for findings in applications. Harness SAST and SCA AutoFix uses large language models (LLMs) to generate potential code fix suggestions for findings produced by Qwiet AI by Harness analyses.
+
+
+    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/30743751-b06912bf-f25e-46a3-92c1-c12ba2ef162a?action=collection%2Ffork&collection-url=entityId%3D30743751-b06912bf-f25e-46a3-92c1-c12ba2ef162a%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
+
+    '
+paths:
+  /orgs/{orgID}/stats/num_fixes_per_compound:
+    x-internal: false
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    get:
+      tags:
+      - autofix
+      summary: Get the number of fixes available per compound
+      operationId: getFixesPerCompoundStats
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      type: object
+                      required:
+                      - organization_id
+                      - stats
+                      properties:
+                        organization_id:
+                          type: string
+                        stats:
+                          type: array
+                          description: The number of fixes per Compound
+                          items:
+                            $ref: '#/components/schemas/CompoundFixStats'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/apps/{appID}/findings/{findingID}/recommended_fix:
+    get:
+      tags:
+      - autofix
+      operationId: ReadRecommendedFix
+      summary: Read Recommended Fix if it exists
+      security:
+      - BearerToken:
+        - autofix:read
+      description: 'Retrieve the recommended fix for a specific finding if it exists
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/orgID'
+      - $ref: '#/components/parameters/appID'
+      - $ref: '#/components/parameters/findingID'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      type: object
+                      properties:
+                        fix:
+                          type: string
+                        fix_notes:
+                          type: string
+              example:
+                ok: true
+                response:
+                  fix: this is a really big long thing text that normally should be in markdown format
+                  fix_notes: this is a note about the fix
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/apps/{appID}/findings/{findingID}/fixes:
+    get:
+      tags:
+      - autofix
+      operationId: ReadFindingFix
+      summary: Read finding's fix if it exists
+      security:
+      - BearerToken:
+        - autofix:read
+      description: 'Retrieve the fix for a specific finding if it exists. This feature is disabled by default. Contact Qwiet AI Customer Success if you need assistance.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/orgID'
+      - $ref: '#/components/parameters/appID'
+      - $ref: '#/components/parameters/findingID'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      type: object
+                      properties:
+                        organization_id:
+                          type: string
+                        project_id:
+                          type: string
+                        scan_id:
+                          type: integer
+                        sp_id:
+                          type: string
+                        status:
+                          type: string
+                        fingerprint_hash:
+                          type: string
+                        finding_id:
+                          type: integer
+                        fix:
+                          type: string
+              example:
+                ok: true
+                response:
+                  organization_id: 5b588f3a-7fe0-444d-afbb-c0d5ee04139b
+                  project_id: myAwesomeProject
+                  scan_id: 1234
+                  sp_id: sl/5b588.../
+                  status: fixed
+                  fingerprint_hash: ''
+                  finding_id: 4321
+                  fix: this is a really big long thing text that normally should be in markdown format
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  parameters:
+    findingID:
+      name: findingID
+      in: path
+      description: The finding ID
+      required: true
+      schema:
+        type: string
+    appID:
+      name: appID
+      in: path
+      description: The app ID (e.g., `HelloQwiet`)
+      required: true
+      schema:
+        type: string
+    orgID:
+      name: orgID
+      in: path
+      description: The org ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    CompoundFixStats:
+      type: object
+      properties:
+        compound_name:
+          type: string
+          description: name of compound
+        fix_count:
+          type: integer
+          description: number of fixes available
+    SuccessResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful or not
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
+            type: string
+            description: A description of the validation error
+  securitySchemes:
+    BearerToken:
+      description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\
+
+        `Authorization: Bearer {access token}`
+
+        '
+      type: http
+      scheme: bearer

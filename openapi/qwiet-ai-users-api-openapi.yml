@@ -1,0 +1,143 @@
+openapi: 3.0.0
+info:
+  x-logo:
+    url: https://docs.shiftleft.io/img/sl-logo.svg
+  version: 4.0.0
+  title: alerting users API
+  description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
+
+
+    # Authentication
+
+
+    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
+
+    '
+servers:
+- url: https://app.shiftleft.io/api/v4
+tags:
+- name: users
+  x-displayName: Users
+  description: 'Users pertains the users in general as qwiet.ai users and of each org as organization users.
+
+    '
+paths:
+  /user:
+    get:
+      tags:
+      - users
+      summary: Read user and their organization information.
+      operationId: ReadUser
+      description: 'Read the user and their organization membership and invites information.
+
+        '
+      security:
+      - BearerToken: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      $ref: '#/components/schemas/UserMembershipInfo'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    SuccessResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful or not
+    UserMembershipInfo:
+      allOf:
+      - type: object
+        properties:
+          idv2:
+            type: string
+            format: uuid
+          idv1:
+            type: string
+          name:
+            type: string
+          email:
+            type: string
+            format: email
+          emailVerified:
+            type: boolean
+          membership:
+            type: array
+            items:
+              type: object
+              properties:
+                organization:
+                  type: string
+                  format: uuid
+                organizationName:
+                  type: string
+          invites:
+            type: array
+            items:
+              type: object
+              properties:
+                organization:
+                  type: string
+                  format: uuid
+                organizationName:
+                  type: string
+                inviteId:
+                  type: string
+                  format: uuid
+          lastLoginUTCTimestampHistory:
+            type: array
+            items:
+              type: integer
+              format: int64
+            description: List of nanosecond unix timestamps for last two user logins
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
+            type: string
+            description: A description of the validation error
+  securitySchemes:
+    BearerToken:
+      description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\
+
+        `Authorization: Bearer {access token}`
+
+        '
+      type: http
+      scheme: bearer

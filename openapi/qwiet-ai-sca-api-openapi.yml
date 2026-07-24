@@ -1,0 +1,812 @@
+openapi: 3.0.0
+info:
+  x-logo:
+    url: https://docs.shiftleft.io/img/sl-logo.svg
+  version: 4.0.0
+  title: alerting sca API
+  description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
+
+
+    # Authentication
+
+
+    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
+
+    '
+servers:
+- url: https://app.shiftleft.io/api/v4
+tags:
+- name: sca
+  x-displayName: SCA
+  description: 'The summaries of software composition analysis (SCA) results for apps in an organization.
+
+
+    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/30743751-08a1d64d-5913-409a-ac8a-7074ce5a62d7?action=collection%2Ffork&collection-url=entityId%3D30743751-08a1d64d-5913-409a-ac8a-7074ce5a62d7%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
+
+    '
+paths:
+  /orgs/{orgID}/compounds/named/{compoundName}/sca/packages:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/compoundName'
+    get:
+      tags:
+      - sca
+      summary: Read the SCA packages of a compound scan
+      operationId: ReadCompoundSCAPackages
+      description: Return information about the packages found in a scan of an app
+      security:
+      - BearerToken:
+        - sca:read
+      parameters:
+      - in: query
+        name: polyglot_scan
+        description: Polyglot scan ID of the scan to filter to; defaults to the latest scan.
+        example: 42
+        schema:
+          type: integer
+      - in: query
+        name: scan_version
+        description: The version of which to get the latest scan. This is usually a SHA1. Ignored if polyglot_scan is given.
+        example: 9b7e138e1b16dc5261803cceffb86c36800c2c7f
+        schema:
+          type: string
+      - in: query
+        name: scan_branch
+        description: The branch of which to get the latest scan. Ignored if polygot_scan or scan_version are given.
+        example: feature/1234
+        schema:
+          type: string
+      - in: query
+        name: scan_tag
+        description: Tags passed to the analyzer at scan time. Ignored if polygot_scan, scan_version, or scan_branch are given.
+        schema:
+          type: string
+          pattern: ^(?<key>.*?)__eq__(?<value>.*)$
+      - in: query
+        name: scan_platform
+        description: The analysis platform. Cannot be specified together with scan_language.
+        schema:
+          $ref: '#/components/schemas/ScanPlatform'
+      - in: query
+        name: scan_language
+        description: The analysis language. Cannot be specified together with scan_platform.
+        schema:
+          $ref: '#/components/schemas/ScanLanguage'
+      - in: query
+        name: type
+        description: The package finding types to include.
+        example: package
+        schema:
+          type: string
+          enum:
+          - package
+          - container_package
+      - in: query
+        name: tag
+        description: a tag query used to filter the findings
+        example: package_type__eq__alpine
+        schema:
+          type: string
+      - in: query
+        name: per_page
+        description: The number of results per page.
+        schema:
+          type: integer
+          minimum: 1
+          default: 100
+          maximum: 10000
+      - in: query
+        name: page
+        description: The specific page of the results to fetch.
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+      - in: query
+        name: sort
+        description: How to sort results; defaults to ID
+        schema:
+          type: string
+          enum:
+          - package
+          - url
+          - name
+          - namespace
+          - type
+          - version
+          - license
+          - created_at
+          - num_vulns
+          - num_reachable
+          - num_exploitable
+      - $ref: '#/components/parameters/order'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      type: object
+                      required:
+                      - packages
+                      - total_count
+                      - has_more
+                      - scans
+                      properties:
+                        packages:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/SCAPackage'
+                        has_more:
+                          type: boolean
+                          example: true
+                          description: Whether asking for the next page would give you more results
+                        total_count:
+                          type: integer
+                          example: 42
+                          description: The total number of results available
+                        compound_id:
+                          type: string
+                          description: The compound ID, if this is a compound endpoint
+                          example: a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d
+                        polyglot_scan_id:
+                          type: string
+                          description: The polyglot scan ID selected for this response
+                          example: '1'
+                        scans:
+                          type: array
+                          description: The scans whose packages are included in this response
+                          items:
+                            type: object
+                            required:
+                            - id
+                            - app
+                            properties:
+                              id:
+                                type: string
+                                description: The scan ID
+                                example: '1234'
+                              app:
+                                type: string
+                                description: The project ID for this scan
+                                example: hello-qwiet
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/apps/{appID}/sca/packages:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/appID'
+    get:
+      tags:
+      - sca
+      summary: Read the count of multiple tags of an app.
+      operationId: ReadAppSCAPackages
+      description: Return information about the packages found in a scan of an app
+      security:
+      - BearerToken:
+        - sca:read
+      parameters:
+      - in: query
+        name: scan
+        description: The ID of the scan to filter to. Defaults to the latest scan.
+        example: 42
+        schema:
+          type: integer
+      - in: query
+        name: branch
+        description: The branch of which to get the latest scan.
+        example: feature/1234
+        schema:
+          type: string
+      - in: query
+        name: type
+        description: The package finding types to include.
+        example: package
+        schema:
+          type: string
+          enum:
+          - package
+          - container_package
+      - in: query
+        name: tag
+        description: a tag query used to filter the findings
+        example: package_type__eq__alpine
+        schema:
+          type: string
+      - $ref: '#/components/parameters/per_page'
+      - $ref: '#/components/parameters/page'
+      - in: query
+        name: sort
+        description: How to sort results; defaults to ID
+        schema:
+          type: string
+          enum:
+          - package
+          - url
+          - name
+          - namespace
+          - type
+          - version
+          - license
+          - created_at
+          - num_vulns
+          - num_reachable
+          - num_exploitable
+      - $ref: '#/components/parameters/order'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      type: object
+                      required:
+                      - packages
+                      - total_count
+                      - has_more
+                      - scans
+                      properties:
+                        packages:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/SCAPackage'
+                        total_count:
+                          type: integer
+                          example: 42
+                          description: The total number of results available
+                        has_more:
+                          type: boolean
+                          example: true
+                          description: Whether asking for the next page would give you more results
+                        scans:
+                          type: array
+                          description: The scans whose packages are included in this response
+                          items:
+                            type: object
+                            required:
+                            - id
+                            - app
+                            properties:
+                              id:
+                                type: string
+                                description: The scan ID
+                                example: '1234'
+                              app:
+                                type: string
+                                description: The project ID for this scan
+                                example: hello-qwiet
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/dependencies:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/search'
+    - name: page
+      in: query
+      description: The page of results to fetch. Currently asking for pages beyond 20 will fail.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 20
+        default: 1
+        example: 1
+    - name: per_page
+      in: query
+      description: Number of results per page.
+      schema:
+        type: integer
+        minimum: 0
+        default: 250
+        maximum: 1000
+    - name: from
+      in: query
+      description: Packages found during scans created as of this time are included in the search. Value should be a Unix timestamp (in seconds). Defaults to 4 months before `until`. Increasing the time window increases the chance that the search will timeout.
+      schema:
+        type: integer
+    - name: until
+      in: query
+      description: Packages found during scans created up to this time are included in the search. Value should be a Unix timestamp (in seconds). Defaults to the creation timestamp of the most recent successful scan.
+      schema:
+        type: integer
+    get:
+      tags:
+      - sca
+      summary: List dependencies that match the search
+      operationId: SearchDependency
+      description: Return all dependencies for the org apps if they match the search criteria.
+      security:
+      - BearerToken:
+        - findings:list
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/Dependency'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /package_info:
+    post:
+      tags:
+      - sca
+      summary: Retrieve package information (CVEs, licenses, and more) for a list of PURLs
+      operationId: RetrievePackageInfo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                purls:
+                  type: array
+                  items:
+                    type: string
+                  example:
+                  - pkg:maven/commons-io/commons-io@2.5
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - ok
+                properties:
+                  ok:
+                    type: boolean
+                    description: Whether the request was successful or not
+                  response:
+                    type: array
+                    description: Array of package information
+                    items:
+                      $ref: '#/components/schemas/PackageInfo'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    TagWithString:
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+          description: The key for the tag key-value pair
+          example: category
+        value:
+          type: string
+          description: The value for the tag key-value pair
+          example: XSS
+    Dependency:
+      type: object
+      required:
+      - id
+      - app
+      - title
+      - type
+      properties:
+        id:
+          type: string
+          description: The unique identifier for this finding
+          example: '1'
+        app:
+          type: string
+          description: The app to which this finding belongs
+          example: hello-qwiet
+        type:
+          type: string
+          description: The type of finding
+          example: vuln
+        title:
+          type: string
+          description: The title of the finding
+          example: 'Sensitive Data Leak: Sensitive data contained in HTTP request/response'
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          example:
+          - key: severity
+            value: info
+          - key: cvss_score
+            value: 2
+    Tag:
+      anyOf:
+      - $ref: '#/components/schemas/TagWithString'
+      - $ref: '#/components/schemas/TagWithNumber'
+    ScanLanguage:
+      type: string
+      description: The analysis language identifier.
+      enum:
+      - java
+      - go
+      - csharp
+      - javascript
+      - c
+      - python
+      - terraform_hcl
+      - ruby
+      - php
+      - fuzzytestlang
+      - kotlin
+      - swift
+      - plsql
+      - apex
+      - groovy
+    TagWithNumber:
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+          description: The key for the tag key-value pair
+          example: cvss_score
+        value:
+          type: number
+          description: The value for the tag key-value pair
+          example: 5.2
+    SCAPackage:
+      type: object
+      required:
+      - package
+      - package_url
+      - name
+      - namespace
+      - type
+      - version
+      - license
+      - first_seen
+      - total_vulns
+      - total_reachable
+      - total_exploitable
+      - total_apps
+      - risk_type
+      description: Information about an SCA package
+      properties:
+        package:
+          type: string
+          description: The full package identifier (namespace/name)
+          example: github.com/concourse/s3-resource
+        package_url:
+          type: string
+          description: The package URL (PURL)
+          example: pkg:golang/github.com/concourse/s3-resource@%28devel%29
+        name:
+          type: string
+          description: The package name
+          example: s3-resource
+        namespace:
+          type: string
+          description: The package namespace
+          example: github.com/concourse
+        type:
+          type: string
+          description: The package type
+          example: golang
+        version:
+          type: string
+          description: The package version
+          example: (devel)
+        license:
+          type: string
+          description: The package license
+          example: Apache-2.0
+        first_seen:
+          type: string
+          format: date-time
+          description: When the package was first seen
+          example: '2023-05-26T15:04:07.278721+01:00'
+        total_vulns:
+          type: integer
+          description: Total number of vulnerabilities
+          example: 5
+        total_reachable:
+          type: integer
+          description: Number of reachable vulnerabilities
+          example: 3
+        total_exploitable:
+          type: integer
+          description: Number of exploitable vulnerabilities
+          example: 0
+        total_apps:
+          type: integer
+          description: Number of applications this package appears in
+          example: 2
+        apps:
+          type: array
+          description: Application names where this package appears
+          items:
+            type: string
+          example:
+          - my-app
+          - other-app
+        vulns:
+          type: array
+          description: CVE identifiers of vulnerabilities affecting this package
+          items:
+            type: string
+          example:
+          - CVE-2021-23337
+          - CVE-2020-28500
+        reachable:
+          type: array
+          description: CVE identifiers of reachable vulnerabilities
+          items:
+            type: string
+          example:
+          - CVE-2021-23337
+        exploitable:
+          type: array
+          description: CVE identifiers of exploitable vulnerabilities
+          items:
+            type: string
+        risk_type:
+          type: object
+          description: OSS supply-chain risk indicators for this package
+          properties:
+            is_malicious:
+              type: boolean
+            is_squatted:
+              type: boolean
+            is_abandoned:
+              type: boolean
+            is_repo_hijackable:
+              type: boolean
+    ScanPlatform:
+      type: string
+      description: The analysis platform identifier.
+      enum:
+      - java
+      - go
+      - csharp
+      - javascript
+      - c
+      - python
+      - terraform_hcl
+      - ruby
+      - php
+      - fuzzytestlang
+      - kotlin
+      - javasrc
+      - pythonsrc
+      - jssrc
+      - secrets
+      - swiftsrc
+      - plsql
+      - apex
+      - groovy
+    SuccessResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful or not
+    PackageInfo:
+      type: object
+      properties:
+        purl:
+          type: string
+          example: pkg:maven/commons-io/commons-io@2.5
+        licenses:
+          type: array
+          items:
+            type: string
+          example:
+          - Apache-2.0
+        cves:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                example: CVE-2021-29425
+              internalId:
+                type: string
+                example: GHSA-gwrp-pvrq-jmwv
+              assigner:
+                type: string
+                example: GitHub
+              cweIds:
+                type: array
+                items:
+                  type: string
+                example:
+                - CWE-20
+                - CWE-22
+              references:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    url:
+                      type: string
+                    name:
+                      type: string
+                    refsource:
+                      type: string
+                    tags:
+                      type: array
+                      items:
+                        type: string
+              descriptions:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    lang:
+                      type: string
+                    value:
+                      type: string
+              impact:
+                type: object
+                properties:
+                  exploitabilityScore:
+                    type: number
+                  impactScore:
+                    type: number
+                  cvssV3:
+                    type: object
+                    properties:
+                      version:
+                        type: string
+                      vectorString:
+                        type: string
+                      confidentialityImpact:
+                        type: string
+                      integrityImpact:
+                        type: string
+                      availabilityImpact:
+                        type: string
+                      baseScore:
+                        type: number
+                      attackVector:
+                        type: string
+                      attackComplexity:
+                        type: string
+                      privilegesRequired:
+                        type: string
+                      userInteraction:
+                        type: string
+                      scope:
+                        type: string
+                      baseSeverity:
+                        type: string
+              publishedDate:
+                type: string
+                format: date-time
+              lastModifiedDate:
+                type: string
+                format: date-time
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
+            type: string
+            description: A description of the validation error
+  parameters:
+    compoundName:
+      name: compoundName
+      in: path
+      description: A compound's name
+      required: true
+      schema:
+        type: string
+    appID:
+      name: appID
+      in: path
+      description: The app ID (e.g., `HelloQwiet`)
+      required: true
+      schema:
+        type: string
+    orgID:
+      name: orgID
+      in: path
+      description: The org ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    order:
+      in: query
+      name: order
+      description: Direction of the sort; defaults to descending
+      schema:
+        type: string
+        enum:
+        - desc
+        - asc
+    page:
+      in: query
+      name: page
+      description: 'The page of results to fetch. Results are not guaranteed to be deterministic using this approach; we recommended using the `next_page` URL in a paginated response
+
+        '
+      schema:
+        type: integer
+    per_page:
+      in: query
+      name: per_page
+      description: Number of results per page; defaults to 50
+      schema:
+        type: integer
+    search:
+      in: query
+      name: search
+      description: Search filter that looks for matches in finding titles and tags
+      schema:
+        type: string
+  securitySchemes:
+    BearerToken:
+      description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\
+
+        `Authorization: Bearer {access token}`
+
+        '
+      type: http
+      scheme: bearer

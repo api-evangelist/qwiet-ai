@@ -1,0 +1,1577 @@
+openapi: 3.0.0
+info:
+  x-logo:
+    url: https://docs.shiftleft.io/img/sl-logo.svg
+  version: 4.0.0
+  title: alerting scans API
+  description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
+
+
+    # Authentication
+
+
+    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
+
+    '
+servers:
+- url: https://app.shiftleft.io/api/v4
+tags:
+- name: scans
+  x-displayName: Scans
+  description: 'The instances where Qwiet AI by Harness is invoked to identify findings in an application.
+
+
+    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-dc6a68d5-995d-4ba4-8098-e3b67773cf0e?action=collection%2Ffork&collection-url=entityId%3D9829310-dc6a68d5-995d-4ba4-8098-e3b67773cf0e%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
+
+    '
+paths:
+  /orgs/{orgID}/apps/{appID}/scans:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/appID'
+    - $ref: '#/components/parameters/tags'
+    - in: query
+      name: limit
+      description: The number of scans to return (must be between 1 and 50, inclusive). The default is 10 scans
+      schema:
+        type: integer
+    get:
+      tags:
+      - scans
+      summary: List scans
+      operationId: ListScans
+      description: Return the most recent scans for the indicated app.
+      security:
+      - BearerToken:
+        - scans:read
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      type: object
+                      properties:
+                        scans:
+                          items:
+                            $ref: '#/components/schemas/Scan'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/apps/{appID}/scans/compare:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/appID'
+    - $ref: '#/components/parameters/comparableVersionIdentifierSource'
+    - $ref: '#/components/parameters/comparableVersionIdentifierTarget'
+    get:
+      tags:
+      - scans
+      summary: Compare scans
+      operationId: ListScansCompare
+      description: Compare two scans and return a list of the findings in each, along with regression information.
+      security:
+      - BearerToken:
+        - findings:list
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      $ref: '#/components/schemas/ScanDiff'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/apps/{compoundName}/scans/check:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/compoundName'
+    post:
+      tags:
+      - scans
+      summary: Check a scan against a set of rules
+      description: Check a scan against a set of rules, using another scan as a reference.
+      operationId: CheckScans
+      security:
+      - BearerToken:
+        - findings:list
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - version
+              - meta
+              - rules
+              properties:
+                version:
+                  type: integer
+                  enum:
+                  - 2
+                meta:
+                  type: object
+                  required:
+                  - kind
+                  properties:
+                    num_findings:
+                      type: integer
+                      description: 'The maximum number of findings per rule to be returned. Can be overridden on a per-rule basis using the rule''s `num_findings` property.
+
+                        '
+                      minimum: 0
+                      default: 5
+                      maximum: 100
+                    kind:
+                      type: string
+                      enum:
+                      - single
+                      - diff
+                      default: diff
+                    send-to-jira:
+                      type: boolean
+                      description: 'Requests that findings be sent to Jira; the organization must have the Jira integration enabled and configured for this feature to work.
+
+                        '
+                source:
+                  allOf:
+                  - $ref: '#/components/schemas/AppScanCheckScan'
+                  - type: object
+                    description: 'The scan that is the starting point of a ''diff'' check. Defaults to the previous scan of the current branch.
+
+                      '
+                    example:
+                      branch: main
+                target:
+                  allOf:
+                  - $ref: '#/components/schemas/AppScanCheckScan'
+                  - type: object
+                    description: 'The focus of the check. Defaults to the last scan of the default branch.
+
+                      '
+                    example:
+                      branch: feature-branch
+                rules:
+                  description: 'The rules to apply. Note that ID must be unique.
+
+                    '
+                  type: array
+                  items:
+                    type: object
+                    required:
+                    - id
+                    properties:
+                      id:
+                        type: string
+                        description: 'A unique identifier for this rule.
+
+                          '
+                        example: no-crits
+                      tags:
+                        type: object
+                        description: 'The series of filters that determine when the rule applies. For each key in the object, a finding must have one of the attributes listed in the key''s values for a match to be made.
+
+                          '
+                        additionalProperties:
+                          type: array
+                          items:
+                            type: string
+                        example:
+                          severity:
+                          - critical
+                      threshold:
+                        type: integer
+                        minimum: 0
+                        description: 'The maximum number of matches that can be made before this rule fails.
+
+                          '
+                      num_findings:
+                        type: integer
+                        minimum: 0
+                        maximum: 100
+                        description: 'The maximum number of findings to return for this rule (defaults to the value from `/meta/num_findings`).
+
+                          '
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      $ref: '#/components/schemas/AppScanCheckResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/apps/{appID}/scans/{scanID}:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/appID'
+    - $ref: '#/components/parameters/scanID'
+    get:
+      tags:
+      - scans
+      summary: Read scan details
+      operationId: ReadScan
+      description: Return details for the specified scan.
+      security:
+      - BearerToken:
+        - scans:read
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/Scan'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/apps/{appID}/scans/{scanID}/report:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/appID'
+    - $ref: '#/components/parameters/scanID'
+    get:
+      tags:
+      - scans
+      summary: Read check scans report
+      operationId: ScansCheckReport
+      description: Read Check Scans Report.
+      security:
+      - BearerToken:
+        - scans:read
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/AppScanCheckResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/compounds/named/{compoundName}/scans/streamlined:
+    get:
+      tags:
+      - scans
+      summary: List scans in a compound, returning a subset of the scan summary information
+      operationId: GetStreamlinedScans
+      description: The full information we can return about a scan is a lot of data, which slows down a UI that only wants to present a subset of it to the user. This endpoint returns only the subset actually needed for rendering that UI. As such it's meant for internal use only, but is documented because other API users may find it useful for similar reasons.
+      parameters:
+      - $ref: '#/components/parameters/orgID'
+      - $ref: '#/components/parameters/compoundName'
+      - in: query
+        name: limit
+        description: The number of scans to return.
+        schema:
+          type: integer
+          minimum: 1
+          default: 10
+          maximum: 100
+      - in: query
+        name: branch
+        description: Only consider scans on this branch.
+        schema:
+          type: string
+      - in: query
+        name: upto
+        description: Only list scans created before this time (given in nanoseconds since the UNIX Epoch).
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    next_page:
+                      $ref: '#/components/schemas/NextPage'
+                    response:
+                      type: object
+                      required:
+                      - scans
+                      - agents
+                      properties:
+                        agents:
+                          type: array
+                          items:
+                            type: string
+                            example: vscode
+                        scans:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/StreamlinedScan'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/compounds/named/{compoundName}/scans/{scanID}:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/compoundName'
+    - in: path
+      name: scanID
+      required: true
+      description: The ID of the scan to retrieve
+      schema:
+        type: string
+    - in: query
+      name: archived
+      schema:
+        type: boolean
+      description: If present, includes archived compounds
+    get:
+      tags:
+      - scans
+      summary: Read compound scan
+      operationId: ReadCompoundScan
+      description: Retrieve details for a specific scan of a compound
+      security:
+      - BearerToken:
+        - scans:read
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      $ref: '#/components/schemas/CompoundScanResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/compounds/named/{compoundName}/scans:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/compoundName'
+    - in: query
+      name: archived
+      schema:
+        type: boolean
+      description: If present, includes archived compounds
+    - in: query
+      name: status
+      schema:
+        type: string
+        enum:
+        - completed
+        - running
+        - failed
+      description: Filter scans by status
+    - in: query
+      name: branch
+      schema:
+        type: string
+      description: Filter scans by branch
+    - in: query
+      name: limit
+      description: The number of scans to return (must be between 1 and 50, inclusive). The default is 10 scans
+      schema:
+        type: integer
+    get:
+      tags:
+      - scans
+      summary: List Scans of Compound
+      operationId: ListScansInCompound
+      description: List all scans for a specific compound
+      security:
+      - BearerToken:
+        - scans:read
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    next_page:
+                      $ref: '#/components/schemas/NextPage'
+                    response:
+                      type: object
+                      properties:
+                        scans:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/Scan'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/apps/{appID}/scans/{scanID}/owasp_counts:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/appID'
+    - $ref: '#/components/parameters/scanID'
+    get:
+      tags:
+      - scans
+      summary: Read scan's finding counts (grouped by OWASP category)
+      operationId: ReadAppScanFindingsOWASPGrouped
+      description: 'Returns a detailed list of OWASP categories and sub-categories and their counts (where available).
+
+        '
+      security:
+      - BearerToken:
+        - project:read
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      $ref: '#/components/schemas/OWASPCounts'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Tag:
+      anyOf:
+      - $ref: '#/components/schemas/TagWithString'
+      - $ref: '#/components/schemas/TagWithNumber'
+    Scan:
+      type: object
+      required:
+      - id
+      - app
+      - version
+      - successful
+      properties:
+        id:
+          type: string
+          description: The unique identifier for the scan
+          example: '1234'
+        app:
+          type: string
+          description: The app represented by the scan
+          example: hello-qwiet
+        version:
+          type: string
+          description: The app version represented by the scan
+          example: f348b507198fee7b6b57a460ef8a6c94783c59258f823dfcde41a2b5cb69765f
+        successful:
+          type: boolean
+          description: Whether the scan was successful or not
+        is_default_branch:
+          type: boolean
+          description: Whether the is a scan of the app's default branch or not
+        started_at:
+          type: string
+          format: date-time
+          description: When the scan was started
+        completed_at:
+          type: string
+          format: date-time
+          description: When the scan was completed
+        language:
+          type: string
+          description: The language of the analyzed application
+          example: javascript
+        number_of_expressions:
+          type: integer
+          description: The number of expressions found in the application
+          example: 10
+        tags:
+          type: object
+          description: The tags associated with this scan
+        oss_info:
+          $ref: '#/components/schemas/OSSScan'
+        counts:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagCount'
+        findings_summaries:
+          type: array
+          items:
+            $ref: '#/components/schemas/FindingsSummary'
+        total:
+          description: The total count across all summaries, excluding fixed and ignored
+          type: integer
+          example: 101
+        total_fixed:
+          description: The total fixed across all summaries
+          type: integer
+          example: 42
+        total_ignored:
+          description: The total ignored across all summaries
+          type: integer
+          example: 17
+    Severity:
+      type: string
+      enum:
+      - low
+      - medium
+      - high
+      - critical
+      description: The severity of a finding
+    TagWithString:
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+          description: The key for the tag key-value pair
+          example: category
+        value:
+          type: string
+          description: The value for the tag key-value pair
+          example: XSS
+    NextPage:
+      type: string
+      description: URL for the next page of results
+      example: https://api.shiftleft.io/orgs/4c07962d-745f-4465-9965-002f6cf3c7ff/findings?page=2
+    OWASPCounts:
+      description: 'A hierarchical count of findings per category.
+
+        The "2021" and "2025" keys are absent for scans created before the
+
+        respective categorization was deployed (unless the scan has no findings,
+
+        in which case all three year keys are present).
+
+        '
+      type: object
+      properties:
+        '2017':
+          type: object
+          description: A category list for OWASP 2017
+          properties:
+            uncategorized:
+              type: object
+              description: Uncategorized findings
+              properties:
+                Authentication Bypass:
+                  type: integer
+                Cross-Site Request Forgery:
+                  type: integer
+                Deprecated Function Use:
+                  type: integer
+                Fingerprinting:
+                  type: integer
+                Insecure Direct Object Reference:
+                  type: integer
+                Invalid Certificate Validation:
+                  type: integer
+                Open Redirect:
+                  type: integer
+                Phishing:
+                  type: integer
+                Potential Cross-Site Scripting:
+                  type: integer
+                Potential NoSQL Injection:
+                  type: integer
+                Potential Regex Injection:
+                  type: integer
+                Potential Remote Code Execution:
+                  type: integer
+                Potential Server-Side Request Forgery:
+                  type: integer
+                Potential XML External Entities:
+                  type: integer
+                Remote Code Execution:
+                  type: integer
+                Security Misconfiguration:
+                  type: integer
+                Server-Side Request Forgery:
+                  type: integer
+                Weak Cipher:
+                  type: integer
+                Weak Hash:
+                  type: integer
+                Weak Random:
+                  type: integer
+                Weak Secret Storage:
+                  type: integer
+            a1-injection:
+              type: object
+              description: Category A1 of 2017 OWASP Top 10
+              properties:
+                Command Injection:
+                  type: integer
+                Cross-Site Scripting:
+                  type: integer
+                Deprecated Function Use:
+                  type: integer
+                Deserialization:
+                  type: integer
+                HTTP to Database:
+                  type: integer
+                Header Injection:
+                  type: integer
+                JSON Injection:
+                  type: integer
+                LDAP Injection:
+                  type: integer
+                Log Forging:
+                  type: integer
+                Mail Injection:
+                  type: integer
+                NoSQL Injection:
+                  type: integer
+                Open Redirect:
+                  type: integer
+                Potential SQL Injection:
+                  type: integer
+                Prototype Pollution:
+                  type: integer
+                Regex Injection:
+                  type: integer
+                Remote Code Execution:
+                  type: integer
+                SQL Injection:
+                  type: integer
+                Security Best Practices:
+                  type: integer
+                Sensitive Data Leak:
+                  type: integer
+                Server-Side Request Forgery:
+                  type: integer
+                Unsafe Lambda Call:
+                  type: integer
+                Unsafe Reflection:
+                  type: integer
+                XML External Entities:
+                  type: integer
+                XPath Injection:
+                  type: integer
+            a2-broken-authentication:
+              type: object
+              description: Category A2 of 2017 OWASP Top 10
+              properties:
+                Insecure Authentication:
+                  type: integer
+                Security Misconfiguration:
+                  type: integer
+                Session Injection:
+                  type: integer
+                Timing Attack:
+                  type: integer
+            a3-sensitive-data-exposure:
+              type: object
+              description: Category A3 of 2017 OWASP Top 10
+              properties:
+                Crypto:
+                  type: integer
+                Denial of Service:
+                  type: integer
+                Deprecated Function Use:
+                  type: integer
+                Error Handling:
+                  type: integer
+                Hardcoded Credentials:
+                  type: integer
+                Security Best Practices:
+                  type: integer
+                Security Misconfiguration:
+                  type: integer
+                Sensitive Data Exposure:
+                  type: integer
+                Sensitive Data Leak:
+                  type: integer
+                Sensitive Data Usage:
+                  type: integer
+                Weak Cipher:
+                  type: integer
+                Weak Hash:
+                  type: integer
+            a4-xml-external-entities:
+              type: object
+              description: Category A4 of 2017 OWASP Top 10
+              properties:
+                XML External Entities:
+                  type: integer
+            a5-broken-access-control:
+              type: object
+              description: Category A5 of 2017 OWASP Top 10
+              properties:
+                Authentication Bypass:
+                  type: integer
+                CRLF Injection:
+                  type: integer
+                Directory Traversal:
+                  type: integer
+                HTTP to Model:
+                  type: integer
+                Insecure Content Provider:
+                  type: integer
+                Insecure Data Storage:
+                  type: integer
+                Insecure File Provider Paths:
+                  type: integer
+                Loose File Permissions:
+                  type: integer
+                Race Condition:
+                  type: integer
+                Session Injection:
+                  type: integer
+            a6-security-misconfiguration:
+              type: object
+              description: Category A6 of 2017 OWASP Top 10
+              properties:
+                Cross-Site Request Forgery:
+                  type: integer
+                Cross-Site Scripting:
+                  type: integer
+                Denial of Service:
+                  type: integer
+                Directory Listing:
+                  type: integer
+                Hardcoded Credentials:
+                  type: integer
+                Improper Input Validation:
+                  type: integer
+                Intent Redirection:
+                  type: integer
+                Security Best Practices:
+                  type: integer
+                Security Misconfiguration:
+                  type: integer
+                Sensitive Data Leak:
+                  type: integer
+                Weak Secret Storage:
+                  type: integer
+            a7-cross-site-scripting:
+              type: object
+              description: Category A7 of 2017 OWASP Top 10
+              properties:
+                Cross-Site Scripting:
+                  type: integer
+                Potential Cross-Site Scripting:
+                  type: integer
+                Security Misconfiguration:
+                  type: integer
+                Template Injection:
+                  type: integer
+            a8-insecure-deserialization:
+              type: object
+              description: Category A8 of 2017 OWASP Top 10
+              properties:
+                Deserialization:
+                  type: integer
+            a9-using components with known vulnerabilities:
+              type: object
+              description: Category A9 of 2017 OWASP Top 10
+              properties:
+                Denial of Service:
+                  type: integer
+                Deprecated Function Use:
+                  type: integer
+                Security Best Practices:
+                  type: integer
+                Weak Random:
+                  type: integer
+        '2021':
+          type: object
+          description: A category list for OWASP 2021
+          properties:
+            uncategorized:
+              type: object
+              description: Uncategorized findings
+              properties:
+                Authentication Bypass:
+                  type: integer
+                Cross-Site Request Forgery:
+                  type: integer
+                Deprecated Function Use:
+                  type: integer
+                Fingerprinting:
+                  type: integer
+                Insecure Direct Object Reference:
+                  type: integer
+                Invalid Certificate Validation:
+                  type: integer
+                Open Redirect:
+                  type: integer
+                Phishing:
+                  type: integer
+                Potential Cross-Site Scripting:
+                  type: integer
+                Potential NoSQL Injection:
+                  type: integer
+                Potential Regex Injection:
+                  type: integer
+                Potential Remote Code Execution:
+                  type: integer
+                Potential Server-Side Request Forgery:
+                  type: integer
+                Potential XML External Entities:
+                  type: integer
+                Remote Code Execution:
+                  type: integer
+                Security Misconfiguration:
+                  type: integer
+                Server-Side Request Forgery:
+                  type: integer
+                Weak Cipher:
+                  type: integer
+                Weak Hash:
+                  type: integer
+                Weak Random:
+                  type: integer
+                Weak Secret Storage:
+                  type: integer
+            a01-broken-access-control:
+              type: object
+              description: Category A1 of 2021 OWASP Top 10
+              properties:
+                Authentication Bypass:
+                  type: integer
+                CRLF Injection:
+                  type: integer
+                Directory Listing:
+                  type: integer
+                Directory Traversal:
+                  type: integer
+                HTTP to Model:
+                  type: integer
+                Insecure Content Provider:
+                  type: integer
+                Insecure Data Storage:
+                  type: integer
+                Insecure File Provider Paths:
+                  type: integer
+                Loose File Permissions:
+                  type: integer
+                Race Condition:
+                  type: integer
+                Security Misconfiguration:
+                  type: integer
+                Session Injection:
+                  type: integer
+            a02-cryptographic-failures:
+              type: object
+              description: Category A2 of 2021 OWASP Top 10
+              properties:
+                Denial of Service:
+                  type: integer
+                Deprecated Function Use:
+                  type: integer
+                Security Misconfiguration:
+                  type: integer
+                Weak Random:
+                  type: integer
+            a03-injection:
+              type: object
+              description: Category A3 of 2021 OWASP Top 10
+              properties:
+                Command Injection:
+                  type: integer
+                Cross-Site Scripting:
+                  type: integer
+                Deprecated Function Use:
+                  type: integer
+                Deserialization:
+                  type: integer
+                HTTP to Database:
+                  type: integer
+                Header Injection:
+                  type: integer
+                Improper Input Validation:
+                  type: integer
+                JSON Injection:
+                  type: integer
+                LDAP Injection:
+                  type: integer
+                Log Forging:
+                  type: integer
+                Mail Injection:
+                  type: integer
+                NoSQL Injection:
+                  type: integer
+                Open Redirect:
+                  type: integer
+                Potential Cross-Site Scripting:
+                  type: integer
+                Potential SQL Injection:
+                  type: integer
+                Prototype Pollution:
+                  type: integer
+                Regex Injection:
+                  type: integer
+                Remote Code Execution:
+                  type: integer
+                SQL Injection:
+                  type: integer
+                Security Best Practices:
+                  type: integer
+                Security Misconfiguration:
+                  type: integer
+                Sensitive Data Leak:
+                  type: integer
+                Server-Side Request Forgery:
+                  type: integer
+                Template Injection:
+                  type: integer
+                Unsafe Lambda Call:
+                  type: integer
+                Unsafe Reflection:
+                  type: integer
+                XML External Entities:
+                  type: integer
+                XPath Injection:
+                  type: integer
+            a04-insecure-design:
+              type: object
+              description: Category A4 of 2021 OWASP Top 10
+              properties:
+                Denial of Service:
+                  type: integer
+                Security Best Practices:
+                  type: integer
+            a05-security-misconfiguration:
+              type: object
+              description: Category A5 of 2021 OWASP Top 10
+              properties:
+                Cross-Site Request Forgery:
+                  type: integer
+                Cross-Site Scripting:
+                  type: integer
+                Crypto:
+                  type: integer
+                Denial of Service:
+                  type: integer
+                Error Handling:
+                  type: integer
+                Hardcoded Credentials:
+                  type: integer
+                Intent Redirection:
+                  type: integer
+                Security Best Practices:
+                  type: integer
+                Security Misconfiguration:
+                  type: integer
+                Sensitive Data Exposure:
+                  type: integer
+                Sensitive Data Leak:
+                  type: integer
+                Sensitive Data Usage:
+                  type: integer
+                Weak Cipher:
+                  type: integer
+                Weak Hash:
+                  type: integer
+                Weak Secret Storage:
+                  type: integer
+                XML External Entities:
+                  type: integer
+            a06-vulnerable-and-outdated-components:
+              type: object
+              description: Category A6 of 2021 OWASP Top 10
+            a07-identification-and-authentication-failures:
+              type: object
+              description: Category A7 of 2021 OWASP Top 10
+              properties:
+                Hardcoded Credentials:
+                  type: integer
+                Insecure Authentication:
+                  type: integer
+                Security Misconfiguration:
+                  type: integer
+                Session Injection:
+                  type: integer
+                Timing Attack:
+                  type: integer
+            a08-software-and-data-integrity-failures:
+              type: object
+              description: Category A8 of 2021 OWASP Top 10
+              properties:
+                Deserialization:
+                  type: integer
+            a09-security-logging-and-monitoring-failures:
+              type: object
+              description: Category A9 of 2021 OWASP Top 10
+            a10-server-side-request-forgery-(ssrf):
+              type: object
+              description: Category A10 of 2021 OWASP Top 10
+        '2025':
+          type: object
+          description: A category list for OWASP 2025
+          additionalProperties:
+            type: object
+            description: Finding categories and their counts for this OWASP 2025 category
+            additionalProperties:
+              type: integer
+    SASTVulnCounts:
+      type: object
+      required:
+      - critical
+      - high
+      - medium
+      - low
+      properties:
+        critical:
+          type: integer
+          description: the number of critical severity vulnerabilities
+          example: 1
+        high:
+          type: integer
+          description: the number of high severity vulnerabilities
+          example: 2
+        medium:
+          type: integer
+          description: the number of medium severity vulnerabilities
+          example: 3
+        low:
+          type: integer
+          description: the number of low severity vulnerabilities
+          example: 5
+    CompoundScanResponse:
+      type: object
+      properties:
+        compound_id:
+          type: string
+          format: uuid
+          description: The compound ID of the polyglot scan, if available
+        polyglot_scan_id:
+          type: integer
+          minimum: 1
+          description: The polyglot scan ID, if available
+        scans:
+          type: array
+          description: The element scans that form the polyglot scan
+          items:
+            $ref: '#/components/schemas/ScanInfo'
+        findings_summaries:
+          type: array
+          items:
+            $ref: '#/components/schemas/FindingsSummary'
+        counts:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagCount'
+    AppScanCheckScanInfo:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: integer
+          minimum: 1
+    FindingsSummary:
+      type: object
+      required:
+      - total
+      properties:
+        finding_type:
+          type: string
+          description: The type of finding this summary is for
+          example: vuln
+        total:
+          type: integer
+          description: The total number of findings
+          example: 10
+        total_reachable:
+          type: integer
+          description: The total number of reachable findings
+        total_ignored:
+          type: integer
+          description: The total number of ignored findings
+          example: 1
+        total_fixed:
+          type: integer
+          description: The total number of fixed findings
+          example: 3
+        by_severity:
+          type: object
+          description: The summary of findings (by severity)
+          example:
+            info:
+              total: 6
+            critical:
+              total: 3
+              total_fixed: 3
+            moderate:
+              total: 1
+              total_ignored: 1
+        by_category:
+          type: object
+          description: The summary of findings (by category)
+          example:
+            Sensitive Data Leak:
+              total: 10
+              total_fixed: 3
+              total_ignored: 1
+        by_assignee:
+          type: object
+          description: The summary of findings (by assignee)
+          example:
+            test@qwiet.ai:
+              total: 10
+              total_fixed: 3
+              total_ignored: 1
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
+            type: string
+            description: A description of the validation error
+    AppScanCheckScan:
+      type: object
+      oneOf:
+      - type: object
+        properties:
+          branch:
+            type: string
+            description: "The branch to get the scan from. For the target scan, this is the last scan in the branch. For the source scan:\n\n  - If the target scan and the source scan's branches are\n    the same, then it is the previous scan in the branch\n\n  - If the target scan and the source scan's branches are\n    NOT the same, then it is the last scan in the branch\n"
+      - type: object
+        properties:
+          scan:
+            type: integer
+            format: int64
+            description: 'the id of the scan
+
+              '
+    TagWithNumber:
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+          description: The key for the tag key-value pair
+          example: cvss_score
+        value:
+          type: number
+          description: The value for the tag key-value pair
+          example: 5.2
+    StreamlinedScan:
+      type: object
+      required:
+      - polyglot_scan_id
+      - created_at
+      - agent
+      - branch
+      - languages
+      - vulns
+      - oss_vulns
+      - container_vulns
+      - secrets
+      properties:
+        polyglot_scan_id:
+          type: integer
+          description: A polyglot scan's ID
+          example: 1
+        created_at:
+          type: string
+          format: date-time
+          description: The timestamp of the scan
+        agent:
+          type: string
+          description: The agent of the scan
+          example: harness
+        branch:
+          type: string
+          description: The branch of the scan
+          example: feature/more-potatoes
+        languages:
+          type: array
+          items:
+            type: string
+            description: The language of the scan
+            example: javascript
+        platforms:
+          type: array
+          items:
+            type: string
+            description: The platform code of the scan
+            example: JAVASCRIPT
+        vulns:
+          $ref: '#/components/schemas/SASTVulnCounts'
+        oss_vulns:
+          $ref: '#/components/schemas/SCAVulnCounts'
+        container_vulns:
+          $ref: '#/components/schemas/SCAVulnCounts'
+        secrets:
+          type: integer
+          description: the number of secrets
+          example: 42
+        oss_risks:
+          type: integer
+          description: the number of OSS dependency risks
+          example: 3
+        failures:
+          type: array
+          items:
+            type: string
+            description: a problem found in this polyglot scan
+            example: Failed to create CPG File
+    OSSScan:
+      type: object
+      required:
+      - enabled
+      properties:
+        enabled:
+          type: boolean
+          description: A flag indicating whether OSS Scan was enabled and allowed
+        successful:
+          type: boolean
+          description: A flag indicating whether OSS Scan was successfully performed on the project
+        failure_reason:
+          type: string
+          description: A status message with the reason for the OSS scan failure (if the scan was unsuccessful)
+    ScanDiffFinding:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier for this finding
+          example: '1'
+        app:
+          type: string
+          description: The app this finding belongs to
+          example: hello-qwiet
+        type:
+          type: string
+          description: The type of finding
+          example: vuln
+        title:
+          type: string
+          description: Title of the finding
+          example: 'Sensitive Data Leak: Sensitive data contained in HTTP request/response'
+        description:
+          type: string
+          description: Description of the finding
+          example: Sensitive data included in HTTP request/response. This could result in sensitive data exposure
+        severity:
+          $ref: '#/components/schemas/Severity'
+        owasp_category:
+          type: string
+          description: The finding's OWASP category
+          example: a3-sensitive-data-exposure
+        category:
+          type: string
+          description: The finding category
+          example: Sensitive Data Leak
+        version_first_seen:
+          type: string
+          description: The app version when this finding was first identified
+        details:
+          type: object
+          description: Specific details about the finding
+        internal_id:
+          type: string
+          description: The internal violation ID for this finding. Do not use
+          example: sensitive-to-http/f5ecc6f0cae821f47a06c939d1b9c7ee
+        regression:
+          type: boolean
+          description: Indicates if this finding is considered a regression in the context of a scan
+    ScanDiff:
+      type: object
+      properties:
+        source:
+          $ref: '#/components/schemas/ScanInfo'
+        target:
+          $ref: '#/components/schemas/ScanInfo'
+        new:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScanDiffFinding'
+        fixed:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScanDiffFinding'
+        common:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScanDiffFinding'
+    ScanInfo:
+      type: object
+      required:
+      - id
+      - app
+      - version
+      - successful
+      properties:
+        id:
+          type: string
+          description: The unique identifier for the scan
+          example: '1234'
+        app:
+          type: string
+          description: The app represented by the scan
+          example: hello-qwiet
+        version:
+          type: string
+          description: The app version represented by the scan
+          example: f348b507198fee7b6b57a460ef8a6c94783c59258f823dfcde41a2b5cb69765f
+        successful:
+          type: boolean
+          description: Whether the scan was successful or not
+        started_at:
+          type: string
+          format: date-time
+          description: When the scan was started
+        completed_at:
+          type: string
+          format: date-time
+          description: When the scan was completed
+        language:
+          type: string
+          description: The language of the analyzed application
+          example: javascript
+        number_of_expressions:
+          type: integer
+          description: The number of expressions found in the application
+          example: 10
+        tags:
+          type: object
+          description: The tags associated with this scan
+    TagCount:
+      allOf:
+      - $ref: '#/components/schemas/Tag'
+      - type: object
+        properties:
+          finding_type:
+            type: string
+            description: The type of finding
+            example: vuln
+          count:
+            type: integer
+            example: 42
+    AppScanCheckFindingsSummary:
+      type: object
+      required:
+      - matched
+      - over_threshold
+      properties:
+        by_tag:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              type: integer
+              minimum: 0
+        reachable:
+          type: integer
+          minimum: 0
+        matched:
+          type: integer
+          minimum: 0
+        over_threshold:
+          type: integer
+          minimum: 0
+        findings:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                minimum: 0
+              title:
+                type: string
+              tags:
+                type: object
+                additionalProperties:
+                  type: array
+                  items:
+                    type: string
+    SuccessResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful or not
+    SCAVulnCounts:
+      allOf:
+      - $ref: '#/components/schemas/SASTVulnCounts'
+      - type: object
+        required:
+        - unreachable
+        properties:
+          unreachable:
+            type: integer
+            description: the number of unreachable vulnerabilities
+            example: 7
+    AppScanCheckResponse:
+      type: object
+      required:
+      - target
+      - rules
+      properties:
+        source:
+          $ref: '#/components/schemas/AppScanCheckScanInfo'
+        target:
+          $ref: '#/components/schemas/AppScanCheckScanInfo'
+        rules:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AppScanCheckFindingsSummary'
+        totals:
+          $ref: '#/components/schemas/AppScanCheckFindingsSummary'
+  parameters:
+    scanID:
+      name: scanID
+      in: path
+      description: ID of the scan
+      required: true
+      schema:
+        type: string
+    orgID:
+      name: orgID
+      in: path
+      description: The org ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    tags:
+      name: tags
+      in: query
+      description: The scan tags to filter by (e.g., `branch=main`)
+      schema:
+        items:
+          type: string
+    compoundName:
+      name: compoundName
+      in: path
+      description: A compound's name
+      required: true
+      schema:
+        type: string
+    comparableVersionIdentifierSource:
+      name: source
+      in: query
+      required: true
+      description: The source scan for a comparison
+      schema:
+        type: string
+        pattern: ^scan\.\d+|tag\.\w=\w$
+        example: scan.128|tag.branch=samplebranch
+    comparableVersionIdentifierTarget:
+      name: target
+      in: query
+      required: true
+      description: The target scan for a comparison
+      schema:
+        type: string
+        pattern: ^scan\.\d+|tag\.\w=\w$
+        example: scan.128|tag.branch=samplebranch
+    appID:
+      name: appID
+      in: path
+      description: The app ID (e.g., `HelloQwiet`)
+      required: true
+      schema:
+        type: string
+  securitySchemes:
+    BearerToken:
+      description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\
+
+        `Authorization: Bearer {access token}`
+
+        '
+      type: http
+      scheme: bearer

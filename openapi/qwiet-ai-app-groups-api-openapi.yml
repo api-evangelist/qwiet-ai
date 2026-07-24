@@ -1,0 +1,294 @@
+openapi: 3.0.0
+info:
+  x-logo:
+    url: https://docs.shiftleft.io/img/sl-logo.svg
+  version: 4.0.0
+  title: alerting app_groups API
+  description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
+
+
+    # Authentication
+
+
+    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
+
+    '
+servers:
+- url: https://app.shiftleft.io/api/v4
+tags:
+- name: app_groups
+  x-displayName: App groups
+  description: 'The user-created groups of applications.
+
+
+    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-3251cbed-4ae3-4b06-8cad-c8748e49c7ec?action=collection%2Ffork&collection-url=entityId%3D9829310-3251cbed-4ae3-4b06-8cad-c8748e49c7ec%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
+
+    '
+paths:
+  /orgs/{orgID}/app_groups:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    get:
+      tags:
+      - app_groups
+      summary: Read organization app groups
+      operationId: ReadOrgGroups
+      description: 'Return a list of all the organization groups.
+
+        '
+      security:
+      - BearerToken:
+        - orgs:read
+      parameters:
+      - $ref: '#/components/parameters/orgID'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      type: array
+                      items:
+                        type: string
+              example:
+                ok: true
+                response:
+                - group_1
+                - group_2
+                - group_3
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/app_groups/{appGroupName}:
+    parameters:
+    - $ref: '#/components/parameters/orgID'
+    - $ref: '#/components/parameters/appGroupName'
+    get:
+      tags:
+      - app_groups
+      summary: Read app group
+      operationId: ReadAppGroup
+      description: 'Return information about an app group.
+
+        '
+      security:
+      - BearerToken:
+        - orgs:read
+      parameters:
+      - $ref: '#/components/parameters/orgID'
+      - $ref: '#/components/parameters/appGroupName'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/ReadGroupResponse'
+              example:
+                ok: true
+                response:
+                - app_ids:
+                  - a_project_n_0
+                  - a_project_n_4
+                  - a_project_n_5
+                  name: newName
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      tags:
+      - app_groups
+      summary: Create or update app group
+      operationId: UpsertAppGroup
+      description: 'Create or update an application group.
+
+        '
+      security:
+      - BearerToken:
+        - app_group:update
+      parameters:
+      - $ref: '#/components/parameters/orgID'
+      - $ref: '#/components/parameters/appGroupName'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertAppGroupRequest'
+            example:
+              rename: newGroupName
+              add_app_ids:
+              - one_application_id
+              - another_application_id
+              remove_app_ids:
+              - a_different_application_id
+              - yet_another_application_id
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  required:
+                  - response
+                  properties:
+                    response:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/ReadGroupResponse'
+              example:
+                ok: true
+                response:
+                - app_ids:
+                  - a_project_n_0
+                  - a_project_n_4
+                  - a_project_n_5
+                  name: newName
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+      - app_groups
+      summary: Delete app group
+      operationId: DeleteAppGroup
+      description: 'Deletes an application group.
+
+        '
+      security:
+      - BearerToken:
+        - app_group:delete
+      parameters:
+      - $ref: '#/components/parameters/orgID'
+      - $ref: '#/components/parameters/appGroupName'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+              example:
+                ok: true
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    ReadGroupResponse:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The current name of the group
+        app_ids:
+          type: array
+          items:
+            type: string
+            description: The application IDs for the group
+    SuccessResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful or not
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
+            type: string
+            description: A description of the validation error
+    UpsertAppGroupRequest:
+      type: object
+      properties:
+        rename:
+          type: string
+          description: A new name for the group (optional)
+        add_app_ids:
+          type: array
+          description: The application IDs to add to the group
+          items:
+            type: string
+            description: The application IDs to add to the group
+        remove_app_ids:
+          type: array
+          description: The application IDs to remove from the group
+          items:
+            type: string
+            description: The application IDs to remove from the group
+  parameters:
+    orgID:
+      name: orgID
+      in: path
+      description: The org ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    appGroupName:
+      name: appGroupName
+      in: path
+      description: The group name
+      required: true
+      schema:
+        type: string
+  securitySchemes:
+    BearerToken:
+      description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\
+
+        `Authorization: Bearer {access token}`
+
+        '
+      type: http
+      scheme: bearer

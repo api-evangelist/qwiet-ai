@@ -1,0 +1,147 @@
+openapi: 3.0.0
+info:
+  x-logo:
+    url: https://docs.shiftleft.io/img/sl-logo.svg
+  version: 4.0.0
+  title: alerting saved_searches API
+  description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
+
+
+    # Authentication
+
+
+    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
+
+    '
+servers:
+- url: https://app.shiftleft.io/api/v4
+tags:
+- name: saved_searches
+  x-displayName: Saved Searches
+  description: 'The saved searches endpoints allow users to save specific search queries for organization and app findings
+
+    '
+paths:
+  /orgs/{orgID}/saved_searches:
+    get:
+      tags:
+      - saved_searches
+      summary: Get all saved searches for an user
+      operationId: ListSavedSearches
+      parameters:
+      - name: orgID
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A list of saved searches
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    search_name:
+                      type: string
+                    path_name:
+                      type: string
+                    search_query:
+                      type: string
+                    updated_at:
+                      type: string
+                      description: the date-time of the last update of the saved search, in UTC.
+                      format: date-time
+    post:
+      tags:
+      - saved_searches
+      summary: Create a new saved search for a user
+      operationId: CreateSavedSearch
+      parameters:
+      - name: orgID
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                search_name:
+                  type: string
+                path_name:
+                  type: string
+                search_query:
+                  type: string
+      responses:
+        '201':
+          description: Saved search created
+  /orgs/{orgID}/saved_searches/{searchID}:
+    put:
+      tags:
+      - saved_searches
+      summary: Update a saved search for a user
+      operationId: UpdateSavedSearch
+      parameters:
+      - name: orgID
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: searchID
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                search_name:
+                  type: string
+                path_name:
+                  type: string
+                search_query:
+                  type: string
+      responses:
+        '200':
+          description: Saved search updated
+    delete:
+      tags:
+      - saved_searches
+      summary: Delete a saved search for a user
+      operationId: DeleteSavedSearch
+      parameters:
+      - name: orgID
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: searchID
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Saved search deleted
+components:
+  securitySchemes:
+    BearerToken:
+      description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\
+
+        `Authorization: Bearer {access token}`
+
+        '
+      type: http
+      scheme: bearer

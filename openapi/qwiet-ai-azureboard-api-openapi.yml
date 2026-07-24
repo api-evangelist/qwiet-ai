@@ -1,0 +1,448 @@
+openapi: 3.0.0
+info:
+  x-logo:
+    url: https://docs.shiftleft.io/img/sl-logo.svg
+  version: 4.0.0
+  title: alerting azureboard API
+  description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
+
+
+    # Authentication
+
+
+    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
+
+    '
+servers:
+- url: https://app.shiftleft.io/api/v4
+tags:
+- name: azureboard
+  x-displayName: Azure Boards
+  description: 'The endpoints to manage the Azure Boards integration.
+
+    '
+paths:
+  /azureboard/authorization/orgs/{orgID}/status:
+    x-internal: false
+    get:
+      tags:
+      - azureboard
+      summary: Get azureboard authorization status
+      operationId: GetAzureAuthorizationStatus
+      description: Get azureboard authorization status for organization
+      parameters:
+      - $ref: '#/components/parameters/orgID'
+      security:
+      - BearerToken:
+        - azureboard_association:read
+      responses:
+        '200':
+          description: Success (Authorized)
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /azureboard/authorization/orgs/{orgID}:
+    x-internal: false
+    get:
+      tags:
+      - azureboard
+      summary: azureboard authorization at the org level
+      operationId: AzureAuthorization
+      description: azureboard authorization at the org level
+      parameters:
+      - $ref: '#/components/parameters/orgID'
+      security:
+      - BearerToken:
+        - azureboard_auth:write
+      responses:
+        '302':
+          description: Redirect
+          headers:
+            Location:
+              schema:
+                description: The location to which the browser should redirect
+                type: string
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /azureboard/callback:
+    x-internal: false
+    get:
+      tags:
+      - azureboard
+      summary: AzureCallback is authorized redirect_url in oAuth2 app
+      operationId: AzureCallback
+      description: AzureCallback is authorized redirect_url in oAuth2 app
+      responses:
+        '302':
+          description: redirect
+          headers:
+            location:
+              schema:
+                description: The location to which the browser should redirect
+                type: string
+                example: https://app.shiftleft.io/organization/settings?success=true
+        default:
+          description: Error redirect
+          headers:
+            location:
+              schema:
+                description: The error location to which the browser should redirect
+                type: string
+                example: https://app.shiftleft.io/organization/settings?error=internal_error
+  /orgs/{orgID}/apps/{appID}/integrations/azureboard/association:
+    x-internal: false
+    get:
+      tags:
+      - azureboard
+      summary: Get AzureBoard Association
+      operationId: GetAzureboardAssociation
+      description: Get AzureBoard Association
+      parameters:
+      - $ref: '#/components/parameters/orgID'
+      - $ref: '#/components/parameters/appID'
+      security:
+      - BearerToken:
+        - project:read
+        - azureboard_association:read
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AzureAssociationSuccessResponse'
+        '404':
+          description: No azure project is associated with the application
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      tags:
+      - azureboard
+      summary: Update AzureBoard Association
+      operationId: PutAzureboardAssociation
+      description: Update AzureBoard Association
+      parameters:
+      - $ref: '#/components/parameters/orgID'
+      - $ref: '#/components/parameters/appID'
+      security:
+      - BearerToken:
+        - project:update
+        - azureboard_association:write
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AzureBoardAssociationRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AzureOrgProjectAssociationResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: UnAuthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+      - azureboard
+      summary: Get AzureBoard Association
+      operationId: DeleteAzureboardAssociation
+      description: Get AzureBoard Association
+      parameters:
+      - $ref: '#/components/parameters/orgID'
+      - $ref: '#/components/parameters/appID'
+      security:
+      - BearerToken:
+        - project:update
+        - azureboard_association:write
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AzureGenericOKResponse'
+        '404':
+          description: No azure project is associated with the application
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/integrations/azureboard/organizations:
+    x-internal: false
+    get:
+      tags:
+      - azureboard
+      summary: Get Azure organizations
+      operationId: GetAzureOrgList
+      description: Get Azure organizations
+      parameters:
+      - $ref: '#/components/parameters/orgID'
+      security:
+      - BearerToken:
+        - azureboard_association:read
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AzureOrgSuccessResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/apps/{appID}/integrations/azureboard/findings/{findingID}:
+    get:
+      tags:
+      - azureboard
+      summary: Get azureboard association by finding id
+      operationId: GetAssociationAzureBoardByFindingID
+      description: Get azureboard association by finding id
+      parameters:
+      - $ref: '#/components/parameters/orgID'
+      - $ref: '#/components/parameters/appID'
+      - $ref: '#/components/parameters/findingID'
+      security:
+      - BearerToken:
+        - findings:read
+        - azureboard_workitem:read
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AzureFindingResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orgs/{orgID}/apps/{appID}/integrations/azureboard/findings:
+    x-internal: false
+    put:
+      tags:
+      - azureboard
+      summary: Puts azureboard association by finding ids
+      operationId: SubmitFindingToAzureBoardPut
+      description: Puts azureboard association by finding ids
+      parameters:
+      - $ref: '#/components/parameters/orgID'
+      - $ref: '#/components/parameters/appID'
+      security:
+      - BearerToken:
+        - findings:update
+        - azureboard_workitem:write
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubmitFindingsToAzureBoardRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AzureGenericOKResponse'
+components:
+  schemas:
+    SubmitFindingsToAzureBoardRequest:
+      type: object
+      required:
+      - scan_id
+      - finding_ids
+      properties:
+        scan_id:
+          type: integer
+          format: int64
+          description: The unique ID of the scan. Must be greater than 0.
+        finding_ids:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: A list of finding IDs. Each ID must be greater than 0.
+        extra_parameters:
+          type: object
+          additionalProperties:
+            type: string
+          description: A map of extra parameters for the request. The keys and values are strings.
+    AzureOrgProjectAssociationResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+        response:
+          $ref: '#/components/schemas/AzureAssociationSuccessResponse'
+    AzureAssociationSuccessResponse:
+      type: object
+      properties:
+        azure_org_name:
+          type: string
+          description: The name of the Azure organization
+        azure_project_name:
+          type: string
+          description: The name of the Azure project
+        finding_work_item_type:
+          type: string
+          description: Work item type that will be used to create work items
+    AzureFindingResponse:
+      type: object
+      properties:
+        azure_org_name:
+          type: string
+          description: name of Azure organization
+        azure_project_name:
+          type: string
+          description: name of Azure project
+        azure_workitem_id:
+          type: integer
+          description: work item id associated with the finding
+        azure_workitem_url:
+          type: string
+          description: Azure board work item url
+    AzureOrgSuccessResponse:
+      type: object
+      properties:
+        ok:
+          type: boolean
+          description: ok/error message
+        response:
+          type: object
+          properties:
+            accounts:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: The name of the Azure account
+    AzureBoardAssociationRequest:
+      type: object
+      required:
+      - azure_org_name
+      - azure_project_name
+      properties:
+        azure_org_name:
+          type: string
+          description: The name of the Azure DevOps organization.
+        azure_project_name:
+          type: string
+          description: The name of the Azure DevOps project.
+        finding_work_item_type:
+          type: string
+          description: Work item type that will be used to create work items
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
+            type: string
+            description: A description of the validation error
+    AzureGenericOKResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+  parameters:
+    findingID:
+      name: findingID
+      in: path
+      description: The finding ID
+      required: true
+      schema:
+        type: string
+    orgID:
+      name: orgID
+      in: path
+      description: The org ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    appID:
+      name: appID
+      in: path
+      description: The app ID (e.g., `HelloQwiet`)
+      required: true
+      schema:
+        type: string
+  securitySchemes:
+    BearerToken:
+      description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\
+
+        `Authorization: Bearer {access token}`
+
+        '
+      type: http
+      scheme: bearer
