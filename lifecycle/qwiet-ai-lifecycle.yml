@@ -1,0 +1,20 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/qwiet-ai-openapi-original.yml
+versioning:
+  scheme: uri-path
+  current: v4
+  note: Base path /api/v4; the OpenAPI info.version is 4.0.0.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: No published deprecation policy or RFC 8594 Sunset/Deprecation header support found.
+sla:
+  url: null
+status_page: null
+deprecated_operations:
+  - openapi/qwiet-ai-openapi-original.yml#ListCompoundFindingsDEPRECATED
+notes: >
+  Qwiet AI (by Harness, formerly ShiftLeft). No standalone status page or SLA page was
+  discoverable; the dashboard and docs are SPAs. One operation is marked deprecated in the
+  spec (superseded by ListCompoundFindings).

@@ -1,0 +1,41 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/qwiet-ai-openapi-original.yml
+api: Qwiet AI API v4
+base_url: https://app.shiftleft.io/api/v4
+authentication:
+  style: bearer-token
+  scheme: http bearer
+  header: 'Authorization: Bearer {access token}'
+  token_source: Qwiet Dashboard (Account Settings / Integration Tokens) or the /tokens endpoints
+  detail: authentication/qwiet-ai-authentication.yml
+resource_scoping:
+  note: Most resources are scoped under an organization path, /orgs/{orgID}/...
+  primary_segments: [orgs, apps, compounds, scans, findings, teams, tokens]
+pagination:
+  style: page-number
+  params:
+    - name: page
+      in: query
+      description: 1-based page number.
+    - name: per_page
+      in: query
+      description: Page size.
+    - name: limit
+      in: query
+      description: Alternate result cap on some list endpoints.
+idempotency:
+  supported: false
+  note: The OpenAPI declares no Idempotency-Key header/parameter; PUT operations are the primary
+    upsert mechanism (e.g. UpsertCheckAnalysisConfiguration, SetUpWebhook are idempotent by design).
+versioning:
+  scheme: uri-path
+  current: v4
+  location: base path /api/v4
+  detail: lifecycle/qwiet-ai-lifecycle.yml
+error_envelope:
+  note: 4xx responses return JSON error objects; not RFC 9457 problem+json.
+  detail: errors/qwiet-ai-problem-types.yml
+events:
+  note: Outbound webhooks configured per org via the alerting endpoints; see asyncapi/.
+  detail: asyncapi/qwiet-ai-alerting-webhooks.yml

@@ -1,0 +1,35 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/qwiet-ai-openapi-original.yml
+spec_type: Webhooks
+type: Webhooks
+description: >
+  Qwiet AI API v4 supports outbound alerting webhooks configured per organization. A webhook
+  registers a delivery URL, an authentication token, and a set of subscribed events; Qwiet
+  POSTs alerting events (e.g. new/updated scan findings) to that URL.
+management_operations:
+  - id: SetUpWebhook
+    method: PUT
+    path: /orgs/{orgID}/alerting/webhook
+    summary: Set up a webhook (url + auth token + events).
+  - id: GetWebhook
+    method: GET
+    path: /orgs/{orgID}/alerting/webhook
+    summary: Get the configured webhook.
+  - id: DeleteWebhook
+    method: DELETE
+    path: /orgs/{orgID}/alerting/webhook
+    summary: Delete the configured webhook.
+  - id: GetAlertingEvents
+    method: GET
+    path: /alerting/events
+    summary: List the alerting event types available to subscribe a webhook to.
+configuration:
+  fields: [url, tokenID, events]
+  auth:
+    fields: [token, renewalMetadata, responseHandling]
+    note: Webhook deliveries are authenticated with a bearer token that supports renewal metadata.
+notes: >
+  Also supports Slack alerting (tag "slack"). No published AsyncAPI document — this is the
+  webhook surface derived from the REST alerting endpoints. Event type enum is returned at
+  runtime by GetAlertingEvents and is not enumerated statically in the spec.

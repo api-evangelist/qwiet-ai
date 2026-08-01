@@ -1,0 +1,88 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/qwiet-ai-openapi-original.yml
+note: >
+  Entity graph derived from the Qwiet AI API v4 path hierarchy (/orgs/{orgID}/apps/{appID}/...)
+  and components.schemas. Relationships reflect the URL nesting and id-reference fields.
+entities:
+  - name: Org
+    description: Top-level tenant/organization; every resource is scoped under an org.
+    id: orgID
+  - name: App
+    description: An application being scanned. Belongs to an org; may be grouped and labeled.
+    id: appID
+  - name: Compound
+    description: A multi-language ("polyglot") application composed of per-language apps.
+  - name: Scan
+    description: A single analysis run of an app/branch producing findings.
+    id: scan_id
+  - name: Finding
+    description: A vulnerability/finding produced by a scan (SAST/SCA/secrets/etc.).
+    id: findingID
+  - name: Team
+    description: An RBAC team grouping users and apps within an org.
+  - name: User
+    description: A member of an org with roles.
+  - name: RBACRole
+    description: A role (built-in or custom) granting scopes over resources.
+  - name: Webhook
+    description: An outbound alerting webhook configured per org.
+  - name: Token
+    description: An API access/integration token.
+  - name: Comment
+    description: A comment attached to an app finding.
+  - name: SavedSearch
+    description: A saved finding search/filter.
+relationships:
+  - from: App
+    to: Org
+    type: belongs_to
+    via: orgID
+  - from: Scan
+    to: App
+    type: belongs_to
+    via: appID
+  - from: Finding
+    to: Scan
+    type: belongs_to
+    via: scan
+  - from: Finding
+    to: App
+    type: belongs_to
+    via: appID
+  - from: App
+    to: Finding
+    type: has_many
+    via: appID
+  - from: App
+    to: Scan
+    type: has_many
+    via: appID
+  - from: Compound
+    to: App
+    type: has_many
+    via: compoundName
+  - from: Compound
+    to: Scan
+    type: has_many
+    via: compoundName
+  - from: Comment
+    to: Finding
+    type: belongs_to
+    via: findingID
+  - from: Team
+    to: Org
+    type: belongs_to
+    via: orgID
+  - from: User
+    to: Org
+    type: belongs_to
+    via: orgID
+  - from: RBACRole
+    to: Org
+    type: belongs_to
+    via: orgID
+  - from: Webhook
+    to: Org
+    type: belongs_to
+    via: orgID

@@ -1,0 +1,15 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/qwiet-ai-openapi-original.yml
+summary:
+  types:
+  - http
+schemes:
+- name: BearerToken
+  type: http
+  scheme: bearer
+  description: |-
+    Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\
+    `Authorization: Bearer {access token}`
+  sources:
+  - openapi/qwiet-ai-openapi-original.yml

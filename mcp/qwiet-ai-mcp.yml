@@ -1,0 +1,60 @@
+generated: '2026-07-20'
+method: searched
+status: published
+source: https://github.com/ShiftLeftSecurity/skills
+server:
+  name: harness-code-security-mcp
+  aliases: [slmcp]
+  transport: stdio
+  package: harness-code-security-mcp
+  registry: npm
+  version: 0.1.0
+  install: npm install -g harness-code-security-mcp
+  run: npx -y harness-code-security-mcp
+  claude_code_add: claude mcp add harness-code-security-mcp -- npx -y harness-code-security-mcp
+  requires: >
+    Node.js 20+ and `sl auth` -> ~/.shiftleft/config.json with orgId and accessToken
+    (a Qwiet AI access token). Wraps the Qwiet API (app.shiftleft.io/api/v4) and the Qwiet CLI.
+docs: https://developer.harness.io/docs/sast-and-sca/
+tools:
+  - name: sl_whoami
+    description: Verify Qwiet auth / identity of the configured access token.
+  - name: sl_ensure_cli
+    description: Install or update the Qwiet CLI (sl) under ~/.shiftleft.
+  - name: sl_analyze
+    description: Run `sl analyze --wait` in the workspace; returns JSON with scan_id.
+    source_operation: local CLI scan (uploads findings to Qwiet API)
+  - name: sl_list_applications
+    description: List applications in the org.
+    source_operation: openapi/qwiet-ai-openapi-original.yml#ListApps
+  - name: sl_list_branch_scans
+    description: List scans for an application branch; latest.id is the scan id.
+    source_operation: openapi/qwiet-ai-openapi-original.yml#ListScans
+  - name: sl_list_findings
+    description: List findings for a scan (counts, top_actionable).
+    source_operation: openapi/qwiet-ai-openapi-original.yml#ListAppFindings
+  - name: sl_get_findings
+    description: Fetch several findings by id (max 10).
+    source_operation: openapi/qwiet-ai-openapi-original.yml#ListAppFindings
+  - name: sl_get_finding
+    description: Fetch a single finding by id.
+  - name: sl_get_finding_dataflow
+    description: Fetch the source -> steps -> sink data flow for one finding.
+  - name: sl_get_finding_dataflows
+    description: Fetch data flows for several findings (max 5).
+  - name: sl_lookup_package_cves
+    description: Intelligent SCA — look up CVEs for a list of package PURLs.
+  - name: sl_request_finding_fix
+    description: Request a Qwiet AutoFix for a finding (async write).
+  - name: sl_get_recommended_fix
+    description: Fetch the recommended AutoFix for one finding.
+    source_operation: openapi/qwiet-ai-openapi-original.yml#ReadFindingFix
+  - name: sl_get_recommended_fixes
+    description: Poll recommended AutoFixes for up to 5 findings; returns edits[] when ready.
+  - name: sl_list_branch_autofixes
+    description: List branch-level AutoFixes for an application branch.
+notes: >
+  Published, first-party MCP server. Tool list captured verbatim from the provider's
+  ShiftLeftSecurity/skills repo (Harness Code Security Agent Skills). Tools are surfaced to
+  agents prefixed, e.g. mcp__harness-code-security-mcp__sl_whoami. Several tools proxy the
+  Qwiet REST API v4; sl_analyze runs the local CLI scan.

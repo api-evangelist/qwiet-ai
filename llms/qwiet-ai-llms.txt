@@ -1,0 +1,27 @@
+# Qwiet AI
+
+> Qwiet AI (by Harness, formerly ShiftLeft) is an application security testing platform — SAST, SCA, secrets, IaC, and container scanning with AI-assisted AutoFix. The Qwiet AI API v4 lets you programmatically manage applications, run and read scans, work with findings and data flows, request AutoFixes, and configure alerting.
+
+## API
+
+- [Qwiet AI API v4 (OpenAPI 3.0)](https://docs.shiftleft.io/redocusaurus/plugin-redoc-0.yaml): Base URL https://app.shiftleft.io/api/v4 — Bearer token auth. 145 operations across apps, scans, findings, autofix, compounds, RBAC, alerting, reports.
+- [API reference](https://docs.shiftleft.io/api/): Human-readable API docs.
+
+## Agent tooling
+
+- [harness-code-security-mcp (npm)](https://www.npmjs.com/package/harness-code-security-mcp): Published MCP server exposing sl_analyze, sl_list_findings, AutoFix, and SCA tools.
+- [Harness Code Security Agent Skills](https://github.com/ShiftLeftSecurity/skills): setup-mcp, run-security-scan, triage-vuln, autofix-vuln.
+
+## Docs
+
+- [Quickstart](https://docs.shiftleft.io/inspect/getting-started/quickstart)
+- [Install the CLI](https://docs.shiftleft.io/inspect/install)
+- [CLI reference](https://docs.shiftleft.io/cli/reference/global-options)
+- [Authenticating](https://docs.shiftleft.io/cli/authenticating)
+- [Developer docs (Harness)](https://developer.harness.io/docs/sast-and-sca/)
+
+## Company
+
+- [Website](https://qwiet.ai)
+- [Login / Dashboard](https://app.shiftleft.io/login)
+- [GitHub org](https://github.com/ShiftLeftSecurity)

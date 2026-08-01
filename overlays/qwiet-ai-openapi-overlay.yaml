@@ -1,0 +1,24 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Qwiet AI API v4
+  version: 1.0.0
+extends: openapi/qwiet-ai-openapi-original.yml
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-provider: qwiet-ai
+      x-apievangelist-product: Qwiet AI by Harness (formerly ShiftLeft) — SAST/SCA/secrets/IaC/container code security
+      x-apievangelist-artifacts:
+        authentication: authentication/qwiet-ai-authentication.yml
+        conventions: conventions/qwiet-ai-conventions.yml
+        errors: errors/qwiet-ai-problem-types.yml
+        lifecycle: lifecycle/qwiet-ai-lifecycle.yml
+        data_model: data-model/qwiet-ai-data-model.yml
+        mcp: mcp/qwiet-ai-mcp.yml
+        skills: skills/_index.yml
+        webhooks: asyncapi/qwiet-ai-alerting-webhooks.yml
+  - target: $.info
+    update:
+      x-apievangelist-agent-ready:
+        mcp_server: harness-code-security-mcp
+        agent_skills: [setup-harness-code-security-mcp, run-security-scan, triage-vuln, autofix-vuln]

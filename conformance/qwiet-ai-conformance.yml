@@ -1,0 +1,29 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/qwiet-ai-openapi-original.yml
+standards:
+  - id: openapi-3.0
+    conforms: true
+    evidence: openapi/qwiet-ai-openapi-original.yml is OpenAPI 3.0.0
+  - id: oauth2
+    conforms: false
+    evidence: securityScheme is http bearer (opaque access token), not oauth2
+  - id: oidc
+    conforms: false
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: 4xx responses are JSON error objects, not application/problem+json
+  - id: sarif
+    conforms: true
+    evidence: API exposes SARIF export (tag "sarif"); findings downloadable as SARIF
+  - id: pci-dss-reporting
+    conforms: true
+    evidence: operation ReadScanPCIDSSReport emits a PCI DSS report from scan results
+  - id: owasp
+    conforms: true
+    evidence: operation ReadAppScanFindingsOWASPGrouped groups findings by OWASP category
+notes: >
+  Standards conformance derived from the OpenAPI (tags, operationIds, response media types).
+  These are API/format conformance signals for a code-security scanner (SARIF output, OWASP/
+  PCI DSS finding reports) — not an organizational compliance certification. No published
+  SOC 2 / ISO 27001 trust page was discoverable, so no Compliance pointer is emitted.

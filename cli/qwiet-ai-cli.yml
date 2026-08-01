@@ -1,0 +1,38 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.shiftleft.io/inspect/install
+name: sl
+aliases: [Qwiet CLI, ShiftLeft CLI, ShiftLeft Inspect]
+description: >
+  The Qwiet CLI (`sl`) runs local static analysis (SAST/SCA/secrets/IaC/container),
+  authenticates to Qwiet AI, and uploads findings to the Qwiet platform
+  (app.shiftleft.io). It is the primary automation surface alongside the REST API v4.
+docs:
+  install: https://docs.shiftleft.io/inspect/install
+  quickstart: https://docs.shiftleft.io/inspect/getting-started/quickstart
+  authenticating: https://docs.shiftleft.io/cli/authenticating
+  reference: https://docs.shiftleft.io/cli/reference/global-options
+install:
+  - method: script
+    note: Download the sl binary into ~/.shiftleft (also installed/updated by the MCP sl_ensure_cli tool).
+config:
+  path: ~/.shiftleft/config.json
+  contains: [orgId, accessToken]
+  auth_command: sl auth
+commands:
+  - name: auth
+    description: Authenticate the CLI; writes orgId + accessToken to ~/.shiftleft/config.json.
+  - name: analyze
+    description: Run local code analysis for an app/branch and upload findings (sl analyze --wait).
+  - name: check-analysis
+    description: Evaluate build rules / policy against the latest scan (pass/fail gate for CI).
+reference_option_groups:
+  - global-options
+  - run-options
+  - analyze-options
+  - check-analysis-options
+  - config-file-options
+  - policy-options
+notes: >
+  CLI reference is published under docs.shiftleft.io/cli/reference/*. The CLI binary itself is
+  catalogued in packages/qwiet-ai-packages.yml; this file captures its command surface.

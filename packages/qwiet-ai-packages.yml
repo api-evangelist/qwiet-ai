@@ -1,0 +1,28 @@
+generated: '2026-07-20'
+method: searched
+source: https://www.npmjs.com/package/harness-code-security-mcp
+packages:
+  - language: javascript
+    registry: npm
+    name: harness-code-security-mcp
+    version: 0.1.0
+    url: https://www.npmjs.com/package/harness-code-security-mcp
+    install: npm install -g harness-code-security-mcp
+    description: Qwiet / Harness SAST & SCA MCP server (stdio) — launcher for the sl_* agent tools over the Qwiet API + Qwiet CLI.
+    official: true
+  - language: python
+    registry: pypi
+    name: cpgqls-client
+    version: 0.0.9
+    url: https://pypi.org/project/cpgqls-client/
+    install: pip install cpgqls-client
+    description: Client library for CPGQL (Code Property Graph Query Language) servers. Source at ShiftLeftSecurity/cpgqls-client-python (archived).
+    source: https://github.com/ShiftLeftSecurity/cpgqls-client-python
+    official: true
+    archived: true
+notes: >
+  Qwiet AI (by Harness, formerly ShiftLeft) ships its primary CLI, `sl` (the Qwiet CLI /
+  ShiftLeft Inspect binary), as a downloaded binary under ~/.shiftleft rather than via a
+  language package registry — it is catalogued in cli/qwiet-ai-cli.yml. The REST API at
+  app.shiftleft.io/api/v4 has no first-party language SDK on a public registry; automation is
+  driven through the CLI and the harness-code-security-mcp MCP server above.

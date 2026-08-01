@@ -1,0 +1,33 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/qwiet-ai-openapi-original.yml
+format: json
+note: >
+  Derived from the status codes declared across Qwiet AI API v4 operations. Responses are
+  JSON error objects (not RFC 9457 application/problem+json). Titles are generic HTTP
+  semantics; the docs error reference is a Docusaurus SPA and did not yield per-code text.
+problems:
+  - status: 400
+    title: Bad Request
+    description: The request was malformed or failed validation.
+  - status: 401
+    title: Unauthorized
+    description: Missing or invalid Bearer access token.
+  - status: 403
+    title: Forbidden
+    description: The authenticated token lacks permission (RBAC scope) for the resource.
+  - status: 404
+    title: Not Found
+    description: The org, app, scan, finding, or other resource does not exist.
+  - status: 409
+    title: Conflict
+    description: The request conflicts with current state (e.g. duplicate create).
+  - status: default
+    title: Error
+    description: Unexpected error response.
+observed_counts:
+  '400': 7
+  '404': 7
+  '409': 2
+  '403': 2
+  '401': 1
