@@ -1,0 +1,16 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Qwiet API
+  version: 1.0.0
+extends: openapi/qwiet-api-original.yml
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-provider: qwiet
+      x-apievangelist-category: application-security
+      x-apievangelist-auth: http-bearer
+      x-apievangelist-error-envelope: '{ok,code,message,validation_errors}'
+      x-apievangelist-pagination: page/per_page/limit
+      x-apievangelist-webhooks: asyncapi/qwiet-alerting-webhooks.yml
+      x-apievangelist-mcp: harness-code-security-mcp
+      x-apievangelist-status-page: https://status.shiftleft.io

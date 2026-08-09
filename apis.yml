@@ -1,14 +1,12 @@
 aid: qwiet-ai
 name: Qwiet Ai
-description: >-
-  Qwiet AI (by Harness, formerly ShiftLeft) is an application security testing platform that
-  unifies SAST, SCA, secrets, IaC, and container scanning with AI-assisted AutoFix remediation.
-  The Qwiet AI API v4 (https://app.shiftleft.io/api/v4) lets teams programmatically manage
-  applications, run and read code scans, work with findings and source-to-sink data flows,
-  request and apply AutoFix recommendations, look up package CVEs (Intelligent SCA), manage
-  RBAC/teams/tokens, and configure alerting webhooks and Slack notifications. Qwiet also ships
-  a first-party CLI (`sl`), a published MCP server (harness-code-security-mcp), and packaged
-  agent skills, making its code-security workflows agent-ready. Surfaced as a portfolio company
+description: Qwiet AI (by Harness, formerly ShiftLeft) is an application security testing platform that
+  unifies SAST, SCA, secrets, IaC, and container scanning with AI-assisted AutoFix remediation. The Qwiet
+  AI API v4 (https://app.shiftleft.io/api/v4) lets teams programmatically manage applications, run and
+  read code scans, work with findings and source-to-sink data flows, request and apply AutoFix recommendations,
+  look up package CVEs (Intelligent SCA), manage RBAC/teams/tokens, and configure alerting webhooks and
+  Slack notifications. Qwiet also ships a first-party CLI (`sl`), a published MCP server (harness-code-security-mcp),
+  and packaged agent skills, making its code-security workflows agent-ready. Surfaced as a portfolio company
   of Mayfield and enriched from the provider's public developer surface.
 url: https://raw.githubusercontent.com/api-evangelist/qwiet-ai/refs/heads/main/apis.yml
 x-type: company
@@ -31,7 +29,7 @@ accessModel:
   method: derived
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-20'
+modified: '2026-08-08'
 tags:
 - Company
 - Security
@@ -95,11 +93,10 @@ apis:
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-app-groups-api
   name: Qwiet Ai app_groups API
-  description: >-
-    The user-created groups of applications.
+  description: 'The user-created groups of applications.
 
 
-    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-3251cbed-4ae3-4b06-8cad-c8748e49c7ec?action=collection%2Ffork&collection-url=entityId%3D9829310-3251cbed-4ae3-4b06-8cad-c8748e49c7ec%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
+    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-3251cbed-4ae3-4b06-8cad-c8748e49c7ec?action=collection%2Ffork&collection-url=entityId%3D9829310-3251cbed-4ae3-4b06-8cad-c8748e49c7ec%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)'
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
   tags:
@@ -121,11 +118,10 @@ apis:
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-app-labels-api
   name: Qwiet Ai app_labels API
-  description: >-
-    The user-created application labels.
+  description: 'The user-created application labels.
 
 
-    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/30743751-da3c929b-651f-414c-993c-ee2b2573b2f4?action=collection%2Ffork&collection-url=entityId%3D30743751-da3c929b-651f-414c-993c-ee2b2573b2f4%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
+    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/30743751-da3c929b-651f-414c-993c-ee2b2573b2f4?action=collection%2Ffork&collection-url=entityId%3D30743751-da3c929b-651f-414c-993c-ee2b2573b2f4%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)'
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
   tags:
@@ -147,11 +143,10 @@ apis:
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-apps-api
   name: Qwiet Ai apps API
-  description: >-
-    The applications submitted for analysis.
+  description: 'The applications submitted for analysis.
 
 
-    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-e9d0bf19-30bd-46f4-b40c-9df03d2a463a?action=collection%2Ffork&collection-url=entityId%3D9829310-e9d0bf19-30bd-46f4-b40c-9df03d2a463a%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
+    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-e9d0bf19-30bd-46f4-b40c-9df03d2a463a?action=collection%2Ffork&collection-url=entityId%3D9829310-e9d0bf19-30bd-46f4-b40c-9df03d2a463a%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)'
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
   tags:
@@ -173,13 +168,12 @@ apis:
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-autofix-api
   name: Qwiet Ai autofix API
-  description: >-
-    The AutoFix suggestions for findings in applications. Harness SAST and SCA AutoFix uses large language
-    models (LLMs) to generate potential code fix suggestions for findings produced by Qwiet AI by Harness
-    analyses.
+  description: 'The AutoFix suggestions for findings in applications. Harness SAST and SCA AutoFix uses
+    large language models (LLMs) to generate potential code fix suggestions for findings produced by Qwiet
+    AI by Harness analyses.
 
 
-    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/30743751-b06912bf-f25e-46a3-92c1-c12ba2ef162a?action=collection%2Ffork&collection-url=entityId%3D30743751-b06912bf-f25e-46a3-92c1-c12ba2ef162a%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
+    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/30743751-b06912bf-f25e-46a3-92c1-c12ba2ef162a?action=collection%2Ffork&collection-url=entityId%3D30743751-b06912bf-f25e-46a3-92c1-c12ba2ef162a%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)'
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
   tags:
@@ -245,11 +239,10 @@ apis:
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-comments-api
   name: Qwiet Ai comments API
-  description: >-
-    The text threads (with individual comments ordered by time) attached to findings.
+  description: 'The text threads (with individual comments ordered by time) attached to findings.
 
 
-    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-49dbc330-9cb4-4dac-9257-a9cc79b1103c?action=collection%2Ffork&collection-url=entityId%3D9829310-49dbc330-9cb4-4dac-9257-a9cc79b1103c%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
+    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-49dbc330-9cb4-4dac-9257-a9cc79b1103c?action=collection%2Ffork&collection-url=entityId%3D9829310-49dbc330-9cb4-4dac-9257-a9cc79b1103c%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)'
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
   tags:
@@ -271,8 +264,7 @@ apis:
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-compounds-api
   name: Qwiet Ai compounds API
-  description: >-
-    Multi-Language Apps are groups of applications that are scanned together as a single application.
+  description: Multi-Language Apps are groups of applications that are scanned together as a single application.
     This is useful for applications that are a compound of various programming languages and configurations
     of frameworks.
   humanURL: https://docs.shiftleft.io/api/
@@ -296,10 +288,9 @@ apis:
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-findings-api
   name: Qwiet Ai findings API
-  description: >-
-    The results of a scan (which can include vulnerabilities, secrets, or insights).
+  description: 'The results of a scan (which can include vulnerabilities, secrets, or insights).
 
-    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-156075f8-c7cf-4e2c-95fa-0823a3313658?action=collection%2Ffork&collection-url=entityId%3D9829310-156075f8-c7cf-4e2c-95fa-0823a3313658%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
+    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-156075f8-c7cf-4e2c-95fa-0823a3313658?action=collection%2Ffork&collection-url=entityId%3D9829310-156075f8-c7cf-4e2c-95fa-0823a3313658%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)'
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
   tags:
@@ -343,11 +334,11 @@ apis:
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-orgs-api
   name: Qwiet Ai orgs API
-  description: >-
-    The logical grouping (e.g., tenant/account) within Qwiet that defines a set of users, teams, and applications.
+  description: 'The logical grouping (e.g., tenant/account) within Qwiet that defines a set of users,
+    teams, and applications.
 
 
-    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-f0ae38d5-6c27-41a9-a1c3-9721d39f5df0?action=collection%2Ffork&collection-url=entityId%3D9829310-f0ae38d5-6c27-41a9-a1c3-9721d39f5df0%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
+    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-f0ae38d5-6c27-41a9-a1c3-9721d39f5df0?action=collection%2Ffork&collection-url=entityId%3D9829310-f0ae38d5-6c27-41a9-a1c3-9721d39f5df0%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)'
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
   tags:
@@ -369,12 +360,11 @@ apis:
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-rbac-api
   name: Qwiet Ai rbac API
-  description: >-
-    Roles-based access control (RBAC) allows you to control the permissions users in an organization are
-    granted.
+  description: 'Roles-based access control (RBAC) allows you to control the permissions users in an organization
+    are granted.
 
 
-    The permissions granted to a user are additive. The base level of a user's permission is determined
+    The permissions granted to a user are additive. The base level of a user''s permission is determined
     by their role in the organization.
 
 
@@ -389,7 +379,7 @@ apis:
     their team.
 
 
-    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-c002d05e-2fae-4914-8629-54cff59e1e6b?action=collection%2Ffork&collection-url=entityId%3D9829310-c002d05e-2fae-4914-8629-54cff59e1e6b%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
+    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-c002d05e-2fae-4914-8629-54cff59e1e6b?action=collection%2Ffork&collection-url=entityId%3D9829310-c002d05e-2fae-4914-8629-54cff59e1e6b%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)'
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
   tags:
@@ -411,11 +401,10 @@ apis:
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-reports-api
   name: Qwiet Ai reports API
-  description: >-
-    The summaries of applications and their findings for a specific organization.
+  description: 'The summaries of applications and their findings for a specific organization.
 
 
-    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-b675d7af-bdd5-49a4-982b-4e57c4f4a44c?action=collection%2Ffork&collection-url=entityId%3D9829310-b675d7af-bdd5-49a4-982b-4e57c4f4a44c%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
+    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-b675d7af-bdd5-49a4-982b-4e57c4f4a44c?action=collection%2Ffork&collection-url=entityId%3D9829310-b675d7af-bdd5-49a4-982b-4e57c4f4a44c%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)'
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
   tags:
@@ -437,12 +426,11 @@ apis:
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-saml-api
   name: Qwiet Ai SAML API
-  description: >-
-    The integration endpoints allowing orgs to configure Qwiet to act as a SAML service provider (SP)
-    that uses the customer's identity provider (IdP) to log users in.
+  description: 'The integration endpoints allowing orgs to configure Qwiet to act as a SAML service provider
+    (SP) that uses the customer''s identity provider (IdP) to log users in.
 
 
-    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-a411d1c3-c232-4843-a89d-b302df399d99?action=collection%2Ffork&collection-url=entityId%3D9829310-a411d1c3-c232-4843-a89d-b302df399d99%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
+    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-a411d1c3-c232-4843-a89d-b302df399d99?action=collection%2Ffork&collection-url=entityId%3D9829310-a411d1c3-c232-4843-a89d-b302df399d99%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)'
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
   tags:
@@ -486,9 +474,8 @@ apis:
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-saved-searches-api
   name: Qwiet Ai saved_searches API
-  description: >-
-    The saved searches endpoints allow users to save specific search queries for organization and app
-    findings
+  description: The saved searches endpoints allow users to save specific search queries for organization
+    and app findings
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
   tags:
@@ -510,11 +497,10 @@ apis:
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-sca-api
   name: Qwiet Ai sca API
-  description: >-
-    The summaries of software composition analysis (SCA) results for apps in an organization.
+  description: 'The summaries of software composition analysis (SCA) results for apps in an organization.
 
 
-    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/30743751-08a1d64d-5913-409a-ac8a-7074ce5a62d7?action=collection%2Ffork&collection-url=entityId%3D30743751-08a1d64d-5913-409a-ac8a-7074ce5a62d7%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
+    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/30743751-08a1d64d-5913-409a-ac8a-7074ce5a62d7?action=collection%2Ffork&collection-url=entityId%3D30743751-08a1d64d-5913-409a-ac8a-7074ce5a62d7%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)'
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
   tags:
@@ -536,11 +522,10 @@ apis:
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-scans-api
   name: Qwiet Ai scans API
-  description: >-
-    The instances where Qwiet AI by Harness is invoked to identify findings in an application.
+  description: 'The instances where Qwiet AI by Harness is invoked to identify findings in an application.
 
 
-    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-dc6a68d5-995d-4ba4-8098-e3b67773cf0e?action=collection%2Ffork&collection-url=entityId%3D9829310-dc6a68d5-995d-4ba4-8098-e3b67773cf0e%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
+    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-dc6a68d5-995d-4ba4-8098-e3b67773cf0e?action=collection%2Ffork&collection-url=entityId%3D9829310-dc6a68d5-995d-4ba4-8098-e3b67773cf0e%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)'
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
   tags:
@@ -562,10 +547,9 @@ apis:
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-scopes-api
   name: Qwiet Ai scopes API
-  description: >-
-    Scopes define the type of resource and the operation that you can perform with the access token you
-    bear. For example, `scans:create` means that the bearer of the token with this scope can create scans
-    via the API.
+  description: 'Scopes define the type of resource and the operation that you can perform with the access
+    token you bear. For example, `scans:create` means that the bearer of the token with this scope can
+    create scans via the API.
 
 
     For each endpoint, we indicate the scope required to perform an operation under **Authorizations**.
@@ -575,7 +559,7 @@ apis:
     token are in the context of a specific API resource.
 
 
-    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-54d0d8f3-0cc0-42c3-8eee-2eb66e1ea835?action=collection%2Ffork&collection-url=entityId%3D9829310-54d0d8f3-0cc0-42c3-8eee-2eb66e1ea835%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
+    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-54d0d8f3-0cc0-42c3-8eee-2eb66e1ea835?action=collection%2Ffork&collection-url=entityId%3D9829310-54d0d8f3-0cc0-42c3-8eee-2eb66e1ea835%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)'
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
   tags:
@@ -641,14 +625,13 @@ apis:
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-tokens-api
   name: Qwiet Ai tokens API
-  description: >-
-    Used to authenticate with the API.
+  description: 'Used to authenticate with the API.
 
 
     Can be issued by org admins. Each access token is owned by the org that issued it.
 
 
-    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-0a2fce9d-f679-41e8-a438-bcf13ddec403?action=collection%2Ffork&collection-url=entityId%3D9829310-0a2fce9d-f679-41e8-a438-bcf13ddec403%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
+    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-0a2fce9d-f679-41e8-a438-bcf13ddec403?action=collection%2Ffork&collection-url=entityId%3D9829310-0a2fce9d-f679-41e8-a438-bcf13ddec403%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)'
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
   tags:
@@ -670,8 +653,7 @@ apis:
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-users-api
   name: Qwiet Ai users API
-  description: >-
-    Users pertains the users in general as qwiet.ai users and of each org as organization users.
+  description: Users pertains the users in general as qwiet.ai users and of each org as organization users.
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
   tags:
@@ -693,10 +675,9 @@ apis:
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-versions-api
   name: Qwiet Ai versions API
-  description: >-
-    The specific instances of an application scanned using Qwiet AI by Harness.
+  description: 'The specific instances of an application scanned using Qwiet AI by Harness.
 
-    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-d8e4a6f2-bdce-4807-a8ca-74fc00dbc089?action=collection%2Ffork&collection-url=entityId%3D9829310-d8e4a6f2-bdce-4807-a8ca-74fc00dbc089%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
+    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-d8e4a6f2-bdce-4807-a8ca-74fc00dbc089?action=collection%2Ffork&collection-url=entityId%3D9829310-d8e4a6f2-bdce-4807-a8ca-74fc00dbc089%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)'
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
   tags:
@@ -793,8 +774,18 @@ common:
   url: llms/qwiet-ai-llms.txt
 - type: Postman
   url: https://god.gw.postman.com/run-collection/9829310-3251cbed-4ae3-4b06-8cad-c8748e49c7ec
+- type: Blog
+  url: https://qwiet.ai/blog/
+- type: StatusPage
+  url: https://status.shiftleft.io
+- type: Deprecation
+  url: lifecycle/qwiet-ai-lifecycle.yml
+- type: AgenticAccess
+  url: agentic-access/qwiet-ai-agentic-access.yml
 x-enrichment:
   date: '2026-07-20'
   status: enriched
   artifacts_added: 15
   pass: local-v1
+x-merged-from:
+- qwiet

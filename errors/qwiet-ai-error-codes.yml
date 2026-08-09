@@ -1,0 +1,44 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/qwiet-api-original.yml
+format: qwiet-error-envelope
+note: >-
+  The Qwiet API does NOT use RFC 9457 problem+json. All 4xx/5xx errors return
+  application/json using the shared `Error` envelope. `code` carries a string
+  enum (e.g. INTERNAL_SERVER_ERROR); `validation_errors[]` lists field-level
+  problems to correct before re-submitting.
+envelope:
+  content_type: application/json
+  schema: '#/components/schemas/Error'
+  fields:
+    - name: ok
+      type: boolean
+      description: Whether the request succeeded (true) or not (false)
+    - name: code
+      type: string
+      description: Enum representing the error encountered (e.g. INTERNAL_SERVER_ERROR)
+    - name: message
+      type: string
+      description: Human-readable description of the error
+    - name: validation_errors
+      type: array
+      description: Field-level validation errors to correct before re-submitting
+status_codes:
+  - status: 400
+    title: Bad Request
+    description: Malformed request or failed validation; see validation_errors[]
+  - status: 401
+    title: Unauthorized
+    description: Missing or invalid Bearer access token
+  - status: 403
+    title: Forbidden
+    description: Authenticated but lacking RBAC scope/permission for the resource
+  - status: 404
+    title: Not Found
+    description: The requested app, scan, finding, org, or resource does not exist
+  - status: 409
+    title: Conflict
+    description: Resource state conflict (e.g. duplicate create / concurrent update)
+  - status: default
+    title: Error
+    description: Unexpected/server error returned with the Error envelope
