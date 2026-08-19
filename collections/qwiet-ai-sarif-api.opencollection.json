@@ -1,0 +1,83 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "alerting sarif API",
+    "version": "4.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "sarif",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Download Compound SARIF Report",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/compounds/named/:compoundName/reports/sarif",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "compoundName",
+                "value": "",
+                "type": "path",
+                "description": "A compound's name"
+              },
+              {
+                "name": "polyglot_scan",
+                "value": "",
+                "type": "query",
+                "description": "Polyglot scan ID to filter to; defaults to the latest scan."
+              },
+              {
+                "name": "scan_version",
+                "value": "",
+                "type": "query",
+                "description": "The version of the code at scan time. Ignored if polyglot_scan is given."
+              },
+              {
+                "name": "scan_branch",
+                "value": "",
+                "type": "query",
+                "description": "The code branch at scan time. Ignored if polygot_scan or scan_version are given."
+              },
+              {
+                "name": "scan_tag",
+                "value": "",
+                "type": "query",
+                "description": "Tags passed to the analyzer at scan time. Ignored if polygot_scan, scan_version, or scan_branch are given."
+              },
+              {
+                "name": "scan_platform",
+                "value": "",
+                "type": "query",
+                "description": "The analysis platform. Cannot be specified together with scan_language."
+              },
+              {
+                "name": "scan_language",
+                "value": "",
+                "type": "query",
+                "description": "The analysis language. Cannot be specified together with scan_platform."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Downloads the SARIF report for the specified compound."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

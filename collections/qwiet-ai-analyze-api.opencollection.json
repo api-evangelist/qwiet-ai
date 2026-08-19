@@ -1,0 +1,76 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "alerting analyze API",
+    "version": "4.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "analyze",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List analyze failures for an organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/analyze-failures",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return (default 100, max 100)"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a list of client-side analyze failures that occurred before cloud submission.\nThese records provide visibility into local analysis issues.\n"
+        },
+        {
+          "info": {
+            "name": "Get a single analyze failure",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/analyze-failures/:failureId",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "failureId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the analyze failure"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns details of a specific client-side analyze failure.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

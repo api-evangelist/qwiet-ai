@@ -1,0 +1,434 @@
+{
+  "item": [
+    {
+      "id": "475c2cca-ef78-46c8-b2e7-a66e46813587",
+      "name": "slack",
+      "description": {
+        "content": "The integration endpoints enabling users to set up a Slack integration.\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a922409e-b1cf-4d35-a99d-5d4a6d190685",
+          "name": "Authorize Slack",
+          "request": {
+            "name": "Authorize Slack",
+            "description": {
+              "content": "Authorize Slack for the given organization and redirect to Slack authorization prompt\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "slack",
+                "authorize",
+                "orgs",
+                ":orgID"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e96064f9-2ac1-416a-a989-562d4d5d8ffa",
+              "name": "Redirect",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "slack",
+                    "authorize",
+                    "orgs",
+                    ":orgID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Found",
+              "code": 302,
+              "header": [
+                {
+                  "disabled": false,
+                  "key": "Location",
+                  "value": "string",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6fa415b1-8bcc-4204-b8e5-9a4bc43cac1e",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "slack",
+                    "authorize",
+                    "orgs",
+                    ":orgID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e89f31f7-009e-4d78-bfa4-5003680e4f2a",
+          "name": "Receive Slack OAuth 2.0 data",
+          "request": {
+            "name": "Receive Slack OAuth 2.0 data",
+            "description": {
+              "content": "Receive Slack OAuth 2.0 data and set up organization configuration with API token\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "slack",
+                "orgs",
+                ":orgID"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b007bf51-2f7c-4994-9592-185373e4a8dd",
+              "name": "Redirect",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "slack",
+                    "orgs",
+                    ":orgID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Found",
+              "code": 302,
+              "header": [
+                {
+                  "disabled": false,
+                  "key": "Location",
+                  "value": "string",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1e2112fc-e001-4e34-9648-10f40313ad29",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "slack",
+                    "orgs",
+                    ":orgID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ecf74daf-163f-46de-becf-b589ca527dcb",
+          "name": "Delete Slack OAuth 2.0 data",
+          "request": {
+            "name": "Delete Slack OAuth 2.0 data",
+            "description": {
+              "content": "Delete the Slack configuration for the given organization and revoke stored API token\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "slack",
+                "orgs",
+                ":orgID"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "04fa673a-bf42-4c88-b203-1fb0af820a2d",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "slack",
+                    "orgs",
+                    ":orgID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1a37a5fb-0d31-41f6-94df-1ed4c578054e",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "slack",
+                    "orgs",
+                    ":orgID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.shiftleft.io/api/v4",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "6902dafe-6fbb-4eb0-bd6f-dbb2f3b50daa",
+    "name": "alerting slack API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.\n\n# Authentication\n\nUse of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).\n",
+      "type": "text/plain"
+    }
+  }
+}

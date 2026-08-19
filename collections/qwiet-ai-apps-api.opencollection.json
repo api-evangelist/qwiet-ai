@@ -1,0 +1,324 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "alerting apps API",
+    "version": "4.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "apps",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List apps",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return a list of the apps owned by the org.\n"
+        },
+        {
+          "info": {
+            "name": "Create Apps",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create one or more apps owned by an organization and potentially assigned to a team.\n"
+        },
+        {
+          "info": {
+            "name": "Read app",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return an app owned by an organization.\n"
+        },
+        {
+          "info": {
+            "name": "Delete app",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete an app owned by an organization.\n"
+        },
+        {
+          "info": {
+            "name": "List app branches",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/branches",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "app",
+                "value": "",
+                "type": "query",
+                "description": "App name"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "The earliest scan time for a branch to be included. Value should be a Unix timestamp (in seconds). Defaults to 1 week ago"
+              },
+              {
+                "name": "until",
+                "value": "",
+                "type": "query",
+                "description": "The latest scan time for a branch to be included. Value should be a Unix timestamp (in seconds). Defaults to now"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return a list of the branches of a specific app scanned for an org.\n"
+        },
+        {
+          "info": {
+            "name": "Read app config",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID/configuration",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return the configuration of an application."
+        },
+        {
+          "info": {
+            "name": "Update app config",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID/configuration",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update the app's configuration."
+        },
+        {
+          "info": {
+            "name": "Patch app config",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID/configuration",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Partially update the app's configuration. Only fields present in the request body\nwill be updated; all other fields are preserved. This is safer than PUT when you\nonly need to change a subset of the configuration.\n"
+        },
+        {
+          "info": {
+            "name": "Update Application Default Branch",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID/configuration/default_branch",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update the application's default branch."
+        },
+        {
+          "info": {
+            "name": "Read merged app config",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID/configuration/merged",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return the effective configuration of an application by combining the organization configuration and the configuration of a potentially assigned team as defaults first, before merging in the actual app configuration on top, overriding those defaults."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

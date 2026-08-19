@@ -1,0 +1,409 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "alerting compounds API",
+    "version": "4.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "compounds",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Un/Archive Compound",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/compounds/named/:compoundName",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "compoundName",
+                "value": "",
+                "type": "path",
+                "description": "A compound's name"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Toggle the archived status of a compound"
+        },
+        {
+          "info": {
+            "name": "List scans in a compound, returning a subset of the scan summary information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/compounds/named/:compoundName/scans/streamlined",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "compoundName",
+                "value": "",
+                "type": "path",
+                "description": "A compound's name"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of scans to return."
+              },
+              {
+                "name": "branch",
+                "value": "",
+                "type": "query",
+                "description": "Only consider scans on this branch."
+              },
+              {
+                "name": "upto",
+                "value": "",
+                "type": "query",
+                "description": "Only list scans created before this time (given in nanoseconds since the UNIX Epoch)."
+              }
+            ]
+          },
+          "docs": "The full information we can return about a scan is a lot of data, which slows down a UI that only wants to present a subset of it to the user. This endpoint returns only the subset actually needed for rendering that UI. As such it's meant for internal use only, but is documented because other API users may find it useful for similar reasons."
+        },
+        {
+          "info": {
+            "name": "Read compound scan",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/compounds/named/:compoundName/scans/:scanID",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "compoundName",
+                "value": "",
+                "type": "path",
+                "description": "A compound's name"
+              },
+              {
+                "name": "scanID",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the scan to retrieve"
+              },
+              {
+                "name": "archived",
+                "value": "",
+                "type": "query",
+                "description": "If present, includes archived compounds"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve details for a specific scan of a compound"
+        },
+        {
+          "info": {
+            "name": "Read branches for compound",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/compounds/named/:compoundName/branches",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "compoundName",
+                "value": "",
+                "type": "path",
+                "description": "A compound's name"
+              },
+              {
+                "name": "archived",
+                "value": "",
+                "type": "query",
+                "description": "If present, includes archived compounds"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List all the branches for a specific compound"
+        },
+        {
+          "info": {
+            "name": "List Scans of Compound",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/compounds/named/:compoundName/scans",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "compoundName",
+                "value": "",
+                "type": "path",
+                "description": "A compound's name"
+              },
+              {
+                "name": "archived",
+                "value": "",
+                "type": "query",
+                "description": "If present, includes archived compounds"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter scans by status"
+              },
+              {
+                "name": "branch",
+                "value": "",
+                "type": "query",
+                "description": "Filter scans by branch"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of scans to return (must be between 1 and 50, inclusive). The default is 10 scans"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List all scans for a specific compound"
+        },
+        {
+          "info": {
+            "name": "List Compounds",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/compounds",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "archived",
+                "value": "",
+                "type": "query",
+                "description": "If present, returns archived compounds (true) or non-archived compounds (false)"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "Number of items per page"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List all compounds for an organization"
+        },
+        {
+          "info": {
+            "name": "Read shallow compound",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/compounds/shallow/:compoundID",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "compoundID",
+                "value": "",
+                "type": "path",
+                "description": "A compound's ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a shallow compound object, which includes the compound's ID, name, and description.\n"
+        },
+        {
+          "info": {
+            "name": "Read shallow compound by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/compounds/byid/:compoundID/shallow",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "compoundID",
+                "value": "",
+                "type": "path",
+                "description": "A compound's ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a shallow compound object by its ID, which includes the compound's ID, name, and the IDs of the apps that are part of the compound.\n"
+        },
+        {
+          "info": {
+            "name": "Read shallow compound by name",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/compounds/byname/:compoundName/shallow",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "compoundName",
+                "value": "",
+                "type": "path",
+                "description": "A compound's name"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a shallow compound object by its name. If no compound is found with the given name, falls back to looking up a project with that name.\n"
+        },
+        {
+          "info": {
+            "name": "Delete compound",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/compounds/:compoundID",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "compoundID",
+                "value": "",
+                "type": "path",
+                "description": "A compound's ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Deletes a compound and all of its associated apps.\n"
+        },
+        {
+          "info": {
+            "name": "Read full compound",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/compounds/full/:compoundID",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "compoundID",
+                "value": "",
+                "type": "path",
+                "description": "A compound's ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a full compound object, which includes the compound's ID, name, description, and the IDs of the apps that are part of the compound.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

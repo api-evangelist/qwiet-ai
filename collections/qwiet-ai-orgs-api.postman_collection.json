@@ -1,0 +1,2177 @@
+{
+  "item": [
+    {
+      "id": "c0ba40cc-c4a2-43b5-9738-bea603ca71bd",
+      "name": "orgs",
+      "description": {
+        "content": "The logical grouping (e.g., tenant/account) within Qwiet that defines a set of users, teams, and applications.\n\n[![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-f0ae38d5-6c27-41a9-a1c3-9721d39f5df0?action=collection%2Ffork&collection-url=entityId%3D9829310-f0ae38d5-6c27-41a9-a1c3-9721d39f5df0%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "391122dd-429b-4277-ae2f-a1e6e1c27e93",
+          "name": "Download audit log CSV",
+          "request": {
+            "name": "Download audit log CSV",
+            "description": {
+              "content": "Download the CSV formatted audit log for an organization for a specific month. This feature is disabled by default. Contact Qwiet AI Customer Success to enable it.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "audit",
+                "csv",
+                ":auditYear",
+                ":auditMonth"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "auditYear",
+                  "description": "(Required) The year for a requested report"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "auditMonth",
+                  "description": "(Required) The month for a requested report"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/csv"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "63ef9408-08f1-48d2-8641-0836a676c862",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "audit",
+                    "csv",
+                    ":auditYear",
+                    ":auditMonth"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "auditYear",
+                      "description": "(Required) The year for a requested report"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "auditMonth",
+                      "description": "(Required) The month for a requested report"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/csv"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/csv"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e9915fb3-472b-46f0-a195-915c42f9615e",
+          "name": "Download Daily CSV audit log",
+          "request": {
+            "name": "Download Daily CSV audit log",
+            "description": {
+              "content": "Download the CSV formatted audit log for an organization for a specific day. This feature is disabled by default. Contact Qwiet AI Customer Success to enable it.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "audit",
+                "csv",
+                ":auditYear",
+                ":auditMonth",
+                ":auditDay"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "auditYear",
+                  "description": "(Required) The year for a requested report"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "auditMonth",
+                  "description": "(Required) The month for a requested report"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "auditDay",
+                  "description": "(Required) The day for a requested report"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/csv"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "f881e25c-0bf3-460f-a2b1-7d656d46e1f2",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "audit",
+                    "csv",
+                    ":auditYear",
+                    ":auditMonth",
+                    ":auditDay"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "auditYear",
+                      "description": "(Required) The year for a requested report"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "auditMonth",
+                      "description": "(Required) The month for a requested report"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "auditDay",
+                      "description": "(Required) The day for a requested report"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/csv"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/csv"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e52bcec4-899f-459d-80a5-d5e79661f74e",
+          "name": "Upsert check-analysis Configuration",
+          "request": {
+            "name": "Upsert check-analysis Configuration",
+            "description": {
+              "content": "Upload configuration file for the `check-analysis` server-side configuration and\nreturns the hash of the uploaded file when successful.\nThe reference here takes no tag, just a name.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "checkanalysis",
+                "policies",
+                ":reference"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "tag",
+                  "value": "<string>",
+                  "description": "the tags"
+                },
+                {
+                  "disabled": false,
+                  "key": "useDefaults",
+                  "value": "<boolean>",
+                  "description": "whether to apply the default versioning mechanism"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "reference",
+                  "description": "(Required) the reference"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/yaml"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "file"
+            }
+          },
+          "response": [
+            {
+              "id": "edf59294-675c-4e8e-9aa4-f56438573cf0",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "checkanalysis",
+                    "policies",
+                    ":reference"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tag",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "useDefaults",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "reference",
+                      "description": "(Required) the reference"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "file"
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"response\": {\n    \"contentHash\": \"cf070ba492a9ec9d411e615e7399c0c94d11be0888862c5385b7184a5da53ec7\",\n    \"tags\": [\n      \"v1\",\n      \"v2\",\n      \"latest\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f8bfc8dd-5786-413e-a480-26c92fb55ee7",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "checkanalysis",
+                    "policies",
+                    ":reference"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tag",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "useDefaults",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "reference",
+                      "description": "(Required) the reference"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "file"
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b7d6796a-a436-4872-875c-6055b47c26a5",
+          "name": "Resolve check-analysis Configuration",
+          "request": {
+            "name": "Resolve check-analysis Configuration",
+            "description": {
+              "content": "Resolve the given reference (name plus a tag, which is usually a version number) and\nreturn the raw file back to the caller.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "checkanalysis",
+                "policies",
+                ":reference"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "reference",
+                  "description": "(Required) the reference"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/yaml"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "12c4c8f5-aedd-4069-8150-3d539a6ca417",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "checkanalysis",
+                    "policies",
+                    ":reference"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "reference",
+                      "description": "(Required) the reference"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/yaml"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/yaml"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "87d4b198-f111-4e3d-81fe-6c95f92ccd19",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "checkanalysis",
+                    "policies",
+                    ":reference"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "reference",
+                      "description": "(Required) the reference"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b948838a-beaf-4f28-9fd1-9002edc30ac7",
+          "name": "List check-analysis Configurations",
+          "request": {
+            "name": "List check-analysis Configurations",
+            "description": {
+              "content": "List all check-analysis configurations for the given\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "checkanalysis",
+                "policies"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "name",
+                  "value": "<string>",
+                  "description": "Any names to filter for, only those policies tagged with these names will be returned"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "936b2441-1cc3-4cb9-8e6b-258b5e5e3c77",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "checkanalysis",
+                    "policies"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"response\": [\n    {\n      \"contentHash\": \"18269b4a713bfc9aa8e8c74d9b9c6a5ced89b4d46364644e2ede7ffa39f54aa9\",\n      \"tags\": [\n        {\n          \"name\": \"blah\",\n          \"tags\": [\n            \"latest\",\n            \"v1\",\n            \"v2\"\n          ]\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "690d5a7f-feea-4dc4-8b96-3686eed9cd7d",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "checkanalysis",
+                    "policies"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c2398feb-f92f-410b-935b-963888ce8bfb",
+          "name": "Returns the audit log report for the org's SCM secrets",
+          "request": {
+            "name": "Returns the audit log report for the org's SCM secrets",
+            "description": {
+              "content": "Returns the audit log report for the org's SCM secrets, showing the number of times secrets were attempted to be committed to a repository. The report can be grouped by project or user. One of the 'by-project' or 'by-user' query parameters must be specified.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "scm-secrets-audit-log"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "days",
+                  "value": "31",
+                  "description": "Specifies the number of days for which the audit log should be calculated; defaults to 31."
+                },
+                {
+                  "disabled": false,
+                  "key": "by-project",
+                  "value": "<boolean>",
+                  "description": "If present, the report will be grouped by project."
+                },
+                {
+                  "disabled": false,
+                  "key": "by-user",
+                  "value": "<boolean>",
+                  "description": "If present, the report will be grouped by user."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "3884c025-b523-4cad-b02a-aa8c0b6b1dd7",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "scm-secrets-audit-log"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "days",
+                      "value": "31"
+                    },
+                    {
+                      "key": "by-project",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "by-user",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"response\": {\n    \"total_attempts\": 3,\n    \"projects\": [\n      {\n        \"project_id\": \"hsl\",\n        \"attempts\": 3,\n        \"user_ids\": [\n          \"261f1203-748d-4010-a57d-4cf3107f8647\",\n          \"261f1203-748d-4010-a57d-4cf3107f8647\"\n        ],\n        \"token_ids\": [\n          \"261f1203-748d-4010-a57d-4cf3107f8647\",\n          \"261f1203-748d-4010-a57d-4cf3107f8647\"\n        ]\n      },\n      {\n        \"project_id\": \"hsl\",\n        \"attempts\": 3,\n        \"user_ids\": [\n          \"261f1203-748d-4010-a57d-4cf3107f8647\",\n          \"261f1203-748d-4010-a57d-4cf3107f8647\"\n        ],\n        \"token_ids\": [\n          \"261f1203-748d-4010-a57d-4cf3107f8647\",\n          \"261f1203-748d-4010-a57d-4cf3107f8647\"\n        ]\n      }\n    ],\n    \"total_user_ids\": [\n      \"261f1203-748d-4010-a57d-4cf3107f8647\",\n      \"261f1203-748d-4010-a57d-4cf3107f8647\"\n    ],\n    \"total_token_ids\": [\n      \"261f1203-748d-4010-a57d-4cf3107f8647\",\n      \"261f1203-748d-4010-a57d-4cf3107f8647\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1ad8fb07-c280-4092-b279-54c5b0c1f0b7",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "scm-secrets-audit-log"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "days",
+                      "value": "31"
+                    },
+                    {
+                      "key": "by-project",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "by-user",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c2daed79-e4e0-4b8b-9c96-bf53ed9d651c",
+          "name": "Update org configuration",
+          "request": {
+            "name": "Update org configuration",
+            "description": {
+              "content": "Update configuration options for the organization. Note that this endpoint will overwrite all configuration existing configuration options.\nWe recommend using the GET endpoint to obtain the current configuration for your records before proceeding.\nAlternatively, if you intend to change only analysis configuration, then you can use UpdateOrgAnalysisConfig endpoint\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "configuration"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sso_name\": \"<string>\",\n  \"default_saml_config\": \"<string>\",\n  \"allowed_non_admin_auth_providers\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"security_training_provider\": \"<string>\",\n  \"analysis_configuration\": {\n    \"secrets\": {\n      \"entropy\": \"<number>\",\n      \"disable\": \"<boolean>\"\n    }\n  },\n  \"autofix_configuration\": {\n    \"enable\": \"<boolean>\",\n    \"disable\": \"<boolean>\",\n    \"auto_run\": \"<boolean>\",\n    \"auto_run_disable\": \"<boolean>\",\n    \"manual\": \"<boolean>\",\n    \"manual_disable\": \"<boolean>\",\n    \"max_fixes_per_run\": \"<integer>\",\n    \"fix_only_severities\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"session_timeout_hours\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "797e9cdf-3837-4a47-9b44-6266512ab336",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "configuration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sso_name\": \"<string>\",\n  \"default_saml_config\": \"<string>\",\n  \"allowed_non_admin_auth_providers\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"security_training_provider\": \"<string>\",\n  \"analysis_configuration\": {\n    \"secrets\": {\n      \"entropy\": \"<number>\",\n      \"disable\": \"<boolean>\"\n    }\n  },\n  \"autofix_configuration\": {\n    \"enable\": \"<boolean>\",\n    \"disable\": \"<boolean>\",\n    \"auto_run\": \"<boolean>\",\n    \"auto_run_disable\": \"<boolean>\",\n    \"manual\": \"<boolean>\",\n    \"manual_disable\": \"<boolean>\",\n    \"max_fixes_per_run\": \"<integer>\",\n    \"fix_only_severities\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"session_timeout_hours\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e5b04d57-eaf0-427a-a185-5a6d3e2f9f63",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "configuration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sso_name\": \"<string>\",\n  \"default_saml_config\": \"<string>\",\n  \"allowed_non_admin_auth_providers\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"security_training_provider\": \"<string>\",\n  \"analysis_configuration\": {\n    \"secrets\": {\n      \"entropy\": \"<number>\",\n      \"disable\": \"<boolean>\"\n    }\n  },\n  \"autofix_configuration\": {\n    \"enable\": \"<boolean>\",\n    \"disable\": \"<boolean>\",\n    \"auto_run\": \"<boolean>\",\n    \"auto_run_disable\": \"<boolean>\",\n    \"manual\": \"<boolean>\",\n    \"manual_disable\": \"<boolean>\",\n    \"max_fixes_per_run\": \"<integer>\",\n    \"fix_only_severities\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"session_timeout_hours\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "04d26b33-4748-4814-8bc2-892a94f3cee9",
+          "name": "Patch org configuration",
+          "request": {
+            "name": "Patch org configuration",
+            "description": {
+              "content": "Partially update configuration options for the organization. Only fields present in the request body\nwill be updated; all other fields are preserved. This is safer than PUT when you only need to change\na subset of the configuration.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "configuration"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sso_name\": \"<string>\",\n  \"default_saml_config\": \"<string>\",\n  \"allowed_non_admin_auth_providers\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"security_training_provider\": \"<string>\",\n  \"analysis_configuration\": {\n    \"secrets\": {\n      \"entropy\": \"<number>\",\n      \"disable\": \"<boolean>\"\n    }\n  },\n  \"autofix_configuration\": {\n    \"enable\": \"<boolean>\",\n    \"disable\": \"<boolean>\",\n    \"auto_run\": \"<boolean>\",\n    \"auto_run_disable\": \"<boolean>\",\n    \"manual\": \"<boolean>\",\n    \"manual_disable\": \"<boolean>\",\n    \"max_fixes_per_run\": \"<integer>\",\n    \"fix_only_severities\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"session_timeout_hours\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8d30f09f-8456-48a9-aea4-04a4a7e4998c",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "configuration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sso_name\": \"<string>\",\n  \"default_saml_config\": \"<string>\",\n  \"allowed_non_admin_auth_providers\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"security_training_provider\": \"<string>\",\n  \"analysis_configuration\": {\n    \"secrets\": {\n      \"entropy\": \"<number>\",\n      \"disable\": \"<boolean>\"\n    }\n  },\n  \"autofix_configuration\": {\n    \"enable\": \"<boolean>\",\n    \"disable\": \"<boolean>\",\n    \"auto_run\": \"<boolean>\",\n    \"auto_run_disable\": \"<boolean>\",\n    \"manual\": \"<boolean>\",\n    \"manual_disable\": \"<boolean>\",\n    \"max_fixes_per_run\": \"<integer>\",\n    \"fix_only_severities\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"session_timeout_hours\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "65770b17-1537-4f8d-926e-fa5b6f40b445",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "configuration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sso_name\": \"<string>\",\n  \"default_saml_config\": \"<string>\",\n  \"allowed_non_admin_auth_providers\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"security_training_provider\": \"<string>\",\n  \"analysis_configuration\": {\n    \"secrets\": {\n      \"entropy\": \"<number>\",\n      \"disable\": \"<boolean>\"\n    }\n  },\n  \"autofix_configuration\": {\n    \"enable\": \"<boolean>\",\n    \"disable\": \"<boolean>\",\n    \"auto_run\": \"<boolean>\",\n    \"auto_run_disable\": \"<boolean>\",\n    \"manual\": \"<boolean>\",\n    \"manual_disable\": \"<boolean>\",\n    \"max_fixes_per_run\": \"<integer>\",\n    \"fix_only_severities\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"session_timeout_hours\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e2e5aeb6-bf1d-419e-b330-025d7eeeafff",
+          "name": "Read org configuration",
+          "request": {
+            "name": "Read org configuration",
+            "description": {
+              "content": "Return the configuration options for the organization",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "configuration"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "6539b071-b056-437d-b16c-47c947c1c428",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "configuration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"response\": {\n    \"sso_name\": \"<string>\",\n    \"default_saml_config\": \"<string>\",\n    \"allowed_non_admin_auth_providers\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"security_training_provider\": \"<string>\",\n    \"analysis_configuration\": {\n      \"secrets\": {\n        \"entropy\": \"<number>\",\n        \"disable\": \"<boolean>\"\n      }\n    },\n    \"autofix_configuration\": {\n      \"enable\": \"<boolean>\",\n      \"disable\": \"<boolean>\",\n      \"auto_run\": \"<boolean>\",\n      \"auto_run_disable\": \"<boolean>\",\n      \"manual\": \"<boolean>\",\n      \"manual_disable\": \"<boolean>\",\n      \"max_fixes_per_run\": \"<integer>\",\n      \"fix_only_severities\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"session_timeout_hours\": \"<integer>\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "918a7047-32e1-4824-aca8-eed51f7d9473",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "configuration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ac36fec8-915a-4e23-a735-28d07a841089",
+          "name": "Read AutoFix configuration for the organization",
+          "request": {
+            "name": "Read AutoFix configuration for the organization",
+            "description": {
+              "content": "Return the AutoFix configuration options for the organization",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "autofix_configuration"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6ee79a0b-c382-4c08-9856-db91dad904a3",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "autofix_configuration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"response\": {\n    \"autofix_configuration\": {\n      \"enable\": \"<boolean>\",\n      \"disable\": \"<boolean>\",\n      \"auto_run\": \"<boolean>\",\n      \"auto_run_disable\": \"<boolean>\",\n      \"manual\": \"<boolean>\",\n      \"manual_disable\": \"<boolean>\",\n      \"max_fixes_per_run\": \"<integer>\",\n      \"fix_only_severities\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c50ba648-7de5-4a28-b2d0-608c31f8c8c1",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "autofix_configuration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7ba2ae39-99fc-45bb-9fd0-95512d7ab225",
+          "name": "Update org analysis configuration",
+          "request": {
+            "name": "Update org analysis configuration",
+            "description": {
+              "content": "Create analysis analysis configuration options for the organization. Doesn't touch other parts of configuration (like e.g. default_saml_config)",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "configuration",
+                "analysis"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"secrets\": {\n    \"entropy\": \"<number>\",\n    \"disable\": \"<boolean>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "dcb54062-acce-49ef-a6af-bc0141d51a58",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "configuration",
+                    "analysis"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"secrets\": {\n    \"entropy\": \"<number>\",\n    \"disable\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0efd5d21-5ef7-4f19-aeb4-5b3611daafae",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "configuration",
+                    "analysis"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"secrets\": {\n    \"entropy\": \"<number>\",\n    \"disable\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6fb0bfd3-d899-43b5-96e4-bd17c6e62be3",
+          "name": "Update org analysis configuration",
+          "request": {
+            "name": "Update org analysis configuration",
+            "description": {
+              "content": "Update analysis analysis configuration options for the organization. Doesn't touch other parts of configuration (like e.g. default_saml_config)",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "configuration",
+                "analysis"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"secrets\": {\n    \"entropy\": \"<number>\",\n    \"disable\": \"<boolean>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "22078fcf-320c-4ff7-a5ec-be917f5a6581",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "configuration",
+                    "analysis"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"secrets\": {\n    \"entropy\": \"<number>\",\n    \"disable\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8ce9afa9-5714-4e4b-84f2-eea7ae57bd00",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "configuration",
+                    "analysis"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"secrets\": {\n    \"entropy\": \"<number>\",\n    \"disable\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.shiftleft.io/api/v4",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "7d58d92b-cd07-47fe-8db2-e14d42052a20",
+    "name": "alerting orgs API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.\n\n# Authentication\n\nUse of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).\n",
+      "type": "text/plain"
+    }
+  }
+}

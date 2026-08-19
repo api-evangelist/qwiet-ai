@@ -1,0 +1,476 @@
+{
+  "item": [
+    {
+      "id": "a8cb0d06-a141-4f30-8f8f-373937c01a83",
+      "name": "versions",
+      "description": {
+        "content": "The specific instances of an application scanned using Qwiet AI by Harness.\n[![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-d8e4a6f2-bdce-4807-a8ca-74fc00dbc089?action=collection%2Ffork&collection-url=entityId%3D9829310-d8e4a6f2-bdce-4807-a8ca-74fc00dbc089%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "545b809d-2978-4252-8e9a-e4bd70373d82",
+          "name": "List app versions",
+          "request": {
+            "name": "List app versions",
+            "description": {
+              "content": "Return a list of the versions of the app that Qwiet has scanned",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "apps",
+                ":appID",
+                "versions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "The type of findings. Accepted values are `oss_vuln`, `vuln`, and `secret`"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "appID",
+                  "description": "(Required) The app ID (e.g., `HelloQwiet`)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "2bcea5f1-49cf-48d4-9468-affe8439b981",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "apps",
+                    ":appID",
+                    "versions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appID",
+                      "description": "(Required) The app ID (e.g., `HelloQwiet`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"response\": [\n    {\n      \"version\": \"0a907104bfe6175e3a3ea375e2cb7728\",\n      \"scan\": {\n        \"id\": \"1234\",\n        \"app\": \"hello-qwiet\",\n        \"version\": \"f348b507198fee7b6b57a460ef8a6c94783c59258f823dfcde41a2b5cb69765f\",\n        \"successful\": false,\n        \"is_default_branch\": false,\n        \"started_at\": \"1985-11-26T08:59:44.230Z\",\n        \"completed_at\": \"1978-02-08T21:38:03.294Z\",\n        \"language\": \"javascript\",\n        \"number_of_expressions\": 10,\n        \"tags\": {},\n        \"oss_info\": {\n          \"enabled\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"successful\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"failure_reason\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"counts\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"findings_summaries\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"total\": 101,\n        \"total_fixed\": 42,\n        \"total_ignored\": 17\n      },\n      \"findings_summaries\": [\n        {\n          \"total\": 10,\n          \"finding_type\": \"vuln\",\n          \"total_reachable\": 7563,\n          \"total_ignored\": 1,\n          \"total_fixed\": 3,\n          \"by_severity\": {\n            \"info\": {\n              \"total\": 6\n            },\n            \"critical\": {\n              \"total\": 3,\n              \"total_fixed\": 3\n            },\n            \"moderate\": {\n              \"total\": 1,\n              \"total_ignored\": 1\n            }\n          },\n          \"by_category\": {\n            \"Sensitive Data Leak\": {\n              \"total\": 10,\n              \"total_fixed\": 3,\n              \"total_ignored\": 1\n            }\n          },\n          \"by_assignee\": {\n            \"test@qwiet.ai\": {\n              \"total\": 10,\n              \"total_fixed\": 3,\n              \"total_ignored\": 1\n            }\n          }\n        },\n        {\n          \"total\": 10,\n          \"finding_type\": \"vuln\",\n          \"total_reachable\": 9182,\n          \"total_ignored\": 1,\n          \"total_fixed\": 3,\n          \"by_severity\": {\n            \"info\": {\n              \"total\": 6\n            },\n            \"critical\": {\n              \"total\": 3,\n              \"total_fixed\": 3\n            },\n            \"moderate\": {\n              \"total\": 1,\n              \"total_ignored\": 1\n            }\n          },\n          \"by_category\": {\n            \"Sensitive Data Leak\": {\n              \"total\": 10,\n              \"total_fixed\": 3,\n              \"total_ignored\": 1\n            }\n          },\n          \"by_assignee\": {\n            \"test@qwiet.ai\": {\n              \"total\": 10,\n              \"total_fixed\": 3,\n              \"total_ignored\": 1\n            }\n          }\n        }\n      ],\n      \"total\": 1489,\n      \"total_fixed\": 131,\n      \"total_ignored\": 197\n    },\n    {\n      \"version\": \"0a907104bfe6175e3a3ea375e2cb7728\",\n      \"scan\": {\n        \"id\": \"1234\",\n        \"app\": \"hello-qwiet\",\n        \"version\": \"f348b507198fee7b6b57a460ef8a6c94783c59258f823dfcde41a2b5cb69765f\",\n        \"successful\": false,\n        \"is_default_branch\": false,\n        \"started_at\": \"1982-01-28T21:07:19.770Z\",\n        \"completed_at\": \"1984-08-23T11:13:50.888Z\",\n        \"language\": \"javascript\",\n        \"number_of_expressions\": 10,\n        \"tags\": {},\n        \"oss_info\": {\n          \"enabled\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"successful\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"failure_reason\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"counts\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"findings_summaries\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"total\": 101,\n        \"total_fixed\": 42,\n        \"total_ignored\": 17\n      },\n      \"findings_summaries\": [\n        {\n          \"total\": 10,\n          \"finding_type\": \"vuln\",\n          \"total_reachable\": 4488,\n          \"total_ignored\": 1,\n          \"total_fixed\": 3,\n          \"by_severity\": {\n            \"info\": {\n              \"total\": 6\n            },\n            \"critical\": {\n              \"total\": 3,\n              \"total_fixed\": 3\n            },\n            \"moderate\": {\n              \"total\": 1,\n              \"total_ignored\": 1\n            }\n          },\n          \"by_category\": {\n            \"Sensitive Data Leak\": {\n              \"total\": 10,\n              \"total_fixed\": 3,\n              \"total_ignored\": 1\n            }\n          },\n          \"by_assignee\": {\n            \"test@qwiet.ai\": {\n              \"total\": 10,\n              \"total_fixed\": 3,\n              \"total_ignored\": 1\n            }\n          }\n        },\n        {\n          \"total\": 10,\n          \"finding_type\": \"vuln\",\n          \"total_reachable\": 6825,\n          \"total_ignored\": 1,\n          \"total_fixed\": 3,\n          \"by_severity\": {\n            \"info\": {\n              \"total\": 6\n            },\n            \"critical\": {\n              \"total\": 3,\n              \"total_fixed\": 3\n            },\n            \"moderate\": {\n              \"total\": 1,\n              \"total_ignored\": 1\n            }\n          },\n          \"by_category\": {\n            \"Sensitive Data Leak\": {\n              \"total\": 10,\n              \"total_fixed\": 3,\n              \"total_ignored\": 1\n            }\n          },\n          \"by_assignee\": {\n            \"test@qwiet.ai\": {\n              \"total\": 10,\n              \"total_fixed\": 3,\n              \"total_ignored\": 1\n            }\n          }\n        }\n      ],\n      \"total\": 1489,\n      \"total_fixed\": 131,\n      \"total_ignored\": 197\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "302a5118-e9d9-4309-8daa-f7eca69c4ece",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "apps",
+                    ":appID",
+                    "versions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appID",
+                      "description": "(Required) The app ID (e.g., `HelloQwiet`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1db37183-8d21-4aa0-a673-96103b700513",
+          "name": "Read summary of findings for an app version",
+          "request": {
+            "name": "Read summary of findings for an app version",
+            "description": {
+              "content": "Return a summary of findings for a single version",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "apps",
+                ":appID",
+                "versions",
+                ":versionID"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "The type of findings. Accepted values are `oss_vuln`, `vuln`, and `secret`"
+                },
+                {
+                  "disabled": false,
+                  "key": "scan",
+                  "value": "<string>",
+                  "description": "The ID of the scan to filter to. Defaults to the latest scan"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "appID",
+                  "description": "(Required) The app ID (e.g., `HelloQwiet`)"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "versionID",
+                  "description": "(Required) The version ID (e.g., `7d0...8b10`)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "b8815509-aaa2-42bf-a3c1-4317f53d5bc5",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "apps",
+                    ":appID",
+                    "versions",
+                    ":versionID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scan",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appID",
+                      "description": "(Required) The app ID (e.g., `HelloQwiet`)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "versionID",
+                      "description": "(Required) The version ID (e.g., `7d0...8b10`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"response\": {\n    \"version\": \"0a907104bfe6175e3a3ea375e2cb7728\",\n    \"scan\": {\n      \"id\": \"1234\",\n      \"app\": \"hello-qwiet\",\n      \"version\": \"f348b507198fee7b6b57a460ef8a6c94783c59258f823dfcde41a2b5cb69765f\",\n      \"successful\": true,\n      \"is_default_branch\": false,\n      \"started_at\": \"1983-11-27T11:14:57.613Z\",\n      \"completed_at\": \"1958-09-14T09:42:05.852Z\",\n      \"language\": \"javascript\",\n      \"number_of_expressions\": 10,\n      \"tags\": {},\n      \"oss_info\": {\n        \"enabled\": false,\n        \"successful\": false,\n        \"failure_reason\": \"string\"\n      },\n      \"counts\": [\n        {\n          \"finding_type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"count\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"finding_type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"count\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"findings_summaries\": [\n        {\n          \"total\": 10,\n          \"finding_type\": \"vuln\",\n          \"total_reachable\": 8929,\n          \"total_ignored\": 1,\n          \"total_fixed\": 3,\n          \"by_severity\": {\n            \"info\": {\n              \"total\": 6\n            },\n            \"critical\": {\n              \"total\": 3,\n              \"total_fixed\": 3\n            },\n            \"moderate\": {\n              \"total\": 1,\n              \"total_ignored\": 1\n            }\n          },\n          \"by_category\": {\n            \"Sensitive Data Leak\": {\n              \"total\": 10,\n              \"total_fixed\": 3,\n              \"total_ignored\": 1\n            }\n          },\n          \"by_assignee\": {\n            \"test@qwiet.ai\": {\n              \"total\": 10,\n              \"total_fixed\": 3,\n              \"total_ignored\": 1\n            }\n          }\n        },\n        {\n          \"total\": 10,\n          \"finding_type\": \"vuln\",\n          \"total_reachable\": 7122,\n          \"total_ignored\": 1,\n          \"total_fixed\": 3,\n          \"by_severity\": {\n            \"info\": {\n              \"total\": 6\n            },\n            \"critical\": {\n              \"total\": 3,\n              \"total_fixed\": 3\n            },\n            \"moderate\": {\n              \"total\": 1,\n              \"total_ignored\": 1\n            }\n          },\n          \"by_category\": {\n            \"Sensitive Data Leak\": {\n              \"total\": 10,\n              \"total_fixed\": 3,\n              \"total_ignored\": 1\n            }\n          },\n          \"by_assignee\": {\n            \"test@qwiet.ai\": {\n              \"total\": 10,\n              \"total_fixed\": 3,\n              \"total_ignored\": 1\n            }\n          }\n        }\n      ],\n      \"total\": 101,\n      \"total_fixed\": 42,\n      \"total_ignored\": 17\n    },\n    \"findings_summaries\": [\n      {\n        \"total\": 10,\n        \"finding_type\": \"vuln\",\n        \"total_reachable\": 9548,\n        \"total_ignored\": 1,\n        \"total_fixed\": 3,\n        \"by_severity\": {\n          \"info\": {\n            \"total\": 6\n          },\n          \"critical\": {\n            \"total\": 3,\n            \"total_fixed\": 3\n          },\n          \"moderate\": {\n            \"total\": 1,\n            \"total_ignored\": 1\n          }\n        },\n        \"by_category\": {\n          \"Sensitive Data Leak\": {\n            \"total\": 10,\n            \"total_fixed\": 3,\n            \"total_ignored\": 1\n          }\n        },\n        \"by_assignee\": {\n          \"test@qwiet.ai\": {\n            \"total\": 10,\n            \"total_fixed\": 3,\n            \"total_ignored\": 1\n          }\n        }\n      },\n      {\n        \"total\": 10,\n        \"finding_type\": \"vuln\",\n        \"total_reachable\": 5301,\n        \"total_ignored\": 1,\n        \"total_fixed\": 3,\n        \"by_severity\": {\n          \"info\": {\n            \"total\": 6\n          },\n          \"critical\": {\n            \"total\": 3,\n            \"total_fixed\": 3\n          },\n          \"moderate\": {\n            \"total\": 1,\n            \"total_ignored\": 1\n          }\n        },\n        \"by_category\": {\n          \"Sensitive Data Leak\": {\n            \"total\": 10,\n            \"total_fixed\": 3,\n            \"total_ignored\": 1\n          }\n        },\n        \"by_assignee\": {\n          \"test@qwiet.ai\": {\n            \"total\": 10,\n            \"total_fixed\": 3,\n            \"total_ignored\": 1\n          }\n        }\n      }\n    ],\n    \"total\": 1489,\n    \"total_fixed\": 131,\n    \"total_ignored\": 197\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a2cbbcbb-0218-43e4-85b9-ea113fe1c065",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "apps",
+                    ":appID",
+                    "versions",
+                    ":versionID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scan",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appID",
+                      "description": "(Required) The app ID (e.g., `HelloQwiet`)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "versionID",
+                      "description": "(Required) The version ID (e.g., `7d0...8b10`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.shiftleft.io/api/v4",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "1d1b2b2e-935b-4331-98b1-ff25bf5b57b3",
+    "name": "alerting versions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.\n\n# Authentication\n\nUse of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).\n",
+      "type": "text/plain"
+    }
+  }
+}

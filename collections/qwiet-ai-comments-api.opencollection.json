@@ -1,0 +1,133 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "alerting comments API",
+    "version": "4.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "comments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List app finding comments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID/findings/:findingID/comments",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              },
+              {
+                "name": "findingID",
+                "value": "",
+                "type": "path",
+                "description": "The finding ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return a list of the finding's comments thread."
+        },
+        {
+          "info": {
+            "name": "Create app finding comment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID/findings/:findingID/comments",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              },
+              {
+                "name": "findingID",
+                "value": "",
+                "type": "path",
+                "description": "The finding ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a comment on a finding."
+        },
+        {
+          "info": {
+            "name": "Read specific comment for a finding",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID/findings/:findingID/comments/:commentID",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              },
+              {
+                "name": "findingID",
+                "value": "",
+                "type": "path",
+                "description": "The finding ID"
+              },
+              {
+                "name": "commentID",
+                "value": "",
+                "type": "path",
+                "description": "The comment ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Read a comment for a specific finding for an app."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

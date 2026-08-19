@@ -1,0 +1,183 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "alerting reports API",
+    "version": "4.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "reports",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Read HTML PCI DSS report for a scan",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID/scans/:scanID/reports/pci_dss/html",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              },
+              {
+                "name": "scanID",
+                "value": "",
+                "type": "path",
+                "description": "ID of the scan"
+              },
+              {
+                "name": "ignore_info_findings",
+                "value": "",
+                "type": "query",
+                "description": "Whether findings marked as informational should be included in the report or not"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Read HTML PCI DSS report for a scan"
+        },
+        {
+          "info": {
+            "name": "Read Detailed OWASP report for a scan",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID/scans/:scanID/reports/owasp-:year.:ext",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              },
+              {
+                "name": "scanID",
+                "value": "",
+                "type": "path",
+                "description": "ID of the scan"
+              },
+              {
+                "name": "ext",
+                "value": "",
+                "type": "path",
+                "description": "the extension wanted"
+              },
+              {
+                "name": "year",
+                "value": "",
+                "type": "path",
+                "description": "the year wanted"
+              },
+              {
+                "name": "comments",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include comments"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "The status filter. By default, only `unset` findings are included.\n"
+              },
+              {
+                "name": "tz",
+                "value": "America/New_York",
+                "type": "query",
+                "description": "The timezone for any times shown in the report. By default, times are shown in UTC."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Read Detailed OWASP report for a scan"
+        },
+        {
+          "info": {
+            "name": "Read CWE report for a scan",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID/scans/:scanID/reports/cwe.:ext",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              },
+              {
+                "name": "scanID",
+                "value": "",
+                "type": "path",
+                "description": "ID of the scan"
+              },
+              {
+                "name": "ext",
+                "value": "",
+                "type": "path",
+                "description": "the extension wanted"
+              },
+              {
+                "name": "comments",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include comments"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "The status filter. By default, only `unset` findings are included.\n"
+              },
+              {
+                "name": "tz",
+                "value": "America/New_York",
+                "type": "query",
+                "description": "The timezone for any times shown in the report. By default, times are shown in UTC."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Read CWE report for a scan"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

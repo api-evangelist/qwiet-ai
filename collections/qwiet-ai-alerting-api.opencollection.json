@@ -1,0 +1,124 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "alerting API",
+    "version": "4.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "alerting",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/alerting/webhook",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Webhook configuration version to use (1 = legacy flow, 2 = normal flow). Defaults to 2 (normal flow) if not specified."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get the webhook url and token ID for the given organization\n"
+        },
+        {
+          "info": {
+            "name": "Set up a webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/alerting/webhook",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Webhook configuration version to use (1 = legacy flow, 2 = normal flow). Defaults to 2 (normal flow) if not specified."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Set up a webhook for the given organization\n"
+        },
+        {
+          "info": {
+            "name": "Delete a webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/alerting/webhook",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Webhook configuration version to use (1 = legacy flow, 2 = normal flow). Defaults to 2 (normal flow) if not specified."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete the webhook for the given organization\n"
+        },
+        {
+          "info": {
+            "name": "Get alerting events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/alerting/events",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get the list of events that can be subscribed to receive webhook notifications.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

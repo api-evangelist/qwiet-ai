@@ -1,0 +1,384 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "alerting orgs API",
+    "version": "4.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "orgs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Download audit log CSV",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/audit/csv/:auditYear/:auditMonth",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "auditYear",
+                "value": "",
+                "type": "path",
+                "description": "The year for a requested report"
+              },
+              {
+                "name": "auditMonth",
+                "value": "",
+                "type": "path",
+                "description": "The month for a requested report"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Download the CSV formatted audit log for an organization for a specific month. This feature is disabled by default. Contact Qwiet AI Customer Success to enable it.\n"
+        },
+        {
+          "info": {
+            "name": "Download Daily CSV audit log",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/audit/csv/:auditYear/:auditMonth/:auditDay",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "auditYear",
+                "value": "",
+                "type": "path",
+                "description": "The year for a requested report"
+              },
+              {
+                "name": "auditMonth",
+                "value": "",
+                "type": "path",
+                "description": "The month for a requested report"
+              },
+              {
+                "name": "auditDay",
+                "value": "",
+                "type": "path",
+                "description": "The day for a requested report"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Download the CSV formatted audit log for an organization for a specific day. This feature is disabled by default. Contact Qwiet AI Customer Success to enable it.\n"
+        },
+        {
+          "info": {
+            "name": "Resolve check-analysis Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/checkanalysis/policies/:reference",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "reference",
+                "value": "",
+                "type": "path",
+                "description": "the reference"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Resolve the given reference (name plus a tag, which is usually a version number) and\nreturn the raw file back to the caller.\n"
+        },
+        {
+          "info": {
+            "name": "Upsert check-analysis Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/checkanalysis/policies/:reference",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "reference",
+                "value": "",
+                "type": "path",
+                "description": "the reference"
+              },
+              {
+                "name": "tag",
+                "value": "",
+                "type": "query",
+                "description": "the tags"
+              },
+              {
+                "name": "useDefaults",
+                "value": "",
+                "type": "query",
+                "description": "whether to apply the default versioning mechanism"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Upload configuration file for the `check-analysis` server-side configuration and\nreturns the hash of the uploaded file when successful.\nThe reference here takes no tag, just a name.\n"
+        },
+        {
+          "info": {
+            "name": "List check-analysis Configurations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/checkanalysis/policies",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Any names to filter for, only those policies tagged with these names will be returned"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List all check-analysis configurations for the given\n"
+        },
+        {
+          "info": {
+            "name": "Returns the audit log report for the org's SCM secrets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/scm-secrets-audit-log",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "days",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the number of days for which the audit log should be calculated; defaults to 31."
+              },
+              {
+                "name": "by-project",
+                "value": "",
+                "type": "query",
+                "description": "If present, the report will be grouped by project."
+              },
+              {
+                "name": "by-user",
+                "value": "",
+                "type": "query",
+                "description": "If present, the report will be grouped by user."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns the audit log report for the org's SCM secrets, showing the number of times secrets were attempted to be committed to a repository. The report can be grouped by project or user. One of the 'by-project' or 'by-user' query parameters must be specified.\n"
+        },
+        {
+          "info": {
+            "name": "Read org configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/configuration",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return the configuration options for the organization"
+        },
+        {
+          "info": {
+            "name": "Update org configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/configuration",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update configuration options for the organization. Note that this endpoint will overwrite all configuration existing configuration options.\nWe recommend using the GET endpoint to obtain the current configuration for your records before proceeding.\nAlternatively, if you intend to change only analysis configuration, then you can use UpdateOrgAnalysisConfig endpoint\n"
+        },
+        {
+          "info": {
+            "name": "Patch org configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/configuration",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Partially update configuration options for the organization. Only fields present in the request body\nwill be updated; all other fields are preserved. This is safer than PUT when you only need to change\na subset of the configuration.\n"
+        },
+        {
+          "info": {
+            "name": "Read AutoFix configuration for the organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/autofix_configuration",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              }
+            ]
+          },
+          "docs": "Return the AutoFix configuration options for the organization"
+        },
+        {
+          "info": {
+            "name": "Update org analysis configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/configuration/analysis",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create analysis analysis configuration options for the organization. Doesn't touch other parts of configuration (like e.g. default_saml_config)"
+        },
+        {
+          "info": {
+            "name": "Update org analysis configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/configuration/analysis",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update analysis analysis configuration options for the organization. Doesn't touch other parts of configuration (like e.g. default_saml_config)"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

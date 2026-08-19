@@ -1,0 +1,132 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "alerting app_groups API",
+    "version": "4.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "app_groups",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Read organization app groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/app_groups",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return a list of all the organization groups.\n"
+        },
+        {
+          "info": {
+            "name": "Read app group",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/app_groups/:appGroupName",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The group name"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return information about an app group.\n"
+        },
+        {
+          "info": {
+            "name": "Create or update app group",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/app_groups/:appGroupName",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The group name"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create or update an application group.\n"
+        },
+        {
+          "info": {
+            "name": "Delete app group",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/app_groups/:appGroupName",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The group name"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Deletes an application group.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,211 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "alerting SAML API",
+    "version": "4.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "SAML",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List SAML configurations for an org",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/saml_configs",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List the SAML Configurations that can be used to authenticate users in an organization"
+        },
+        {
+          "info": {
+            "name": "Create a SAML configuration for an org",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/saml_configs",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a SAML configuration that can be used to authenticate users for an organization"
+        },
+        {
+          "info": {
+            "name": "Update SAML configuration for an org",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/saml_configs/:SAMLConfigName",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "SAMLConfigName",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update a SAML Configuration used to authenticate users for an organization"
+        },
+        {
+          "info": {
+            "name": "Delete an org's SAML configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/saml_configs/:SAMLConfigName",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "SAMLConfigName",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete a SAML Configuration that is used to authenticate users in an organization"
+        },
+        {
+          "info": {
+            "name": "Provision or update SAML users for an organization.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/saml/provision",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create or update SAML users and their org or team roles. Users cannot be deleted."
+        },
+        {
+          "info": {
+            "name": "Reset a SAML user's access token.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/saml/users/:userIDv2/access_token/reset",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "userIDv2",
+                "value": "",
+                "type": "path",
+                "description": "The user's ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Blanks the access token of a specific SAML user in the organization. The organization must have SAML enabled and the target user must be a SAML user.\n"
+        },
+        {
+          "info": {
+            "name": "Bulk reset SAML user access tokens.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/saml/access_token/reset",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Blanks the access tokens of multiple SAML users in the organization. The organization must have SAML enabled. Users that are not found or are not SAML users are reported separately in the response.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

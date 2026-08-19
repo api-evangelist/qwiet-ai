@@ -1,0 +1,209 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "alerting wiz API",
+    "version": "4.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "wiz",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get WIZ client credentials",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/integrations/wiz/creds",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get the client credentials i.e. authURL, apiURL."
+        },
+        {
+          "info": {
+            "name": "Store WIZ client credentials",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/integrations/wiz/creds",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Captures the wiz client credentials such as clientID, clientSecret, authentication url & API endpoint."
+        },
+        {
+          "info": {
+            "name": "Get Wiz Compound enrollment status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/compounds/named/:compoundName/integrations/wiz/enrollment",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "compoundName",
+                "value": "",
+                "type": "path",
+                "description": "A compound's name"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get the compound enrollment status. Provides detail about enrolled enrichments. If no compound level configuration present, it fetches the organization level configurations."
+        },
+        {
+          "info": {
+            "name": "Update Wiz Compound enrollment",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/compounds/named/:compoundName/integrations/wiz/enrollment",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "compoundName",
+                "value": "",
+                "type": "path",
+                "description": "A compound's name"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Updates compound enrollment. A compound can be enrolled for multiple supported enrichment [SAST/SCA]. Only the projects under enrolled compound are allowed for wiz integration after the successful project scan."
+        },
+        {
+          "info": {
+            "name": "Remove Wiz Compound enrollment",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/compounds/named/:compoundName/integrations/wiz/enrollment",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "compoundName",
+                "value": "",
+                "type": "path",
+                "description": "A compound's name"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Removes compoud enrollment. Removed compound will not be used for wiz enrichment."
+        },
+        {
+          "info": {
+            "name": "Get Wiz Org enrollment status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/integrations/wiz/enrollment",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get the org enrollment status. Provides detail about enrolled enrichments."
+        },
+        {
+          "info": {
+            "name": "Update Wiz Org enrollment",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/integrations/wiz/enrollment",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Updates Wiz org enrollment. This configuration will be default for all compounds under the organization unless overridden at compound level."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

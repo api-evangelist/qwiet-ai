@@ -1,0 +1,75 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "alerting slack API",
+    "version": "4.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "slack",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Authorize Slack",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/slack/authorize/orgs/:orgID",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              }
+            ]
+          },
+          "docs": "Authorize Slack for the given organization and redirect to Slack authorization prompt\n"
+        },
+        {
+          "info": {
+            "name": "Receive Slack OAuth 2.0 data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/slack/orgs/:orgID",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              }
+            ]
+          },
+          "docs": "Receive Slack OAuth 2.0 data and set up organization configuration with API token\n"
+        },
+        {
+          "info": {
+            "name": "Delete Slack OAuth 2.0 data",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.shiftleft.io/api/v4/slack/orgs/:orgID",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              }
+            ]
+          },
+          "docs": "Delete the Slack configuration for the given organization and revoke stored API token\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,836 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "alerting rbac API",
+    "version": "4.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "rbac",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List roles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/rbac/roles",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return a list of roles an org has available to use (includes only the roles that are managed by Qwiet). Note that the ID and role ID for a CI token are also used for access tokens. The ID and role ID for an integration token are also used for a Jira integration token.\n"
+        },
+        {
+          "info": {
+            "name": "Create custom RBAC role",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/rbac/roles",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a custom RBAC role for the provided organization\n"
+        },
+        {
+          "info": {
+            "name": "Update RBAC role",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/rbac/roles/:rbacRoleID",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "rbacRoleID",
+                "value": "",
+                "type": "path",
+                "description": "The role ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update the scopes of an existing RBAC role.\n"
+        },
+        {
+          "info": {
+            "name": "Delete a custom RBAC role",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/rbac/roles/:rbacRoleID",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "rbacRoleID",
+                "value": "",
+                "type": "path",
+                "description": "The role ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Deletes a custom RBAC role for the provided organization. This operation only applies to custom roles and will not delete built-in system roles.\n"
+        },
+        {
+          "info": {
+            "name": "List available RBAC scopes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/rbac/scopes",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a list of RBAC scopes available for an organization to use when creating custom roles.\nThese will match directly with the Super Admin role scopes.\n"
+        },
+        {
+          "info": {
+            "name": "List users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/rbac/users",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "email",
+                "value": "",
+                "type": "query",
+                "description": "Exact email lookup. When present, returns users matching the given address(es) instead of listing the organization. Mutually exclusive with `search`.\n"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Case-insensitive substring search on the user's display name or email address. Mutually exclusive with `email`.\n"
+              },
+              {
+                "name": "team",
+                "value": "",
+                "type": "query",
+                "description": "Restrict results to members of the team with this ID. Composes with `search`, `sort`, and `order`. When no user matches, the response is an empty list rather than a 404.\n"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort results by. Defaults to `email` when omitted.\n"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction. Defaults to ascending when omitted.\n"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page of results to fetch. Results are not guaranteed to be deterministic using this approach; we recommended using the `next_page` URL in a paginated response\n"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns users in the organization with team membership and roles.\n\nWithout `email`, lists organization users. Responses with more than\n1000 users are paginated at 100 per page; the `next_page` field in the\nresponse carries the URL of the next page. Pagination can also be\nrequested explicitly via `page`. `search` filters the list to users\nwhose name or email contains the given substring (case-insensitive).\nWhen `search` matches no users, the response is an empty list rather\nthan a 404. `search` i"
+        },
+        {
+          "info": {
+            "name": "List invitations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/rbac/invitations",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Case-insensitive substring search on the invitee's name or email address.\n"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort results by. Defaults to `email` when omitted. `invited` sorts by the time the invitation was created.\n"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction. Defaults to ascending when omitted.\n"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page of results to fetch. Results are not guaranteed to be deterministic using this approach; we recommended using the `next_page` URL in a paginated response\n"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns the pending (unaccepted) invitations in the organization, with\nthe org-level role each invitee will receive on acceptance.\n\nResponses with more than 1000 invitations are paginated at 100 per page;\nthe `next_page` field in the response carries the URL of the next page.\nPagination can also be requested explicitly via `page`. `search` filters\nthe list to invitations whose name or email contains the given substring\n(case-insensitive). When `search` matches nothing — or the organization\nhas n"
+        },
+        {
+          "info": {
+            "name": "Update user",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/rbac/users/:userIDv2",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "userIDv2",
+                "value": "",
+                "type": "path",
+                "description": "The user's ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update a user\n"
+        },
+        {
+          "info": {
+            "name": "Delete user",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/rbac/users/:userIDv2",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "userIDv2",
+                "value": "",
+                "type": "path",
+                "description": "The user's ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete a user\n"
+        },
+        {
+          "info": {
+            "name": "List human groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/rbac/groups",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "The human group name, case sensitive"
+              },
+              {
+                "name": "iname",
+                "value": "",
+                "type": "query",
+                "description": "The human group name, case insensitive"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Case-insensitive substring search on the human group name. Mutually exclusive with `name` and `iname`.\n"
+              },
+              {
+                "name": "no_members",
+                "value": "",
+                "type": "query",
+                "description": "Indicates whether or not to include the team members in the response"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page of results to fetch. Results are not guaranteed to be deterministic using this approach; we recommended using the `next_page` URL in a paginated response\n"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return a list of human groups in the organization.\n\nResponses with more than 1000 groups are paginated at 100 per page; the\n`next_page` field in the response carries the URL of the next page.\nPagination can also be requested explicitly via `page`. The `name`,\n`iname`, and `no_members` filters bypass pagination; `search` is\npaginated like the unfiltered listing. `search` is mutually exclusive\nwith `name`/`iname`.\n"
+        },
+        {
+          "info": {
+            "name": "List teams",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/rbac/teams",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Filter the listing to teams whose name matches this value case-insensitively. The legacy `teamName` spelling is accepted as an alias and used only when `name` is absent.\n"
+              },
+              {
+                "name": "no_members",
+                "value": "",
+                "type": "query",
+                "description": "Indicates whether or not to include the team members in the response"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page of results to fetch. Results are not guaranteed to be deterministic using this approach; we recommended using the `next_page` URL in a paginated response\n"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return the teams within an organization, sorted by team name. By\ndefault each team includes its members; pass `no_members=true` to omit\nthem.\n\nOnly teams the caller can read (`teams:read`) are returned — holding\n`teams:list` is enough to call the endpoint, but the result is filtered\nto the caller's readable teams.\n\n**Pagination.** Results are paged at 100 teams per page. Paging is not\non by default: it engages either when the caller requests a page\nexplicitly via `page`, or automatically when me"
+        },
+        {
+          "info": {
+            "name": "Create team",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/rbac/teams",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new team for an organization.\n"
+        },
+        {
+          "info": {
+            "name": "Update the members of a team",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/rbac/teams/:rbacTeamID/membership",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "rbacTeamID",
+                "value": "",
+                "type": "path",
+                "description": "The team ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update the members of a team.\n"
+        },
+        {
+          "info": {
+            "name": "Update a team's applications",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/rbac/teams/:rbacTeamID/apps",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "rbacTeamID",
+                "value": "",
+                "type": "path",
+                "description": "The team ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update the apps assigned to a team.\n"
+        },
+        {
+          "info": {
+            "name": "Update the metadata of a team",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/rbac/teams/:rbacTeamID/metadata",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "rbacTeamID",
+                "value": "",
+                "type": "path",
+                "description": "The team ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update the metadata of a team.\n"
+        },
+        {
+          "info": {
+            "name": "Read team",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/rbac/teams/:rbacTeamID",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "rbacTeamID",
+                "value": "",
+                "type": "path",
+                "description": "The team ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return information about a team.\n"
+        },
+        {
+          "info": {
+            "name": "Update a team",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/rbac/teams/:rbacTeamID",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "rbacTeamID",
+                "value": "",
+                "type": "path",
+                "description": "The team ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update a team within an organization.\n"
+        },
+        {
+          "info": {
+            "name": "Delete team",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/rbac/teams/:rbacTeamID",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "rbacTeamID",
+                "value": "",
+                "type": "path",
+                "description": "The team ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete a team within an organization.\n"
+        },
+        {
+          "info": {
+            "name": "List groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/rbac/teams/:rbacTeamID/groups",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "rbacTeamID",
+                "value": "",
+                "type": "path",
+                "description": "The team ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return a list of all groups within a team.\n"
+        },
+        {
+          "info": {
+            "name": "Create or update group",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/rbac/teams/:rbacTeamID/groups",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "rbacTeamID",
+                "value": "",
+                "type": "path",
+                "description": "The team ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create or update a group within a team.\n"
+        },
+        {
+          "info": {
+            "name": "Read group",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/rbac/groups/:groupID",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "groupID",
+                "value": "",
+                "type": "path",
+                "description": "A human group's ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return information about a group.\n"
+        },
+        {
+          "info": {
+            "name": "Read Team group",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/rbac/teams/:rbacTeamID/groups/:groupID",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "rbacTeamID",
+                "value": "",
+                "type": "path",
+                "description": "The team ID"
+              },
+              {
+                "name": "groupID",
+                "value": "",
+                "type": "path",
+                "description": "A human group's ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return information about a group.\n"
+        },
+        {
+          "info": {
+            "name": "Update group",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/rbac/teams/:rbacTeamID/groups/:groupID",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "rbacTeamID",
+                "value": "",
+                "type": "path",
+                "description": "The team ID"
+              },
+              {
+                "name": "groupID",
+                "value": "",
+                "type": "path",
+                "description": "A human group's ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update a group's role within a team.\n"
+        },
+        {
+          "info": {
+            "name": "Remove group from team",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/rbac/teams/:rbacTeamID/groups/:groupID",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "rbacTeamID",
+                "value": "",
+                "type": "path",
+                "description": "The team ID"
+              },
+              {
+                "name": "groupID",
+                "value": "",
+                "type": "path",
+                "description": "A human group's ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Remove a group's membership to a team.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

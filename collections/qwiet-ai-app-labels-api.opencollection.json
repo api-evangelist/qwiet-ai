@@ -1,0 +1,51 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "alerting app_labels API",
+    "version": "4.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "app_labels",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Update application labels",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID/labels",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update the application's labels."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

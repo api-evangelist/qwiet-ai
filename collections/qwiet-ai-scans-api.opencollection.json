@@ -1,0 +1,375 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "alerting scans API",
+    "version": "4.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "scans",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List scans",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID/scans",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              },
+              {
+                "name": "tags",
+                "value": "",
+                "type": "query",
+                "description": "The scan tags to filter by (e.g., `branch=main`)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of scans to return (must be between 1 and 50, inclusive). The default is 10 scans"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return the most recent scans for the indicated app."
+        },
+        {
+          "info": {
+            "name": "Compare scans",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID/scans/compare",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              },
+              {
+                "name": "source",
+                "value": "",
+                "type": "query",
+                "description": "The source scan for a comparison"
+              },
+              {
+                "name": "target",
+                "value": "",
+                "type": "query",
+                "description": "The target scan for a comparison"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Compare two scans and return a list of the findings in each, along with regression information."
+        },
+        {
+          "info": {
+            "name": "Check a scan against a set of rules",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:compoundName/scans/check",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "compoundName",
+                "value": "",
+                "type": "path",
+                "description": "A compound's name"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Check a scan against a set of rules, using another scan as a reference."
+        },
+        {
+          "info": {
+            "name": "Read scan details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID/scans/:scanID",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              },
+              {
+                "name": "scanID",
+                "value": "",
+                "type": "path",
+                "description": "ID of the scan"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return details for the specified scan."
+        },
+        {
+          "info": {
+            "name": "Read check scans report",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID/scans/:scanID/report",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              },
+              {
+                "name": "scanID",
+                "value": "",
+                "type": "path",
+                "description": "ID of the scan"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Read Check Scans Report."
+        },
+        {
+          "info": {
+            "name": "List scans in a compound, returning a subset of the scan summary information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/compounds/named/:compoundName/scans/streamlined",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "compoundName",
+                "value": "",
+                "type": "path",
+                "description": "A compound's name"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of scans to return."
+              },
+              {
+                "name": "branch",
+                "value": "",
+                "type": "query",
+                "description": "Only consider scans on this branch."
+              },
+              {
+                "name": "upto",
+                "value": "",
+                "type": "query",
+                "description": "Only list scans created before this time (given in nanoseconds since the UNIX Epoch)."
+              }
+            ]
+          },
+          "docs": "The full information we can return about a scan is a lot of data, which slows down a UI that only wants to present a subset of it to the user. This endpoint returns only the subset actually needed for rendering that UI. As such it's meant for internal use only, but is documented because other API users may find it useful for similar reasons."
+        },
+        {
+          "info": {
+            "name": "Read compound scan",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/compounds/named/:compoundName/scans/:scanID",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "compoundName",
+                "value": "",
+                "type": "path",
+                "description": "A compound's name"
+              },
+              {
+                "name": "scanID",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the scan to retrieve"
+              },
+              {
+                "name": "archived",
+                "value": "",
+                "type": "query",
+                "description": "If present, includes archived compounds"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve details for a specific scan of a compound"
+        },
+        {
+          "info": {
+            "name": "List Scans of Compound",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/compounds/named/:compoundName/scans",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "compoundName",
+                "value": "",
+                "type": "path",
+                "description": "A compound's name"
+              },
+              {
+                "name": "archived",
+                "value": "",
+                "type": "query",
+                "description": "If present, includes archived compounds"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter scans by status"
+              },
+              {
+                "name": "branch",
+                "value": "",
+                "type": "query",
+                "description": "Filter scans by branch"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of scans to return (must be between 1 and 50, inclusive). The default is 10 scans"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List all scans for a specific compound"
+        },
+        {
+          "info": {
+            "name": "Read scan's finding counts (grouped by OWASP category)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID/scans/:scanID/owasp_counts",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              },
+              {
+                "name": "scanID",
+                "value": "",
+                "type": "path",
+                "description": "ID of the scan"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a detailed list of OWASP categories and sub-categories and their counts (where available).\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,2281 @@
+{
+  "item": [
+    {
+      "id": "c2e6bd39-a9ba-4d13-af1c-f75ac258f427",
+      "name": "compounds",
+      "description": {
+        "content": "Multi-Language Apps are groups of applications that are scanned together as a single application. This is useful for applications that are a compound of various programming languages and configurations of frameworks.\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3e955441-4eeb-4d77-ad8b-87e8f2511a69",
+          "name": "Un/Archive Compound",
+          "request": {
+            "name": "Un/Archive Compound",
+            "description": {
+              "content": "Toggle the archived status of a compound",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "compounds",
+                "named",
+                ":compoundName"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "compoundName",
+                  "description": "(Required) A compound's name"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"is_archived\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b287b460-c0e5-4073-8b50-42cf7ab3e3e5",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "compounds",
+                    "named",
+                    ":compoundName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "compoundName",
+                      "description": "(Required) A compound's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"is_archived\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bf450341-88b2-4583-896b-62a1d78d42c2",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "compounds",
+                    "named",
+                    ":compoundName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "compoundName",
+                      "description": "(Required) A compound's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"is_archived\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "16814fcc-df1d-4ac4-956a-329ecdc04cce",
+          "name": "List scans in a compound, returning a subset of the scan summary information",
+          "request": {
+            "name": "List scans in a compound, returning a subset of the scan summary information",
+            "description": {
+              "content": "The full information we can return about a scan is a lot of data, which slows down a UI that only wants to present a subset of it to the user. This endpoint returns only the subset actually needed for rendering that UI. As such it's meant for internal use only, but is documented because other API users may find it useful for similar reasons.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "compounds",
+                "named",
+                ":compoundName",
+                "scans",
+                "streamlined"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "10",
+                  "description": "The number of scans to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "branch",
+                  "value": "<string>",
+                  "description": "Only consider scans on this branch."
+                },
+                {
+                  "disabled": false,
+                  "key": "upto",
+                  "value": "<integer>",
+                  "description": "Only list scans created before this time (given in nanoseconds since the UNIX Epoch)."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "compoundName",
+                  "description": "(Required) A compound's name"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "15bb5b2f-c2eb-483e-bdc0-cf8a2496269c",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "compounds",
+                    "named",
+                    ":compoundName",
+                    "scans",
+                    "streamlined"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "branch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "upto",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "compoundName",
+                      "description": "(Required) A compound's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"response\": {\n    \"scans\": [\n      {\n        \"polyglot_scan_id\": 1,\n        \"created_at\": \"1957-11-02T07:04:34.930Z\",\n        \"agent\": \"harness\",\n        \"branch\": \"feature/more-potatoes\",\n        \"languages\": [\n          \"javascript\",\n          \"javascript\"\n        ],\n        \"vulns\": {\n          \"critical\": 1,\n          \"high\": 2,\n          \"medium\": 3,\n          \"low\": 5\n        },\n        \"oss_vulns\": {\n          \"critical\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"high\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"low\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"medium\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"unreachable\": 7\n        },\n        \"container_vulns\": {\n          \"critical\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"high\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"low\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"medium\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"unreachable\": 7\n        },\n        \"secrets\": 42,\n        \"platforms\": [\n          \"JAVASCRIPT\",\n          \"JAVASCRIPT\"\n        ],\n        \"oss_risks\": 3,\n        \"failures\": [\n          \"Failed to create CPG File\",\n          \"Failed to create CPG File\"\n        ]\n      },\n      {\n        \"polyglot_scan_id\": 1,\n        \"created_at\": \"1965-12-01T11:17:19.898Z\",\n        \"agent\": \"harness\",\n        \"branch\": \"feature/more-potatoes\",\n        \"languages\": [\n          \"javascript\",\n          \"javascript\"\n        ],\n        \"vulns\": {\n          \"critical\": 1,\n          \"high\": 2,\n          \"medium\": 3,\n          \"low\": 5\n        },\n        \"oss_vulns\": {\n          \"critical\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"high\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"low\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"medium\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"unreachable\": 7\n        },\n        \"container_vulns\": {\n          \"critical\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"high\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"low\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"medium\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"unreachable\": 7\n        },\n        \"secrets\": 42,\n        \"platforms\": [\n          \"JAVASCRIPT\",\n          \"JAVASCRIPT\"\n        ],\n        \"oss_risks\": 3,\n        \"failures\": [\n          \"Failed to create CPG File\",\n          \"Failed to create CPG File\"\n        ]\n      }\n    ],\n    \"agents\": [\n      \"vscode\",\n      \"vscode\"\n    ]\n  },\n  \"next_page\": \"https://api.shiftleft.io/orgs/4c07962d-745f-4465-9965-002f6cf3c7ff/findings?page=2\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8c0e2723-76de-4447-ac33-c19a1f53204d",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "compounds",
+                    "named",
+                    ":compoundName",
+                    "scans",
+                    "streamlined"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "branch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "upto",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "compoundName",
+                      "description": "(Required) A compound's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "dc185540-7deb-46c1-aeee-e7dff14c6700",
+          "name": "Read compound scan",
+          "request": {
+            "name": "Read compound scan",
+            "description": {
+              "content": "Retrieve details for a specific scan of a compound",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "compounds",
+                "named",
+                ":compoundName",
+                "scans",
+                ":scanID"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "archived",
+                  "value": "<boolean>",
+                  "description": "If present, includes archived compounds"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "compoundName",
+                  "description": "(Required) A compound's name"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "scanID",
+                  "description": "(Required) The ID of the scan to retrieve"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "7f920f6b-1f01-4c60-9334-7df8b54ad570",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "compounds",
+                    "named",
+                    ":compoundName",
+                    "scans",
+                    ":scanID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "archived",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "compoundName",
+                      "description": "(Required) A compound's name"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "scanID",
+                      "description": "(Required) The ID of the scan to retrieve"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"response\": {\n    \"compound_id\": \"5e20c88b-dded-3a9d-c2bc-9487b4c6ff84\",\n    \"polyglot_scan_id\": 9395,\n    \"scans\": [\n      {\n        \"id\": \"1234\",\n        \"app\": \"hello-qwiet\",\n        \"version\": \"f348b507198fee7b6b57a460ef8a6c94783c59258f823dfcde41a2b5cb69765f\",\n        \"successful\": false,\n        \"started_at\": \"1995-05-10T01:19:45.918Z\",\n        \"completed_at\": \"2008-12-17T06:22:04.444Z\",\n        \"language\": \"javascript\",\n        \"number_of_expressions\": 10,\n        \"tags\": {}\n      },\n      {\n        \"id\": \"1234\",\n        \"app\": \"hello-qwiet\",\n        \"version\": \"f348b507198fee7b6b57a460ef8a6c94783c59258f823dfcde41a2b5cb69765f\",\n        \"successful\": true,\n        \"started_at\": \"2017-12-06T07:47:39.768Z\",\n        \"completed_at\": \"1980-03-29T08:20:45.240Z\",\n        \"language\": \"javascript\",\n        \"number_of_expressions\": 10,\n        \"tags\": {}\n      }\n    ],\n    \"findings_summaries\": [\n      {\n        \"total\": 10,\n        \"finding_type\": \"vuln\",\n        \"total_reachable\": 4993,\n        \"total_ignored\": 1,\n        \"total_fixed\": 3,\n        \"by_severity\": {\n          \"info\": {\n            \"total\": 6\n          },\n          \"critical\": {\n            \"total\": 3,\n            \"total_fixed\": 3\n          },\n          \"moderate\": {\n            \"total\": 1,\n            \"total_ignored\": 1\n          }\n        },\n        \"by_category\": {\n          \"Sensitive Data Leak\": {\n            \"total\": 10,\n            \"total_fixed\": 3,\n            \"total_ignored\": 1\n          }\n        },\n        \"by_assignee\": {\n          \"test@qwiet.ai\": {\n            \"total\": 10,\n            \"total_fixed\": 3,\n            \"total_ignored\": 1\n          }\n        }\n      },\n      {\n        \"total\": 10,\n        \"finding_type\": \"vuln\",\n        \"total_reachable\": 3016,\n        \"total_ignored\": 1,\n        \"total_fixed\": 3,\n        \"by_severity\": {\n          \"info\": {\n            \"total\": 6\n          },\n          \"critical\": {\n            \"total\": 3,\n            \"total_fixed\": 3\n          },\n          \"moderate\": {\n            \"total\": 1,\n            \"total_ignored\": 1\n          }\n        },\n        \"by_category\": {\n          \"Sensitive Data Leak\": {\n            \"total\": 10,\n            \"total_fixed\": 3,\n            \"total_ignored\": 1\n          }\n        },\n        \"by_assignee\": {\n          \"test@qwiet.ai\": {\n            \"total\": 10,\n            \"total_fixed\": 3,\n            \"total_ignored\": 1\n          }\n        }\n      }\n    ],\n    \"counts\": [\n      {\n        \"finding_type\": \"vuln\",\n        \"count\": 42\n      },\n      {\n        \"finding_type\": \"vuln\",\n        \"count\": 42\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b9730f5f-7f0c-4ecf-b109-cb676bb3177c",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "compounds",
+                    "named",
+                    ":compoundName",
+                    "scans",
+                    ":scanID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "archived",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "compoundName",
+                      "description": "(Required) A compound's name"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "scanID",
+                      "description": "(Required) The ID of the scan to retrieve"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3739fb22-d499-424b-8c44-be3bc6ff9c17",
+          "name": "Read branches for compound",
+          "request": {
+            "name": "Read branches for compound",
+            "description": {
+              "content": "List all the branches for a specific compound",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "compounds",
+                "named",
+                ":compoundName",
+                "branches"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "archived",
+                  "value": "<boolean>",
+                  "description": "If present, includes archived compounds"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "compoundName",
+                  "description": "(Required) A compound's name"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "043d7c3b-c662-4dd7-b0c4-adcaf6090abd",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "compounds",
+                    "named",
+                    ":compoundName",
+                    "branches"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "archived",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "compoundName",
+                      "description": "(Required) A compound's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"response\": {\n    \"branches\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bf5b161d-3246-40a0-8deb-9afabe438d9e",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "compounds",
+                    "named",
+                    ":compoundName",
+                    "branches"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "archived",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "compoundName",
+                      "description": "(Required) A compound's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "42f0b701-bddd-4ec2-b639-e41948569a84",
+          "name": "List Scans of Compound",
+          "request": {
+            "name": "List Scans of Compound",
+            "description": {
+              "content": "List all scans for a specific compound",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "compounds",
+                "named",
+                ":compoundName",
+                "scans"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "archived",
+                  "value": "<boolean>",
+                  "description": "If present, includes archived compounds"
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "Filter scans by status"
+                },
+                {
+                  "disabled": false,
+                  "key": "branch",
+                  "value": "<string>",
+                  "description": "Filter scans by branch"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "The number of scans to return (must be between 1 and 50, inclusive). The default is 10 scans"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "compoundName",
+                  "description": "(Required) A compound's name"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "5b26bd90-234d-4391-9177-a97d9b8cf14e",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "compounds",
+                    "named",
+                    ":compoundName",
+                    "scans"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "archived",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "branch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "compoundName",
+                      "description": "(Required) A compound's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"response\": {\n    \"scans\": [\n      {\n        \"id\": \"1234\",\n        \"app\": \"hello-qwiet\",\n        \"version\": \"f348b507198fee7b6b57a460ef8a6c94783c59258f823dfcde41a2b5cb69765f\",\n        \"successful\": true,\n        \"is_default_branch\": true,\n        \"started_at\": \"1993-12-11T01:41:07.297Z\",\n        \"completed_at\": \"1987-09-26T03:53:20.223Z\",\n        \"language\": \"javascript\",\n        \"number_of_expressions\": 10,\n        \"tags\": {},\n        \"oss_info\": {\n          \"enabled\": false,\n          \"successful\": false,\n          \"failure_reason\": \"string\"\n        },\n        \"counts\": [\n          {\n            \"finding_type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"count\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"finding_type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"count\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"findings_summaries\": [\n          {\n            \"total\": 10,\n            \"finding_type\": \"vuln\",\n            \"total_reachable\": 8225,\n            \"total_ignored\": 1,\n            \"total_fixed\": 3,\n            \"by_severity\": {\n              \"info\": {\n                \"total\": 6\n              },\n              \"critical\": {\n                \"total\": 3,\n                \"total_fixed\": 3\n              },\n              \"moderate\": {\n                \"total\": 1,\n                \"total_ignored\": 1\n              }\n            },\n            \"by_category\": {\n              \"Sensitive Data Leak\": {\n                \"total\": 10,\n                \"total_fixed\": 3,\n                \"total_ignored\": 1\n              }\n            },\n            \"by_assignee\": {\n              \"test@qwiet.ai\": {\n                \"total\": 10,\n                \"total_fixed\": 3,\n                \"total_ignored\": 1\n              }\n            }\n          },\n          {\n            \"total\": 10,\n            \"finding_type\": \"vuln\",\n            \"total_reachable\": 7524,\n            \"total_ignored\": 1,\n            \"total_fixed\": 3,\n            \"by_severity\": {\n              \"info\": {\n                \"total\": 6\n              },\n              \"critical\": {\n                \"total\": 3,\n                \"total_fixed\": 3\n              },\n              \"moderate\": {\n                \"total\": 1,\n                \"total_ignored\": 1\n              }\n            },\n            \"by_category\": {\n              \"Sensitive Data Leak\": {\n                \"total\": 10,\n                \"total_fixed\": 3,\n                \"total_ignored\": 1\n              }\n            },\n            \"by_assignee\": {\n              \"test@qwiet.ai\": {\n                \"total\": 10,\n                \"total_fixed\": 3,\n                \"total_ignored\": 1\n              }\n            }\n          }\n        ],\n        \"total\": 101,\n        \"total_fixed\": 42,\n        \"total_ignored\": 17\n      },\n      {\n        \"id\": \"1234\",\n        \"app\": \"hello-qwiet\",\n        \"version\": \"f348b507198fee7b6b57a460ef8a6c94783c59258f823dfcde41a2b5cb69765f\",\n        \"successful\": false,\n        \"is_default_branch\": true,\n        \"started_at\": \"1992-10-25T06:30:49.304Z\",\n        \"completed_at\": \"1991-05-29T10:28:23.309Z\",\n        \"language\": \"javascript\",\n        \"number_of_expressions\": 10,\n        \"tags\": {},\n        \"oss_info\": {\n          \"enabled\": false,\n          \"successful\": true,\n          \"failure_reason\": \"string\"\n        },\n        \"counts\": [\n          {\n            \"finding_type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"count\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"finding_type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"count\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"findings_summaries\": [\n          {\n            \"total\": 10,\n            \"finding_type\": \"vuln\",\n            \"total_reachable\": 9773,\n            \"total_ignored\": 1,\n            \"total_fixed\": 3,\n            \"by_severity\": {\n              \"info\": {\n                \"total\": 6\n              },\n              \"critical\": {\n                \"total\": 3,\n                \"total_fixed\": 3\n              },\n              \"moderate\": {\n                \"total\": 1,\n                \"total_ignored\": 1\n              }\n            },\n            \"by_category\": {\n              \"Sensitive Data Leak\": {\n                \"total\": 10,\n                \"total_fixed\": 3,\n                \"total_ignored\": 1\n              }\n            },\n            \"by_assignee\": {\n              \"test@qwiet.ai\": {\n                \"total\": 10,\n                \"total_fixed\": 3,\n                \"total_ignored\": 1\n              }\n            }\n          },\n          {\n            \"total\": 10,\n            \"finding_type\": \"vuln\",\n            \"total_reachable\": 1794,\n            \"total_ignored\": 1,\n            \"total_fixed\": 3,\n            \"by_severity\": {\n              \"info\": {\n                \"total\": 6\n              },\n              \"critical\": {\n                \"total\": 3,\n                \"total_fixed\": 3\n              },\n              \"moderate\": {\n                \"total\": 1,\n                \"total_ignored\": 1\n              }\n            },\n            \"by_category\": {\n              \"Sensitive Data Leak\": {\n                \"total\": 10,\n                \"total_fixed\": 3,\n                \"total_ignored\": 1\n              }\n            },\n            \"by_assignee\": {\n              \"test@qwiet.ai\": {\n                \"total\": 10,\n                \"total_fixed\": 3,\n                \"total_ignored\": 1\n              }\n            }\n          }\n        ],\n        \"total\": 101,\n        \"total_fixed\": 42,\n        \"total_ignored\": 17\n      }\n    ]\n  },\n  \"next_page\": \"https://api.shiftleft.io/orgs/4c07962d-745f-4465-9965-002f6cf3c7ff/findings?page=2\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "26737efb-c330-4266-83ab-dee4c9ce1784",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "compounds",
+                    "named",
+                    ":compoundName",
+                    "scans"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "archived",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "branch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "compoundName",
+                      "description": "(Required) A compound's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "91896888-c16e-45cf-bb71-d83ce28e357a",
+          "name": "List Compounds",
+          "request": {
+            "name": "List Compounds",
+            "description": {
+              "content": "List all compounds for an organization",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "compounds"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "archived",
+                  "value": "<boolean>",
+                  "description": "If present, returns archived compounds (true) or non-archived compounds (false)"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number"
+                },
+                {
+                  "disabled": false,
+                  "key": "per_page",
+                  "value": "20",
+                  "description": "Number of items per page"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "ff99ca53-9615-460a-8f3a-f06b73e8e6c4",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "compounds"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "archived",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"response\": {\n    \"compounds\": [\n      {\n        \"name\": \"shiftleft-python-demo\",\n        \"apps\": {\n          \"11\": {\n            \"name\": \"shiftleft-python\",\n            \"can_delete\": true,\n            \"is_subscription_active\": true,\n            \"configuration\": {\n              \"analysis_configuration\": {\n                \"secrets\": {},\n                \"cpg2sp\": {}\n              }\n            },\n            \"compound\": \"fab0089f-cc8c-44a8-a927-26e83f6eb6d4\"\n          },\n          \"17\": {\n            \"name\": \"shiftleft-python\",\n            \"can_delete\": true,\n            \"is_subscription_active\": true,\n            \"configuration\": {\n              \"analysis_configuration\": {\n                \"secrets\": {},\n                \"cpg2sp\": {}\n              }\n            },\n            \"compound\": \"fab0089f-cc8c-44a8-a927-26e83f6eb6d4\"\n          },\n          \"18\": {\n            \"name\": \"shiftleft-python-demo\",\n            \"can_delete\": true,\n            \"is_subscription_active\": true,\n            \"configuration\": {\n              \"analysis_configuration\": {\n                \"secrets\": {},\n                \"cpg2sp\": {}\n              }\n            },\n            \"avg_scan_duration_ms\": 43674,\n            \"compound\": \"fab0089f-cc8c-44a8-a927-26e83f6eb6d4\"\n          }\n        }\n      },\n      {\n        \"name\": \"shiftleft-python-demo\",\n        \"apps\": {\n          \"11\": {\n            \"name\": \"shiftleft-python\",\n            \"can_delete\": true,\n            \"is_subscription_active\": true,\n            \"configuration\": {\n              \"analysis_configuration\": {\n                \"secrets\": {},\n                \"cpg2sp\": {}\n              }\n            },\n            \"compound\": \"fab0089f-cc8c-44a8-a927-26e83f6eb6d4\"\n          },\n          \"17\": {\n            \"name\": \"shiftleft-python\",\n            \"can_delete\": true,\n            \"is_subscription_active\": true,\n            \"configuration\": {\n              \"analysis_configuration\": {\n                \"secrets\": {},\n                \"cpg2sp\": {}\n              }\n            },\n            \"compound\": \"fab0089f-cc8c-44a8-a927-26e83f6eb6d4\"\n          },\n          \"18\": {\n            \"name\": \"shiftleft-python-demo\",\n            \"can_delete\": true,\n            \"is_subscription_active\": true,\n            \"configuration\": {\n              \"analysis_configuration\": {\n                \"secrets\": {},\n                \"cpg2sp\": {}\n              }\n            },\n            \"avg_scan_duration_ms\": 43674,\n            \"compound\": \"fab0089f-cc8c-44a8-a927-26e83f6eb6d4\"\n          }\n        }\n      }\n    ]\n  },\n  \"next_page\": \"https://api.shiftleft.io/orgs/4c07962d-745f-4465-9965-002f6cf3c7ff/findings?page=2\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e6cd0c45-ce9b-46e6-b46a-c59d66acd341",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "compounds"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "archived",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "38122ec0-425f-4817-a2cf-09fccd902653",
+          "name": "Read shallow compound",
+          "request": {
+            "name": "Read shallow compound",
+            "description": {
+              "content": "Returns a shallow compound object, which includes the compound's ID, name, and description.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "compounds",
+                "shallow",
+                ":compoundID"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "compoundID",
+                  "description": "(Required) A compound's ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "532e0ad8-ccef-44f0-abae-99c53f7ccff4",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "compounds",
+                    "shallow",
+                    ":compoundID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "compoundID",
+                      "description": "(Required) A compound's ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"response\": {\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"apps\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3d1321bc-1317-44e1-94a6-5a1d48b76e40",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "compounds",
+                    "shallow",
+                    ":compoundID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "compoundID",
+                      "description": "(Required) A compound's ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ff51f1eb-e6bc-4ad5-83b2-c4e6d87c0ff0",
+          "name": "Read shallow compound by ID",
+          "request": {
+            "name": "Read shallow compound by ID",
+            "description": {
+              "content": "Returns a shallow compound object by its ID, which includes the compound's ID, name, and the IDs of the apps that are part of the compound.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "compounds",
+                "byid",
+                ":compoundID",
+                "shallow"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "compoundID",
+                  "description": "(Required) A compound's ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "e27ab14b-2ec9-428c-a179-74b31d5a78e1",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "compounds",
+                    "byid",
+                    ":compoundID",
+                    "shallow"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "compoundID",
+                      "description": "(Required) A compound's ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"response\": {\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"apps\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "45c7d284-7bf2-4879-8767-fa327ee12ffb",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "compounds",
+                    "byid",
+                    ":compoundID",
+                    "shallow"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "compoundID",
+                      "description": "(Required) A compound's ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e3325181-7e36-4f33-91aa-43e8ac3967cb",
+          "name": "Read shallow compound by name",
+          "request": {
+            "name": "Read shallow compound by name",
+            "description": {
+              "content": "Returns a shallow compound object by its name. If no compound is found with the given name, falls back to looking up a project with that name.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "compounds",
+                "byname",
+                ":compoundName",
+                "shallow"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "compoundName",
+                  "description": "(Required) A compound's name"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "215099d1-b606-451d-813b-ff5a27d105de",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "compounds",
+                    "byname",
+                    ":compoundName",
+                    "shallow"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "compoundName",
+                      "description": "(Required) A compound's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"response\": {\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"apps\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f8002489-05e0-4beb-8bc8-5711ca377c1a",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "compounds",
+                    "byname",
+                    ":compoundName",
+                    "shallow"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "compoundName",
+                      "description": "(Required) A compound's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "259ef295-c93f-43ad-962e-f97731555efc",
+          "name": "Delete compound",
+          "request": {
+            "name": "Delete compound",
+            "description": {
+              "content": "Deletes a compound and all of its associated apps.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "compounds",
+                ":compoundID"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "compoundID",
+                  "description": "(Required) A compound's ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "40c723a9-525e-4ad9-95b1-3a15122a8002",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "compounds",
+                    ":compoundID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "compoundID",
+                      "description": "(Required) A compound's ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "31b00a16-4208-4189-ae6a-a726c29ef473",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "compounds",
+                    ":compoundID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "compoundID",
+                      "description": "(Required) A compound's ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9996bc0f-5d69-4d8f-a839-7429f122bab5",
+          "name": "Read full compound",
+          "request": {
+            "name": "Read full compound",
+            "description": {
+              "content": "Returns a full compound object, which includes the compound's ID, name, description, and the IDs of the apps that are part of the compound.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "compounds",
+                "full",
+                ":compoundID"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "compoundID",
+                  "description": "(Required) A compound's ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "6eab1616-3b84-4ce6-856a-d1b40f1e30a4",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "compounds",
+                    "full",
+                    ":compoundID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "compoundID",
+                      "description": "(Required) A compound's ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"response\": {\n    \"name\": \"shiftleft-python-demo\",\n    \"apps\": {\n      \"11\": {\n        \"name\": \"shiftleft-python\",\n        \"can_delete\": true,\n        \"is_subscription_active\": true,\n        \"configuration\": {\n          \"analysis_configuration\": {\n            \"secrets\": {},\n            \"cpg2sp\": {}\n          }\n        },\n        \"compound\": \"fab0089f-cc8c-44a8-a927-26e83f6eb6d4\"\n      },\n      \"17\": {\n        \"name\": \"shiftleft-python\",\n        \"can_delete\": true,\n        \"is_subscription_active\": true,\n        \"configuration\": {\n          \"analysis_configuration\": {\n            \"secrets\": {},\n            \"cpg2sp\": {}\n          }\n        },\n        \"compound\": \"fab0089f-cc8c-44a8-a927-26e83f6eb6d4\"\n      },\n      \"18\": {\n        \"name\": \"shiftleft-python-demo\",\n        \"can_delete\": true,\n        \"is_subscription_active\": true,\n        \"configuration\": {\n          \"analysis_configuration\": {\n            \"secrets\": {},\n            \"cpg2sp\": {}\n          }\n        },\n        \"avg_scan_duration_ms\": 43674,\n        \"compound\": \"fab0089f-cc8c-44a8-a927-26e83f6eb6d4\"\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "004ea12f-2b27-4c49-b512-9f1c6276cbb6",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "compounds",
+                    "full",
+                    ":compoundID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "compoundID",
+                      "description": "(Required) A compound's ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.shiftleft.io/api/v4",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "6079d7f5-bb5c-46a0-bfd2-28c343284e2b",
+    "name": "alerting compounds API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.\n\n# Authentication\n\nUse of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).\n",
+      "type": "text/plain"
+    }
+  }
+}

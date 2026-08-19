@@ -1,0 +1,3675 @@
+{
+  "item": [
+    {
+      "id": "fdc2f350-515a-4e78-a49c-a848b77f2f63",
+      "name": "findings",
+      "description": {
+        "content": "The results of a scan (which can include vulnerabilities, secrets, or insights).\n[![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-156075f8-c7cf-4e2c-95fa-0823a3313658?action=collection%2Ffork&collection-url=entityId%3D9829310-156075f8-c7cf-4e2c-95fa-0823a3313658%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2eb28a54-d4cf-438d-bc21-b929ce793b1b",
+          "name": "List app findings",
+          "request": {
+            "name": "List app findings",
+            "description": {
+              "content": "List findings for the specified app. Results are filtered to a single scan (by default, this is the latest scan).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "apps",
+                ":appID",
+                "findings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "The type of findings. Accepted values are `oss_vuln`, `vuln`, and `secret`"
+                },
+                {
+                  "disabled": false,
+                  "key": "severity",
+                  "value": "<string>",
+                  "description": "The severity filter"
+                },
+                {
+                  "disabled": false,
+                  "key": "assignee",
+                  "value": "<string>",
+                  "description": "The email addresses of users assigned to this finding"
+                },
+                {
+                  "disabled": false,
+                  "key": "assignment",
+                  "value": "<string>",
+                  "description": "The assignment status filter. By default, all findings, both `unassigned` and `assigned`, are returned.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "category",
+                  "value": "<string>",
+                  "description": "The category filter"
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "The status filter. By default, only `unset` findings are included.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>",
+                  "description": "How to sort results; defaults to ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "<string>",
+                  "description": "Direction of the sort; defaults to descending"
+                },
+                {
+                  "disabled": false,
+                  "key": "only_counts",
+                  "value": "<boolean>",
+                  "description": "Whether to include only finding counts; excludes the list of findings"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "The page of results to fetch. Results are not guaranteed to be deterministic using this approach; we recommended using the `next_page` URL in a paginated response\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "per_page",
+                  "value": "<integer>",
+                  "description": "Number of results per page; defaults to 50"
+                },
+                {
+                  "disabled": false,
+                  "key": "version",
+                  "value": "<string>",
+                  "description": "Version to filter findings for; defaults to the latest scan"
+                },
+                {
+                  "disabled": false,
+                  "key": "scan",
+                  "value": "<string>",
+                  "description": "ID of the scan to filter to; defaults to the latest scan"
+                },
+                {
+                  "disabled": false,
+                  "key": "source",
+                  "value": "<string>",
+                  "description": "The source scan for a comparision"
+                },
+                {
+                  "disabled": false,
+                  "key": "diff",
+                  "value": "<string>",
+                  "description": "Return a diff of findings (as compared to the source)"
+                },
+                {
+                  "disabled": false,
+                  "key": "fields",
+                  "value": "<string>",
+                  "description": "Specifies the fields included or excluded in the response."
+                },
+                {
+                  "disabled": false,
+                  "key": "fields",
+                  "value": "<string>",
+                  "description": "Specifies the fields included or excluded in the response."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "appID",
+                  "description": "(Required) The app ID (e.g., `HelloQwiet`)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "d5317bd8-a041-45d6-884f-c789c3f053c3",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "apps",
+                    ":appID",
+                    "findings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "severity",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "assignee",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "assignment",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "only_counts",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "version",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scan",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "source",
+                      "value": "scan.128|tag.branch=samplebranch"
+                    },
+                    {
+                      "key": "diff",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appID",
+                      "description": "(Required) The app ID (e.g., `HelloQwiet`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"response\": {\n    \"has_more\": true,\n    \"scan\": {\n      \"id\": \"1234\",\n      \"app\": \"hello-qwiet\",\n      \"version\": \"f348b507198fee7b6b57a460ef8a6c94783c59258f823dfcde41a2b5cb69765f\",\n      \"successful\": true,\n      \"is_default_branch\": true,\n      \"started_at\": \"1963-11-30T13:39:34.669Z\",\n      \"completed_at\": \"1946-12-20T05:10:54.478Z\",\n      \"language\": \"javascript\",\n      \"number_of_expressions\": 10,\n      \"tags\": {},\n      \"oss_info\": {\n        \"enabled\": false,\n        \"successful\": false,\n        \"failure_reason\": \"string\"\n      },\n      \"counts\": [\n        {\n          \"finding_type\": \"vuln\",\n          \"count\": 42\n        },\n        {\n          \"finding_type\": \"vuln\",\n          \"count\": 42\n        }\n      ],\n      \"findings_summaries\": [\n        {\n          \"total\": 10,\n          \"finding_type\": \"vuln\",\n          \"total_reachable\": 5590,\n          \"total_ignored\": 1,\n          \"total_fixed\": 3,\n          \"by_severity\": {\n            \"info\": {\n              \"total\": 6\n            },\n            \"critical\": {\n              \"total\": 3,\n              \"total_fixed\": 3\n            },\n            \"moderate\": {\n              \"total\": 1,\n              \"total_ignored\": 1\n            }\n          },\n          \"by_category\": {\n            \"Sensitive Data Leak\": {\n              \"total\": 10,\n              \"total_fixed\": 3,\n              \"total_ignored\": 1\n            }\n          },\n          \"by_assignee\": {\n            \"test@qwiet.ai\": {\n              \"total\": 10,\n              \"total_fixed\": 3,\n              \"total_ignored\": 1\n            }\n          }\n        },\n        {\n          \"total\": 10,\n          \"finding_type\": \"vuln\",\n          \"total_reachable\": 1038,\n          \"total_ignored\": 1,\n          \"total_fixed\": 3,\n          \"by_severity\": {\n            \"info\": {\n              \"total\": 6\n            },\n            \"critical\": {\n              \"total\": 3,\n              \"total_fixed\": 3\n            },\n            \"moderate\": {\n              \"total\": 1,\n              \"total_ignored\": 1\n            }\n          },\n          \"by_category\": {\n            \"Sensitive Data Leak\": {\n              \"total\": 10,\n              \"total_fixed\": 3,\n              \"total_ignored\": 1\n            }\n          },\n          \"by_assignee\": {\n            \"test@qwiet.ai\": {\n              \"total\": 10,\n              \"total_fixed\": 3,\n              \"total_ignored\": 1\n            }\n          }\n        }\n      ],\n      \"total\": 101,\n      \"total_fixed\": 42,\n      \"total_ignored\": 17\n    },\n    \"findings\": [\n      {\n        \"id\": \"1\",\n        \"app\": \"hello-qwiet\",\n        \"type\": \"vuln\",\n        \"internal_id\": \"sensitive-to-http/f5ecc6f0cae821f47a06c939d1b9c7ee\",\n        \"title\": \"Sensitive Data Leak: Sensitive data contained in HTTP request/response\",\n        \"description\": \"Sensitive data included in HTTP request/response. This could result in sensitive data exposure\",\n        \"severity\": \"<string>\",\n        \"owasp_category\": \"a3-sensitive-data-exposure\",\n        \"category\": \"Sensitive Data Leak\",\n        \"status\": \"<string>\",\n        \"assignee\": \"string\",\n        \"version_first_seen\": \"string\",\n        \"details\": {},\n        \"tags\": [\n          {\n            \"key\": \"severity\",\n            \"value\": \"info\"\n          },\n          {\n            \"key\": \"cvss_score\",\n            \"value\": 2\n          }\n        ]\n      },\n      {\n        \"id\": \"1\",\n        \"app\": \"hello-qwiet\",\n        \"type\": \"vuln\",\n        \"internal_id\": \"sensitive-to-http/f5ecc6f0cae821f47a06c939d1b9c7ee\",\n        \"title\": \"Sensitive Data Leak: Sensitive data contained in HTTP request/response\",\n        \"description\": \"Sensitive data included in HTTP request/response. This could result in sensitive data exposure\",\n        \"severity\": \"<string>\",\n        \"owasp_category\": \"a3-sensitive-data-exposure\",\n        \"category\": \"Sensitive Data Leak\",\n        \"status\": \"<string>\",\n        \"assignee\": \"string\",\n        \"version_first_seen\": \"string\",\n        \"details\": {},\n        \"tags\": [\n          {\n            \"key\": \"severity\",\n            \"value\": \"info\"\n          },\n          {\n            \"key\": \"cvss_score\",\n            \"value\": 2\n          }\n        ]\n      }\n    ],\n    \"counts\": [\n      {\n        \"key\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"value\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"finding_type\": \"vuln\",\n        \"count\": 42\n      },\n      {\n        \"key\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"value\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"finding_type\": \"vuln\",\n        \"count\": 42\n      }\n    ]\n  },\n  \"next_page\": \"https://api.shiftleft.io/orgs/4c07962d-745f-4465-9965-002f6cf3c7ff/findings?page=2\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c0756ce3-4112-42f7-851a-42400b70b7b3",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "apps",
+                    ":appID",
+                    "findings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "severity",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "assignee",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "assignment",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "only_counts",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "version",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scan",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "source",
+                      "value": "scan.128|tag.branch=samplebranch"
+                    },
+                    {
+                      "key": "diff",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appID",
+                      "description": "(Required) The app ID (e.g., `HelloQwiet`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7b3357e0-bdbf-4340-b661-76507abe5ba1",
+          "name": "List compound findings",
+          "request": {
+            "name": "List compound findings",
+            "description": {
+              "content": "DEPRECATED - use /orgs/{orgID}/compounds/byname/{compoundName}/findings instead. List findings for the specified compound. Results are filtered to a single scan (by default, this is the latest scan).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "compounds",
+                "named",
+                ":compoundName",
+                "findings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "The type of findings. Accepted values are `oss_vuln`, `vuln`, and `secret`"
+                },
+                {
+                  "disabled": false,
+                  "key": "severity",
+                  "value": "<string>",
+                  "description": "The severity filter"
+                },
+                {
+                  "disabled": false,
+                  "key": "assignee",
+                  "value": "<string>",
+                  "description": "The email addresses of users assigned to this finding"
+                },
+                {
+                  "disabled": false,
+                  "key": "assignment",
+                  "value": "<string>",
+                  "description": "The assignment status filter. By default, all findings, both `unassigned` and `assigned`, are returned.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "category",
+                  "value": "<string>",
+                  "description": "The category filter"
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "The status filter. By default, only `unset` findings are included.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>",
+                  "description": "How to sort results; defaults to ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "<string>",
+                  "description": "Direction of the sort; defaults to descending"
+                },
+                {
+                  "disabled": false,
+                  "key": "only_counts",
+                  "value": "<boolean>",
+                  "description": "Whether to include only finding counts; excludes the list of findings"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "The page of results to fetch. Results are not guaranteed to be deterministic using this approach; we recommended using the `next_page` URL in a paginated response\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "per_page",
+                  "value": "<integer>",
+                  "description": "Number of results per page; defaults to 50"
+                },
+                {
+                  "disabled": false,
+                  "key": "version",
+                  "value": "<string>",
+                  "description": "Version to filter findings for; defaults to the latest scan"
+                },
+                {
+                  "disabled": false,
+                  "key": "scan",
+                  "value": "<string>",
+                  "description": "Polyglot scan ID to filter to; defaults to the latest scan"
+                },
+                {
+                  "disabled": false,
+                  "key": "source",
+                  "value": "<string>",
+                  "description": "The source scan for a comparision"
+                },
+                {
+                  "disabled": false,
+                  "key": "diff",
+                  "value": "<string>",
+                  "description": "Return a diff of findings (as compared to the source)"
+                },
+                {
+                  "disabled": false,
+                  "key": "fields",
+                  "value": "<string>",
+                  "description": "Specifies the fields included or excluded in the response."
+                },
+                {
+                  "disabled": false,
+                  "key": "fields",
+                  "value": "<string>",
+                  "description": "Specifies the fields included or excluded in the response."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "compoundName",
+                  "description": "(Required) A compound's name"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "44625743-47b9-4faf-ae56-5cf8987b99ca",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "compounds",
+                    "named",
+                    ":compoundName",
+                    "findings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "severity",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "assignee",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "assignment",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "only_counts",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "version",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scan",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "source",
+                      "value": "scan.128|tag.branch=samplebranch"
+                    },
+                    {
+                      "key": "diff",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "compoundName",
+                      "description": "(Required) A compound's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"response\": {\n    \"has_more\": true,\n    \"scan\": {\n      \"id\": \"1234\",\n      \"app\": \"hello-qwiet\",\n      \"version\": \"f348b507198fee7b6b57a460ef8a6c94783c59258f823dfcde41a2b5cb69765f\",\n      \"successful\": true,\n      \"is_default_branch\": true,\n      \"started_at\": \"1964-04-21T00:23:56.653Z\",\n      \"completed_at\": \"1968-07-05T03:20:34.097Z\",\n      \"language\": \"javascript\",\n      \"number_of_expressions\": 10,\n      \"tags\": {},\n      \"oss_info\": {\n        \"enabled\": true,\n        \"successful\": false,\n        \"failure_reason\": \"string\"\n      },\n      \"counts\": [\n        {\n          \"finding_type\": \"vuln\",\n          \"count\": 42\n        },\n        {\n          \"finding_type\": \"vuln\",\n          \"count\": 42\n        }\n      ],\n      \"findings_summaries\": [\n        {\n          \"total\": 10,\n          \"finding_type\": \"vuln\",\n          \"total_reachable\": 7204,\n          \"total_ignored\": 1,\n          \"total_fixed\": 3,\n          \"by_severity\": {\n            \"info\": {\n              \"total\": 6\n            },\n            \"critical\": {\n              \"total\": 3,\n              \"total_fixed\": 3\n            },\n            \"moderate\": {\n              \"total\": 1,\n              \"total_ignored\": 1\n            }\n          },\n          \"by_category\": {\n            \"Sensitive Data Leak\": {\n              \"total\": 10,\n              \"total_fixed\": 3,\n              \"total_ignored\": 1\n            }\n          },\n          \"by_assignee\": {\n            \"test@qwiet.ai\": {\n              \"total\": 10,\n              \"total_fixed\": 3,\n              \"total_ignored\": 1\n            }\n          }\n        },\n        {\n          \"total\": 10,\n          \"finding_type\": \"vuln\",\n          \"total_reachable\": 6495,\n          \"total_ignored\": 1,\n          \"total_fixed\": 3,\n          \"by_severity\": {\n            \"info\": {\n              \"total\": 6\n            },\n            \"critical\": {\n              \"total\": 3,\n              \"total_fixed\": 3\n            },\n            \"moderate\": {\n              \"total\": 1,\n              \"total_ignored\": 1\n            }\n          },\n          \"by_category\": {\n            \"Sensitive Data Leak\": {\n              \"total\": 10,\n              \"total_fixed\": 3,\n              \"total_ignored\": 1\n            }\n          },\n          \"by_assignee\": {\n            \"test@qwiet.ai\": {\n              \"total\": 10,\n              \"total_fixed\": 3,\n              \"total_ignored\": 1\n            }\n          }\n        }\n      ],\n      \"total\": 101,\n      \"total_fixed\": 42,\n      \"total_ignored\": 17\n    },\n    \"findings\": [\n      {\n        \"id\": \"1\",\n        \"app\": \"hello-qwiet\",\n        \"type\": \"vuln\",\n        \"internal_id\": \"sensitive-to-http/f5ecc6f0cae821f47a06c939d1b9c7ee\",\n        \"title\": \"Sensitive Data Leak: Sensitive data contained in HTTP request/response\",\n        \"description\": \"Sensitive data included in HTTP request/response. This could result in sensitive data exposure\",\n        \"severity\": \"<string>\",\n        \"owasp_category\": \"a3-sensitive-data-exposure\",\n        \"category\": \"Sensitive Data Leak\",\n        \"status\": \"<string>\",\n        \"assignee\": \"string\",\n        \"version_first_seen\": \"string\",\n        \"details\": {},\n        \"tags\": [\n          {\n            \"key\": \"severity\",\n            \"value\": \"info\"\n          },\n          {\n            \"key\": \"cvss_score\",\n            \"value\": 2\n          }\n        ]\n      },\n      {\n        \"id\": \"1\",\n        \"app\": \"hello-qwiet\",\n        \"type\": \"vuln\",\n        \"internal_id\": \"sensitive-to-http/f5ecc6f0cae821f47a06c939d1b9c7ee\",\n        \"title\": \"Sensitive Data Leak: Sensitive data contained in HTTP request/response\",\n        \"description\": \"Sensitive data included in HTTP request/response. This could result in sensitive data exposure\",\n        \"severity\": \"<string>\",\n        \"owasp_category\": \"a3-sensitive-data-exposure\",\n        \"category\": \"Sensitive Data Leak\",\n        \"status\": \"<string>\",\n        \"assignee\": \"string\",\n        \"version_first_seen\": \"string\",\n        \"details\": {},\n        \"tags\": [\n          {\n            \"key\": \"severity\",\n            \"value\": \"info\"\n          },\n          {\n            \"key\": \"cvss_score\",\n            \"value\": 2\n          }\n        ]\n      }\n    ],\n    \"counts\": [\n      {\n        \"key\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"value\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"finding_type\": \"vuln\",\n        \"count\": 42\n      },\n      {\n        \"key\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"value\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"finding_type\": \"vuln\",\n        \"count\": 42\n      }\n    ]\n  },\n  \"next_page\": \"https://api.shiftleft.io/orgs/4c07962d-745f-4465-9965-002f6cf3c7ff/findings?page=2\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "63fe2362-f866-4f10-a736-0103260841af",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "compounds",
+                    "named",
+                    ":compoundName",
+                    "findings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "severity",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "assignee",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "assignment",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "only_counts",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "version",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scan",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "source",
+                      "value": "scan.128|tag.branch=samplebranch"
+                    },
+                    {
+                      "key": "diff",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "compoundName",
+                      "description": "(Required) A compound's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0e5dd88e-881e-403b-818e-836467f1796c",
+          "name": "List compound findings",
+          "request": {
+            "name": "List compound findings",
+            "description": {
+              "content": "List findings for the specified compound. Results are for a single polyglot scan (by default, this is the latest scan).\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "compounds",
+                "byname",
+                ":compoundName",
+                "findings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "polyglot_scan",
+                  "value": "<string>",
+                  "description": "Polyglot scan ID to filter to; defaults to the latest scan."
+                },
+                {
+                  "disabled": false,
+                  "key": "scan_version",
+                  "value": "<string>",
+                  "description": "The version of the code at scan time. Ignored if polyglot_scan is given."
+                },
+                {
+                  "disabled": false,
+                  "key": "scan_branch",
+                  "value": "<string>",
+                  "description": "The code branch at scan time. Ignored if polygot_scan or scan_version are given."
+                },
+                {
+                  "disabled": false,
+                  "key": "scan_tag",
+                  "value": "<string>",
+                  "description": "Tags passed to the analyzer at scan time. Ignored if polygot_scan, scan_version, or scan_branch are given."
+                },
+                {
+                  "disabled": false,
+                  "key": "scan_platform",
+                  "value": "<string>",
+                  "description": "The analysis platform. Cannot be specified together with scan_language."
+                },
+                {
+                  "disabled": false,
+                  "key": "scan_language",
+                  "value": "<string>",
+                  "description": "The analysis language. Cannot be specified together with scan_platform."
+                },
+                {
+                  "disabled": false,
+                  "key": "counts_exclude",
+                  "value": "<string>",
+                  "description": "The tags to exclude from 'counts' in the response. Can be specified more than once. The default filters out a small set of tags that don't add too much value in the kind of aggregate that 'counts' contains. An empty value resets the list.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "finding_type",
+                  "value": "<string>",
+                  "description": "Only list findings of the given type. Can be specified multiple times."
+                },
+                {
+                  "disabled": false,
+                  "key": "finding_status",
+                  "value": "<string>",
+                  "description": "Only list findings with the given status. Can be specified multiple times."
+                },
+                {
+                  "disabled": false,
+                  "key": "finding_assignee",
+                  "value": "<email>",
+                  "description": "Only list findings with the given assignee. Cannot be specified together with finding_assignment."
+                },
+                {
+                  "disabled": false,
+                  "key": "finding_assignment",
+                  "value": "<string>",
+                  "description": "Only list findings of the given assignment state."
+                },
+                {
+                  "disabled": false,
+                  "key": "finding_tag",
+                  "value": "<string>",
+                  "description": "Only list findings matching the given tag query. Can be specified up to 20 times. A finding will match a series of tag queries if it matches all of them.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "finding_search",
+                  "value": "<string>",
+                  "description": "Only list findings containing the given value (under simple Unicode case-folding) in their title or description. Can be specified up to 5 times.  A finding will match a series of searches if it matches all of them.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "finding_reachable",
+                  "value": "<boolean>",
+                  "description": "Only list reachable findings.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "finding_exploitable",
+                  "value": "<boolean>",
+                  "description": "Only list exploitable findings.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "finding_has_ai_fix",
+                  "value": "<boolean>",
+                  "description": "Only list findings with an AI fix available.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "finding_sort",
+                  "value": "<string>",
+                  "description": "The field used to sort results.\nIf not given, the default is to sort by ID in descending order. When given, sort by that criterion, defaulting to ascending order.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "finding_order",
+                  "value": "<string>",
+                  "description": "How results are sorted. See the note on finding_sort for defaults.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "The page of results to fetch. Only the findings portion of the response is paginated; counts and scans are present every time.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "per_page",
+                  "value": "<integer>",
+                  "description": "Number of results per page; defaults to 50"
+                },
+                {
+                  "disabled": false,
+                  "key": "finding_fields",
+                  "value": "<string>",
+                  "description": "Specifies the fields included or excluded in the findings in the response. Can be specified more than once.\n"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "compoundName",
+                  "description": "(Required) A compound's name"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "6f9e3918-c90f-47a9-b110-2e996b79f1d9",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "compounds",
+                    "byname",
+                    ":compoundName",
+                    "findings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "polyglot_scan",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scan_version",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scan_branch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scan_tag",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scan_platform",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scan_language",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "counts_exclude",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "finding_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "finding_status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "finding_assignee",
+                      "value": "<email>"
+                    },
+                    {
+                      "key": "finding_assignment",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "finding_tag",
+                      "value": "category__equal__SQL Injection"
+                    },
+                    {
+                      "key": "finding_search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "finding_reachable",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "finding_exploitable",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "finding_has_ai_fix",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "finding_sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "finding_order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "finding_fields",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "compoundName",
+                      "description": "(Required) A compound's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"response\": {\n    \"has_more\": true,\n    \"polyglot_scan\": {\n      \"compound_id\": \"a6ab20e7-6300-dd67-7c2f-d7e740634a98\",\n      \"polyglot_scan_id\": 1497,\n      \"scans\": [\n        {\n          \"id\": \"1234\",\n          \"app\": \"hello-qwiet\",\n          \"version\": \"f348b507198fee7b6b57a460ef8a6c94783c59258f823dfcde41a2b5cb69765f\",\n          \"successful\": false,\n          \"is_default_branch\": true,\n          \"started_at\": \"1979-01-21T00:55:12.219Z\",\n          \"completed_at\": \"1963-01-05T18:23:02.486Z\",\n          \"language\": \"javascript\",\n          \"number_of_expressions\": 10,\n          \"tags\": {},\n          \"oss_info\": {\n            \"enabled\": false,\n            \"successful\": true,\n            \"failure_reason\": \"string\"\n          },\n          \"counts\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"findings_summaries\": [\n            {\n              \"total\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"finding_type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"total_reachable\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"total_ignored\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"total_fixed\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"by_severity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"by_category\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"by_assignee\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"total\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"finding_type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"total_reachable\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"total_ignored\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"total_fixed\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"by_severity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"by_category\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"by_assignee\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"total\": 101,\n          \"total_fixed\": 42,\n          \"total_ignored\": 17\n        },\n        {\n          \"id\": \"1234\",\n          \"app\": \"hello-qwiet\",\n          \"version\": \"f348b507198fee7b6b57a460ef8a6c94783c59258f823dfcde41a2b5cb69765f\",\n          \"successful\": true,\n          \"is_default_branch\": true,\n          \"started_at\": \"2002-10-30T08:23:09.259Z\",\n          \"completed_at\": \"1968-10-19T01:47:02.805Z\",\n          \"language\": \"javascript\",\n          \"number_of_expressions\": 10,\n          \"tags\": {},\n          \"oss_info\": {\n            \"enabled\": true,\n            \"successful\": true,\n            \"failure_reason\": \"string\"\n          },\n          \"counts\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"findings_summaries\": [\n            {\n              \"total\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"finding_type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"total_reachable\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"total_ignored\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"total_fixed\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"by_severity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"by_category\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"by_assignee\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"total\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"finding_type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"total_reachable\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"total_ignored\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"total_fixed\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"by_severity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"by_category\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"by_assignee\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"total\": 101,\n          \"total_fixed\": 42,\n          \"total_ignored\": 17\n        }\n      ]\n    },\n    \"findings\": [\n      {\n        \"id\": \"1\",\n        \"app\": \"hello-qwiet\",\n        \"type\": \"vuln\",\n        \"internal_id\": \"sensitive-to-http/f5ecc6f0cae821f47a06c939d1b9c7ee\",\n        \"title\": \"Sensitive Data Leak: Sensitive data contained in HTTP request/response\",\n        \"description\": \"Sensitive data included in HTTP request/response. This could result in sensitive data exposure\",\n        \"severity\": \"<string>\",\n        \"owasp_category\": \"a3-sensitive-data-exposure\",\n        \"category\": \"Sensitive Data Leak\",\n        \"status\": \"<string>\",\n        \"assignee\": \"string\",\n        \"version_first_seen\": \"string\",\n        \"details\": {},\n        \"tags\": [\n          {\n            \"key\": \"severity\",\n            \"value\": \"info\"\n          },\n          {\n            \"key\": \"cvss_score\",\n            \"value\": 2\n          }\n        ]\n      },\n      {\n        \"id\": \"1\",\n        \"app\": \"hello-qwiet\",\n        \"type\": \"vuln\",\n        \"internal_id\": \"sensitive-to-http/f5ecc6f0cae821f47a06c939d1b9c7ee\",\n        \"title\": \"Sensitive Data Leak: Sensitive data contained in HTTP request/response\",\n        \"description\": \"Sensitive data included in HTTP request/response. This could result in sensitive data exposure\",\n        \"severity\": \"<string>\",\n        \"owasp_category\": \"a3-sensitive-data-exposure\",\n        \"category\": \"Sensitive Data Leak\",\n        \"status\": \"<string>\",\n        \"assignee\": \"string\",\n        \"version_first_seen\": \"string\",\n        \"details\": {},\n        \"tags\": [\n          {\n            \"key\": \"severity\",\n            \"value\": \"info\"\n          },\n          {\n            \"key\": \"cvss_score\",\n            \"value\": 2\n          }\n        ]\n      }\n    ],\n    \"total_count\": 9713,\n    \"counts\": [\n      {\n        \"key\": \"cvss_31_severity_ratings\",\n        \"value_counts\": {\n          \"critical\": 1,\n          \"high\": 2\n        }\n      },\n      {\n        \"key\": \"cvss_31_severity_ratings\",\n        \"value_counts\": {\n          \"critical\": 1,\n          \"high\": 2\n        }\n      }\n    ]\n  },\n  \"next_page\": \"https://api.shiftleft.io/orgs/4c07962d-745f-4465-9965-002f6cf3c7ff/findings?page=2\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7dfd1568-e9d3-4a8f-acb9-fc91d931e731",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "compounds",
+                    "byname",
+                    ":compoundName",
+                    "findings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "polyglot_scan",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scan_version",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scan_branch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scan_tag",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scan_platform",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scan_language",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "counts_exclude",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "finding_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "finding_status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "finding_assignee",
+                      "value": "<email>"
+                    },
+                    {
+                      "key": "finding_assignment",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "finding_tag",
+                      "value": "category__equal__SQL Injection"
+                    },
+                    {
+                      "key": "finding_search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "finding_reachable",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "finding_exploitable",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "finding_has_ai_fix",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "finding_sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "finding_order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "finding_fields",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "compoundName",
+                      "description": "(Required) A compound's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "304585f8-91a5-4cb6-b57a-20171daebb9d",
+          "name": "Read app finding detail",
+          "request": {
+            "name": "Read app finding detail",
+            "description": {
+              "content": "Read the details for a single finding",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "apps",
+                ":appID",
+                "findings",
+                ":findingID"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "appID",
+                  "description": "(Required) The app ID (e.g., `HelloQwiet`)"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "findingID",
+                  "description": "(Required) The finding ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "4f27327f-d2ee-4706-b9e9-9dc21fb1839b",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "apps",
+                    ":appID",
+                    "findings",
+                    ":findingID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appID",
+                      "description": "(Required) The app ID (e.g., `HelloQwiet`)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "findingID",
+                      "description": "(Required) The finding ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"response\": {\n    \"id\": \"1\",\n    \"app\": \"hello-qwiet\",\n    \"type\": \"vuln\",\n    \"internal_id\": \"sensitive-to-http/f5ecc6f0cae821f47a06c939d1b9c7ee\",\n    \"title\": \"Sensitive Data Leak: Sensitive data contained in HTTP request/response\",\n    \"description\": \"Sensitive data included in HTTP request/response. This could result in sensitive data exposure\",\n    \"severity\": \"<string>\",\n    \"owasp_category\": \"a3-sensitive-data-exposure\",\n    \"category\": \"Sensitive Data Leak\",\n    \"status\": \"<string>\",\n    \"assignee\": \"string\",\n    \"version_first_seen\": \"string\",\n    \"details\": {},\n    \"tags\": [\n      {\n        \"key\": \"category\",\n        \"value\": \"XSS\"\n      },\n      {\n        \"key\": \"category\",\n        \"value\": \"XSS\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "21006c18-bd7d-4d8a-a848-797a8f99a769",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "apps",
+                    ":appID",
+                    "findings",
+                    ":findingID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appID",
+                      "description": "(Required) The app ID (e.g., `HelloQwiet`)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "findingID",
+                      "description": "(Required) The finding ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1cd8a1f1-3ab8-4617-98f2-2f740557c72f",
+          "name": "Set finding status",
+          "request": {
+            "name": "Set finding status",
+            "description": {
+              "content": "Set the current status for a finding",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "apps",
+                ":appID",
+                "findings",
+                ":findingID",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "appID",
+                  "description": "(Required) The app ID (e.g., `HelloQwiet`)"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "findingID",
+                  "description": "(Required) The finding ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"<string>\",\n  \"optional_comment\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9948c5de-7c6b-4af5-a8d2-b7b8ba978d8f",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "apps",
+                    ":appID",
+                    "findings",
+                    ":findingID",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appID",
+                      "description": "(Required) The app ID (e.g., `HelloQwiet`)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "findingID",
+                      "description": "(Required) The finding ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"<string>\",\n  \"optional_comment\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a6abfb74-ea37-4e37-b27e-7cfa6c29a4e1",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "apps",
+                    ":appID",
+                    "findings",
+                    ":findingID",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appID",
+                      "description": "(Required) The app ID (e.g., `HelloQwiet`)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "findingID",
+                      "description": "(Required) The finding ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"<string>\",\n  \"optional_comment\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "548a5fe0-e7d9-44bb-8c17-196db118e496",
+          "name": "Set finding assignee",
+          "request": {
+            "name": "Set finding assignee",
+            "description": {
+              "content": "Set the current assignee for a finding",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "apps",
+                ":appID",
+                "findings",
+                ":findingID",
+                "assignment"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "appID",
+                  "description": "(Required) The app ID (e.g., `HelloQwiet`)"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "findingID",
+                  "description": "(Required) The finding ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"assignee\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1b1e3c47-c6fc-454e-8912-ca485f128a74",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "apps",
+                    ":appID",
+                    "findings",
+                    ":findingID",
+                    "assignment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appID",
+                      "description": "(Required) The app ID (e.g., `HelloQwiet`)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "findingID",
+                      "description": "(Required) The finding ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assignee\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "28a31492-acea-42f5-87c6-40f4be445355",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "apps",
+                    ":appID",
+                    "findings",
+                    ":findingID",
+                    "assignment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appID",
+                      "description": "(Required) The app ID (e.g., `HelloQwiet`)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "findingID",
+                      "description": "(Required) The finding ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assignee\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "937870fc-b81d-4202-8822-e3e9576a9ea2",
+          "name": "Set multiple findings status",
+          "request": {
+            "name": "Set multiple findings status",
+            "description": {
+              "content": "Set the current status for multiple findings",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "apps",
+                ":appID",
+                "findings_status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "appID",
+                  "description": "(Required) The app ID (e.g., `HelloQwiet`)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"findings\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"status\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6121ec1f-603c-45e3-920f-940c49300265",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "apps",
+                    ":appID",
+                    "findings_status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appID",
+                      "description": "(Required) The app ID (e.g., `HelloQwiet`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"findings\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"status\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ffb94e68-3c01-438b-92ac-942ce1c78237",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "apps",
+                    ":appID",
+                    "findings_status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appID",
+                      "description": "(Required) The app ID (e.g., `HelloQwiet`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"findings\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"status\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c8663796-485f-4ae2-9300-c455629d8cc5",
+          "name": "Set multiple findings assignee",
+          "request": {
+            "name": "Set multiple findings assignee",
+            "description": {
+              "content": "Set the current assignee for a finding",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "apps",
+                ":appID",
+                "findings_assignment"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "appID",
+                  "description": "(Required) The app ID (e.g., `HelloQwiet`)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"findings\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"assignee\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6d4ec4e5-65b0-4c4c-9802-43613aa18209",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "apps",
+                    ":appID",
+                    "findings_assignment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appID",
+                      "description": "(Required) The app ID (e.g., `HelloQwiet`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"findings\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"assignee\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "78b29456-8061-409c-96c9-e36507ff87c0",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "apps",
+                    ":appID",
+                    "findings_assignment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appID",
+                      "description": "(Required) The app ID (e.g., `HelloQwiet`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"findings\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"assignee\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "df7b55b8-17c7-4b76-a122-8bfc22ee15fd",
+          "name": "Read the SCA packages of a compound scan",
+          "request": {
+            "name": "Read the SCA packages of a compound scan",
+            "description": {
+              "content": "Return information about the packages found in a scan of an app",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "compounds",
+                "named",
+                ":compoundName",
+                "sca",
+                "packages"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "polyglot_scan",
+                  "value": "<integer>",
+                  "description": "Polyglot scan ID of the scan to filter to; defaults to the latest scan."
+                },
+                {
+                  "disabled": false,
+                  "key": "scan_version",
+                  "value": "<string>",
+                  "description": "The version of which to get the latest scan. This is usually a SHA1. Ignored if polyglot_scan is given."
+                },
+                {
+                  "disabled": false,
+                  "key": "scan_branch",
+                  "value": "<string>",
+                  "description": "The branch of which to get the latest scan. Ignored if polygot_scan or scan_version are given."
+                },
+                {
+                  "disabled": false,
+                  "key": "scan_tag",
+                  "value": "<string>",
+                  "description": "Tags passed to the analyzer at scan time. Ignored if polygot_scan, scan_version, or scan_branch are given."
+                },
+                {
+                  "disabled": false,
+                  "key": "scan_platform",
+                  "value": "<string>",
+                  "description": "The analysis platform. Cannot be specified together with scan_language."
+                },
+                {
+                  "disabled": false,
+                  "key": "scan_language",
+                  "value": "<string>",
+                  "description": "The analysis language. Cannot be specified together with scan_platform."
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "The package finding types to include."
+                },
+                {
+                  "disabled": false,
+                  "key": "tag",
+                  "value": "<string>",
+                  "description": "a tag query used to filter the findings"
+                },
+                {
+                  "disabled": false,
+                  "key": "per_page",
+                  "value": "100",
+                  "description": "The number of results per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "The specific page of the results to fetch."
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>",
+                  "description": "How to sort results; defaults to ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "<string>",
+                  "description": "Direction of the sort; defaults to descending"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "compoundName",
+                  "description": "(Required) A compound's name"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "861f644d-67d4-4950-bbf5-7317df459238",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "compounds",
+                    "named",
+                    ":compoundName",
+                    "sca",
+                    "packages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "polyglot_scan",
+                      "value": "42"
+                    },
+                    {
+                      "key": "scan_version",
+                      "value": "9b7e138e1b16dc5261803cceffb86c36800c2c7f"
+                    },
+                    {
+                      "key": "scan_branch",
+                      "value": "feature/1234"
+                    },
+                    {
+                      "key": "scan_tag",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scan_platform",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scan_language",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "package"
+                    },
+                    {
+                      "key": "tag",
+                      "value": "package_type__eq__alpine"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "100"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "compoundName",
+                      "description": "(Required) A compound's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"response\": {\n    \"packages\": [\n      {\n        \"package\": \"github.com/concourse/s3-resource\",\n        \"package_url\": \"pkg:golang/github.com/concourse/s3-resource@%28devel%29\",\n        \"name\": \"s3-resource\",\n        \"namespace\": \"github.com/concourse\",\n        \"type\": \"golang\",\n        \"version\": \"(devel)\",\n        \"license\": \"Apache-2.0\",\n        \"first_seen\": \"2023-05-26T15:04:07.278721+01:00\",\n        \"total_vulns\": 5,\n        \"total_reachable\": 3,\n        \"total_exploitable\": 0,\n        \"total_apps\": 2,\n        \"risk_type\": {\n          \"is_malicious\": false,\n          \"is_squatted\": true,\n          \"is_abandoned\": false,\n          \"is_repo_hijackable\": true\n        },\n        \"apps\": [\n          \"my-app\",\n          \"other-app\"\n        ],\n        \"vulns\": [\n          \"CVE-2021-23337\",\n          \"CVE-2020-28500\"\n        ],\n        \"reachable\": [\n          \"CVE-2021-23337\"\n        ],\n        \"exploitable\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      {\n        \"package\": \"github.com/concourse/s3-resource\",\n        \"package_url\": \"pkg:golang/github.com/concourse/s3-resource@%28devel%29\",\n        \"name\": \"s3-resource\",\n        \"namespace\": \"github.com/concourse\",\n        \"type\": \"golang\",\n        \"version\": \"(devel)\",\n        \"license\": \"Apache-2.0\",\n        \"first_seen\": \"2023-05-26T15:04:07.278721+01:00\",\n        \"total_vulns\": 5,\n        \"total_reachable\": 3,\n        \"total_exploitable\": 0,\n        \"total_apps\": 2,\n        \"risk_type\": {\n          \"is_malicious\": true,\n          \"is_squatted\": true,\n          \"is_abandoned\": false,\n          \"is_repo_hijackable\": false\n        },\n        \"apps\": [\n          \"my-app\",\n          \"other-app\"\n        ],\n        \"vulns\": [\n          \"CVE-2021-23337\",\n          \"CVE-2020-28500\"\n        ],\n        \"reachable\": [\n          \"CVE-2021-23337\"\n        ],\n        \"exploitable\": [\n          \"string\",\n          \"string\"\n        ]\n      }\n    ],\n    \"total_count\": 42,\n    \"has_more\": true,\n    \"scans\": [\n      {\n        \"id\": \"1234\",\n        \"app\": \"hello-qwiet\"\n      },\n      {\n        \"id\": \"1234\",\n        \"app\": \"hello-qwiet\"\n      }\n    ],\n    \"compound_id\": \"a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d\",\n    \"polyglot_scan_id\": \"1\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "496315df-1591-4d35-b026-c2ada55943ce",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "compounds",
+                    "named",
+                    ":compoundName",
+                    "sca",
+                    "packages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "polyglot_scan",
+                      "value": "42"
+                    },
+                    {
+                      "key": "scan_version",
+                      "value": "9b7e138e1b16dc5261803cceffb86c36800c2c7f"
+                    },
+                    {
+                      "key": "scan_branch",
+                      "value": "feature/1234"
+                    },
+                    {
+                      "key": "scan_tag",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scan_platform",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scan_language",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "package"
+                    },
+                    {
+                      "key": "tag",
+                      "value": "package_type__eq__alpine"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "100"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "compoundName",
+                      "description": "(Required) A compound's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0403a4b1-0df7-4c93-a2f6-1dc1fcb55475",
+          "name": "Read the count of multiple tags of an app.",
+          "request": {
+            "name": "Read the count of multiple tags of an app.",
+            "description": {
+              "content": "Return information about the packages found in a scan of an app",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "apps",
+                ":appID",
+                "sca",
+                "packages"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "scan",
+                  "value": "<integer>",
+                  "description": "The ID of the scan to filter to. Defaults to the latest scan."
+                },
+                {
+                  "disabled": false,
+                  "key": "branch",
+                  "value": "<string>",
+                  "description": "The branch of which to get the latest scan."
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "The package finding types to include."
+                },
+                {
+                  "disabled": false,
+                  "key": "tag",
+                  "value": "<string>",
+                  "description": "a tag query used to filter the findings"
+                },
+                {
+                  "disabled": false,
+                  "key": "per_page",
+                  "value": "<integer>",
+                  "description": "Number of results per page; defaults to 50"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "The page of results to fetch. Results are not guaranteed to be deterministic using this approach; we recommended using the `next_page` URL in a paginated response\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>",
+                  "description": "How to sort results; defaults to ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "<string>",
+                  "description": "Direction of the sort; defaults to descending"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "appID",
+                  "description": "(Required) The app ID (e.g., `HelloQwiet`)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "8310748d-e3e3-4654-bc1b-1773e5017942",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "apps",
+                    ":appID",
+                    "sca",
+                    "packages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "scan",
+                      "value": "42"
+                    },
+                    {
+                      "key": "branch",
+                      "value": "feature/1234"
+                    },
+                    {
+                      "key": "type",
+                      "value": "package"
+                    },
+                    {
+                      "key": "tag",
+                      "value": "package_type__eq__alpine"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appID",
+                      "description": "(Required) The app ID (e.g., `HelloQwiet`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"response\": {\n    \"packages\": [\n      {\n        \"package\": \"github.com/concourse/s3-resource\",\n        \"package_url\": \"pkg:golang/github.com/concourse/s3-resource@%28devel%29\",\n        \"name\": \"s3-resource\",\n        \"namespace\": \"github.com/concourse\",\n        \"type\": \"golang\",\n        \"version\": \"(devel)\",\n        \"license\": \"Apache-2.0\",\n        \"first_seen\": \"2023-05-26T15:04:07.278721+01:00\",\n        \"total_vulns\": 5,\n        \"total_reachable\": 3,\n        \"total_exploitable\": 0,\n        \"total_apps\": 2,\n        \"risk_type\": {\n          \"is_malicious\": false,\n          \"is_squatted\": true,\n          \"is_abandoned\": true,\n          \"is_repo_hijackable\": false\n        },\n        \"apps\": [\n          \"my-app\",\n          \"other-app\"\n        ],\n        \"vulns\": [\n          \"CVE-2021-23337\",\n          \"CVE-2020-28500\"\n        ],\n        \"reachable\": [\n          \"CVE-2021-23337\"\n        ],\n        \"exploitable\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      {\n        \"package\": \"github.com/concourse/s3-resource\",\n        \"package_url\": \"pkg:golang/github.com/concourse/s3-resource@%28devel%29\",\n        \"name\": \"s3-resource\",\n        \"namespace\": \"github.com/concourse\",\n        \"type\": \"golang\",\n        \"version\": \"(devel)\",\n        \"license\": \"Apache-2.0\",\n        \"first_seen\": \"2023-05-26T15:04:07.278721+01:00\",\n        \"total_vulns\": 5,\n        \"total_reachable\": 3,\n        \"total_exploitable\": 0,\n        \"total_apps\": 2,\n        \"risk_type\": {\n          \"is_malicious\": true,\n          \"is_squatted\": true,\n          \"is_abandoned\": true,\n          \"is_repo_hijackable\": false\n        },\n        \"apps\": [\n          \"my-app\",\n          \"other-app\"\n        ],\n        \"vulns\": [\n          \"CVE-2021-23337\",\n          \"CVE-2020-28500\"\n        ],\n        \"reachable\": [\n          \"CVE-2021-23337\"\n        ],\n        \"exploitable\": [\n          \"string\",\n          \"string\"\n        ]\n      }\n    ],\n    \"total_count\": 42,\n    \"has_more\": true,\n    \"scans\": [\n      {\n        \"id\": \"1234\",\n        \"app\": \"hello-qwiet\"\n      },\n      {\n        \"id\": \"1234\",\n        \"app\": \"hello-qwiet\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b40377fe-b46e-40a7-951f-8ac394cd47e8",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "apps",
+                    ":appID",
+                    "sca",
+                    "packages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "scan",
+                      "value": "42"
+                    },
+                    {
+                      "key": "branch",
+                      "value": "feature/1234"
+                    },
+                    {
+                      "key": "type",
+                      "value": "package"
+                    },
+                    {
+                      "key": "tag",
+                      "value": "package_type__eq__alpine"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "appID",
+                      "description": "(Required) The app ID (e.g., `HelloQwiet`)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "968da3b4-928d-448c-89c2-80a684cee23c",
+          "name": "List org findings",
+          "request": {
+            "name": "List org findings",
+            "description": {
+              "content": "Return all findings for the org.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "findings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "The type of findings. Accepted values are `oss_vuln`, `vuln`, and `secret`"
+                },
+                {
+                  "disabled": false,
+                  "key": "severity",
+                  "value": "<string>",
+                  "description": "The severity filter"
+                },
+                {
+                  "disabled": false,
+                  "key": "assignee",
+                  "value": "<string>",
+                  "description": "The email addresses of users assigned to this finding"
+                },
+                {
+                  "disabled": false,
+                  "key": "assignment",
+                  "value": "<string>",
+                  "description": "The assignment status filter. By default, all findings, both `unassigned` and `assigned`, are returned.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "category",
+                  "value": "<string>",
+                  "description": "The category filter"
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "The status filter. By default, only `unset` findings are included.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>",
+                  "description": "How to sort results; defaults to ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "<string>",
+                  "description": "Direction of the sort; defaults to descending"
+                },
+                {
+                  "disabled": false,
+                  "key": "only_counts",
+                  "value": "<boolean>",
+                  "description": "Whether to include only finding counts; excludes the list of findings"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "The page of results to fetch. Results are not guaranteed to be deterministic using this approach; we recommended using the `next_page` URL in a paginated response\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "per_page",
+                  "value": "<integer>",
+                  "description": "Number of results per page; defaults to 50"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "9a3034af-6f88-4f6d-ada1-747d93b61d00",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "findings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "severity",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "assignee",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "assignment",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "only_counts",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"response\": {\n    \"has_more\": true,\n    \"findings\": [\n      {\n        \"id\": \"1\",\n        \"app\": \"hello-qwiet\",\n        \"type\": \"vuln\",\n        \"internal_id\": \"sensitive-to-http/f5ecc6f0cae821f47a06c939d1b9c7ee\",\n        \"title\": \"Sensitive Data Leak: Sensitive data contained in HTTP request/response\",\n        \"description\": \"Sensitive data included in HTTP request/response. This could result in sensitive data exposure\",\n        \"severity\": \"<string>\",\n        \"owasp_category\": \"a3-sensitive-data-exposure\",\n        \"category\": \"Sensitive Data Leak\",\n        \"status\": \"<string>\",\n        \"assignee\": \"string\",\n        \"version_first_seen\": \"string\",\n        \"details\": {},\n        \"tags\": [\n          {\n            \"key\": \"severity\",\n            \"value\": \"info\"\n          },\n          {\n            \"key\": \"cvss_score\",\n            \"value\": 2\n          }\n        ]\n      },\n      {\n        \"id\": \"1\",\n        \"app\": \"hello-qwiet\",\n        \"type\": \"vuln\",\n        \"internal_id\": \"sensitive-to-http/f5ecc6f0cae821f47a06c939d1b9c7ee\",\n        \"title\": \"Sensitive Data Leak: Sensitive data contained in HTTP request/response\",\n        \"description\": \"Sensitive data included in HTTP request/response. This could result in sensitive data exposure\",\n        \"severity\": \"<string>\",\n        \"owasp_category\": \"a3-sensitive-data-exposure\",\n        \"category\": \"Sensitive Data Leak\",\n        \"status\": \"<string>\",\n        \"assignee\": \"string\",\n        \"version_first_seen\": \"string\",\n        \"details\": {},\n        \"tags\": [\n          {\n            \"key\": \"severity\",\n            \"value\": \"info\"\n          },\n          {\n            \"key\": \"cvss_score\",\n            \"value\": 2\n          }\n        ]\n      }\n    ],\n    \"counts\": [\n      {\n        \"key\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"value\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"finding_type\": \"vuln\",\n        \"count\": 42\n      },\n      {\n        \"key\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"value\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"finding_type\": \"vuln\",\n        \"count\": 42\n      }\n    ]\n  },\n  \"next_page\": \"https://api.shiftleft.io/orgs/4c07962d-745f-4465-9965-002f6cf3c7ff/findings?page=2\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a809f324-9d05-478d-be9b-1cd4cd1bfe21",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "findings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "severity",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "assignee",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "assignment",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "only_counts",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ca41e6c2-4b8d-4e8a-93e9-0f4e8d3ce1e8",
+          "name": "Read org findings summary",
+          "request": {
+            "name": "Read org findings summary",
+            "description": {
+              "content": "Return a summary of findings for the org.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "findings",
+                "summary"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "The type of findings. Accepted values are `oss_vuln`, `vuln`, and `secret`"
+                },
+                {
+                  "disabled": false,
+                  "key": "default_branch",
+                  "value": "<boolean>",
+                  "description": "Return findings from scans of the app's configured default branch"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "77aab9c2-2a4c-4554-b59f-b606220a6280",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "findings",
+                    "summary"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "default_branch",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"response\": {\n    \"findings_summaries\": [\n      {\n        \"total\": 10,\n        \"finding_type\": \"vuln\",\n        \"total_reachable\": 6082,\n        \"total_ignored\": 1,\n        \"total_fixed\": 3,\n        \"by_severity\": {\n          \"info\": {\n            \"total\": 6\n          },\n          \"critical\": {\n            \"total\": 3,\n            \"total_fixed\": 3\n          },\n          \"moderate\": {\n            \"total\": 1,\n            \"total_ignored\": 1\n          }\n        },\n        \"by_category\": {\n          \"Sensitive Data Leak\": {\n            \"total\": 10,\n            \"total_fixed\": 3,\n            \"total_ignored\": 1\n          }\n        },\n        \"by_assignee\": {\n          \"test@qwiet.ai\": {\n            \"total\": 10,\n            \"total_fixed\": 3,\n            \"total_ignored\": 1\n          }\n        }\n      },\n      {\n        \"total\": 10,\n        \"finding_type\": \"vuln\",\n        \"total_reachable\": 3186,\n        \"total_ignored\": 1,\n        \"total_fixed\": 3,\n        \"by_severity\": {\n          \"info\": {\n            \"total\": 6\n          },\n          \"critical\": {\n            \"total\": 3,\n            \"total_fixed\": 3\n          },\n          \"moderate\": {\n            \"total\": 1,\n            \"total_ignored\": 1\n          }\n        },\n        \"by_category\": {\n          \"Sensitive Data Leak\": {\n            \"total\": 10,\n            \"total_fixed\": 3,\n            \"total_ignored\": 1\n          }\n        },\n        \"by_assignee\": {\n          \"test@qwiet.ai\": {\n            \"total\": 10,\n            \"total_fixed\": 3,\n            \"total_ignored\": 1\n          }\n        }\n      }\n    ],\n    \"apps\": [\n      {\n        \"app\": \"string\",\n        \"findings_summaries\": [\n          {\n            \"total\": 10,\n            \"finding_type\": \"vuln\",\n            \"total_reachable\": 2569,\n            \"total_ignored\": 1,\n            \"total_fixed\": 3,\n            \"by_severity\": {\n              \"info\": {\n                \"total\": 6\n              },\n              \"critical\": {\n                \"total\": 3,\n                \"total_fixed\": 3\n              },\n              \"moderate\": {\n                \"total\": 1,\n                \"total_ignored\": 1\n              }\n            },\n            \"by_category\": {\n              \"Sensitive Data Leak\": {\n                \"total\": 10,\n                \"total_fixed\": 3,\n                \"total_ignored\": 1\n              }\n            },\n            \"by_assignee\": {\n              \"test@qwiet.ai\": {\n                \"total\": 10,\n                \"total_fixed\": 3,\n                \"total_ignored\": 1\n              }\n            }\n          },\n          {\n            \"total\": 10,\n            \"finding_type\": \"vuln\",\n            \"total_reachable\": 3176,\n            \"total_ignored\": 1,\n            \"total_fixed\": 3,\n            \"by_severity\": {\n              \"info\": {\n                \"total\": 6\n              },\n              \"critical\": {\n                \"total\": 3,\n                \"total_fixed\": 3\n              },\n              \"moderate\": {\n                \"total\": 1,\n                \"total_ignored\": 1\n              }\n            },\n            \"by_category\": {\n              \"Sensitive Data Leak\": {\n                \"total\": 10,\n                \"total_fixed\": 3,\n                \"total_ignored\": 1\n              }\n            },\n            \"by_assignee\": {\n              \"test@qwiet.ai\": {\n                \"total\": 10,\n                \"total_fixed\": 3,\n                \"total_ignored\": 1\n              }\n            }\n          }\n        ],\n        \"scan\": {\n          \"id\": \"1234\",\n          \"app\": \"hello-qwiet\",\n          \"version\": \"f348b507198fee7b6b57a460ef8a6c94783c59258f823dfcde41a2b5cb69765f\",\n          \"successful\": false,\n          \"is_default_branch\": false,\n          \"started_at\": \"2022-12-23T04:59:47.705Z\",\n          \"completed_at\": \"1956-04-13T14:48:14.852Z\",\n          \"language\": \"javascript\",\n          \"number_of_expressions\": 10,\n          \"tags\": {},\n          \"oss_info\": {\n            \"enabled\": true,\n            \"successful\": true,\n            \"failure_reason\": \"string\"\n          },\n          \"counts\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"findings_summaries\": [\n            {\n              \"total\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"finding_type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"total_reachable\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"total_ignored\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"total_fixed\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"by_severity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"by_category\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"by_assignee\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"total\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"finding_type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"total_reachable\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"total_ignored\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"total_fixed\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"by_severity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"by_category\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"by_assignee\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"total\": 101,\n          \"total_fixed\": 42,\n          \"total_ignored\": 17\n        }\n      },\n      {\n        \"app\": \"string\",\n        \"findings_summaries\": [\n          {\n            \"total\": 10,\n            \"finding_type\": \"vuln\",\n            \"total_reachable\": 1274,\n            \"total_ignored\": 1,\n            \"total_fixed\": 3,\n            \"by_severity\": {\n              \"info\": {\n                \"total\": 6\n              },\n              \"critical\": {\n                \"total\": 3,\n                \"total_fixed\": 3\n              },\n              \"moderate\": {\n                \"total\": 1,\n                \"total_ignored\": 1\n              }\n            },\n            \"by_category\": {\n              \"Sensitive Data Leak\": {\n                \"total\": 10,\n                \"total_fixed\": 3,\n                \"total_ignored\": 1\n              }\n            },\n            \"by_assignee\": {\n              \"test@qwiet.ai\": {\n                \"total\": 10,\n                \"total_fixed\": 3,\n                \"total_ignored\": 1\n              }\n            }\n          },\n          {\n            \"total\": 10,\n            \"finding_type\": \"vuln\",\n            \"total_reachable\": 2183,\n            \"total_ignored\": 1,\n            \"total_fixed\": 3,\n            \"by_severity\": {\n              \"info\": {\n                \"total\": 6\n              },\n              \"critical\": {\n                \"total\": 3,\n                \"total_fixed\": 3\n              },\n              \"moderate\": {\n                \"total\": 1,\n                \"total_ignored\": 1\n              }\n            },\n            \"by_category\": {\n              \"Sensitive Data Leak\": {\n                \"total\": 10,\n                \"total_fixed\": 3,\n                \"total_ignored\": 1\n              }\n            },\n            \"by_assignee\": {\n              \"test@qwiet.ai\": {\n                \"total\": 10,\n                \"total_fixed\": 3,\n                \"total_ignored\": 1\n              }\n            }\n          }\n        ],\n        \"scan\": {\n          \"id\": \"1234\",\n          \"app\": \"hello-qwiet\",\n          \"version\": \"f348b507198fee7b6b57a460ef8a6c94783c59258f823dfcde41a2b5cb69765f\",\n          \"successful\": true,\n          \"is_default_branch\": false,\n          \"started_at\": \"2003-04-25T21:25:15.205Z\",\n          \"completed_at\": \"1974-06-22T23:22:03.240Z\",\n          \"language\": \"javascript\",\n          \"number_of_expressions\": 10,\n          \"tags\": {},\n          \"oss_info\": {\n            \"enabled\": false,\n            \"successful\": false,\n            \"failure_reason\": \"string\"\n          },\n          \"counts\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"findings_summaries\": [\n            {\n              \"total\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"finding_type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"total_reachable\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"total_ignored\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"total_fixed\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"by_severity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"by_category\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"by_assignee\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"total\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"finding_type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"total_reachable\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"total_ignored\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"total_fixed\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"by_severity\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"by_category\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"by_assignee\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"total\": 101,\n          \"total_fixed\": 42,\n          \"total_ignored\": 17\n        }\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "90eb847e-eb99-457c-9344-2b079973a13a",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "findings",
+                    "summary"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "default_branch",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.shiftleft.io/api/v4",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "a6310416-40d4-42f1-bbc1-13fc8c3048ad",
+    "name": "alerting findings API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.\n\n# Authentication\n\nUse of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).\n",
+      "type": "text/plain"
+    }
+  }
+}

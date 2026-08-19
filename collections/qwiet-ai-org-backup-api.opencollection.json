@@ -1,0 +1,70 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "alerting org_backup API",
+    "version": "4.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "org_backup",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Download Organization Backup",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/backup/download",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "backup_id",
+                "value": "",
+                "type": "query",
+                "description": "Backup ID to filter to; defaults to the latest backup."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Downloads the backup for the specified organization."
+        },
+        {
+          "info": {
+            "name": "List Organization Backups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/backup",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Lists the existing backups for the specified organization."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

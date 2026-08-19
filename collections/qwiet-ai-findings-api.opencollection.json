@@ -1,0 +1,964 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "alerting findings API",
+    "version": "4.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "findings",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List app findings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID/findings",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "The type of findings. Accepted values are `oss_vuln`, `vuln`, and `secret`"
+              },
+              {
+                "name": "severity",
+                "value": "",
+                "type": "query",
+                "description": "The severity filter"
+              },
+              {
+                "name": "tags",
+                "value": "",
+                "type": "query",
+                "description": "The scan tags to filter by (e.g., `branch=main`)"
+              },
+              {
+                "name": "finding_tags",
+                "value": "",
+                "type": "query",
+                "description": "The findings' filtering tag"
+              },
+              {
+                "name": "assignee",
+                "value": "",
+                "type": "query",
+                "description": "The email addresses of users assigned to this finding"
+              },
+              {
+                "name": "assignment",
+                "value": "",
+                "type": "query",
+                "description": "The assignment status filter. By default, all findings, both `unassigned` and `assigned`, are returned.\n"
+              },
+              {
+                "name": "category",
+                "value": "",
+                "type": "query",
+                "description": "The category filter"
+              },
+              {
+                "name": "details_tags",
+                "value": "",
+                "type": "query",
+                "description": "The filter for the finding's details tags"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "The status filter. By default, only `unset` findings are included.\n"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "How to sort results; defaults to ID"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Direction of the sort; defaults to descending"
+              },
+              {
+                "name": "only_counts",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include only finding counts; excludes the list of findings"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page of results to fetch. Results are not guaranteed to be deterministic using this approach; we recommended using the `next_page` URL in a paginated response\n"
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page; defaults to 50"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Version to filter findings for; defaults to the latest scan"
+              },
+              {
+                "name": "scan",
+                "value": "",
+                "type": "query",
+                "description": "ID of the scan to filter to; defaults to the latest scan"
+              },
+              {
+                "name": "source",
+                "value": "",
+                "type": "query",
+                "description": "The source scan for a comparision"
+              },
+              {
+                "name": "diff",
+                "value": "",
+                "type": "query",
+                "description": "Return a diff of findings (as compared to the source)"
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the fields included or excluded in the response."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List findings for the specified app. Results are filtered to a single scan (by default, this is the latest scan)."
+        },
+        {
+          "info": {
+            "name": "List compound findings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/compounds/named/:compoundName/findings",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "compoundName",
+                "value": "",
+                "type": "path",
+                "description": "A compound's name"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "The type of findings. Accepted values are `oss_vuln`, `vuln`, and `secret`"
+              },
+              {
+                "name": "severity",
+                "value": "",
+                "type": "query",
+                "description": "The severity filter"
+              },
+              {
+                "name": "tags",
+                "value": "",
+                "type": "query",
+                "description": "The scan tags to filter by (e.g., `branch=main`)"
+              },
+              {
+                "name": "finding_tags",
+                "value": "",
+                "type": "query",
+                "description": "The findings' filtering tag"
+              },
+              {
+                "name": "assignee",
+                "value": "",
+                "type": "query",
+                "description": "The email addresses of users assigned to this finding"
+              },
+              {
+                "name": "assignment",
+                "value": "",
+                "type": "query",
+                "description": "The assignment status filter. By default, all findings, both `unassigned` and `assigned`, are returned.\n"
+              },
+              {
+                "name": "category",
+                "value": "",
+                "type": "query",
+                "description": "The category filter"
+              },
+              {
+                "name": "details_tags",
+                "value": "",
+                "type": "query",
+                "description": "The filter for the finding's details tags"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "The status filter. By default, only `unset` findings are included.\n"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "How to sort results; defaults to ID"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Direction of the sort; defaults to descending"
+              },
+              {
+                "name": "only_counts",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include only finding counts; excludes the list of findings"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page of results to fetch. Results are not guaranteed to be deterministic using this approach; we recommended using the `next_page` URL in a paginated response\n"
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page; defaults to 50"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Version to filter findings for; defaults to the latest scan"
+              },
+              {
+                "name": "scan",
+                "value": "",
+                "type": "query",
+                "description": "Polyglot scan ID to filter to; defaults to the latest scan"
+              },
+              {
+                "name": "source",
+                "value": "",
+                "type": "query",
+                "description": "The source scan for a comparision"
+              },
+              {
+                "name": "diff",
+                "value": "",
+                "type": "query",
+                "description": "Return a diff of findings (as compared to the source)"
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the fields included or excluded in the response."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "DEPRECATED - use /orgs/{orgID}/compounds/byname/{compoundName}/findings instead. List findings for the specified compound. Results are filtered to a single scan (by default, this is the latest scan)."
+        },
+        {
+          "info": {
+            "name": "List compound findings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/compounds/byname/:compoundName/findings",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "compoundName",
+                "value": "",
+                "type": "path",
+                "description": "A compound's name"
+              },
+              {
+                "name": "polyglot_scan",
+                "value": "",
+                "type": "query",
+                "description": "Polyglot scan ID to filter to; defaults to the latest scan."
+              },
+              {
+                "name": "scan_version",
+                "value": "",
+                "type": "query",
+                "description": "The version of the code at scan time. Ignored if polyglot_scan is given."
+              },
+              {
+                "name": "scan_branch",
+                "value": "",
+                "type": "query",
+                "description": "The code branch at scan time. Ignored if polygot_scan or scan_version are given."
+              },
+              {
+                "name": "scan_tag",
+                "value": "",
+                "type": "query",
+                "description": "Tags passed to the analyzer at scan time. Ignored if polygot_scan, scan_version, or scan_branch are given."
+              },
+              {
+                "name": "scan_platform",
+                "value": "",
+                "type": "query",
+                "description": "The analysis platform. Cannot be specified together with scan_language."
+              },
+              {
+                "name": "scan_language",
+                "value": "",
+                "type": "query",
+                "description": "The analysis language. Cannot be specified together with scan_platform."
+              },
+              {
+                "name": "counts_exclude",
+                "value": "",
+                "type": "query",
+                "description": "The tags to exclude from 'counts' in the response. Can be specified more than once. The default filters out a small set of tags that don't add too much value in the kind of aggregate that 'counts' contains. An empty value resets the list.\n"
+              },
+              {
+                "name": "finding_type",
+                "value": "",
+                "type": "query",
+                "description": "Only list findings of the given type. Can be specified multiple times."
+              },
+              {
+                "name": "finding_status",
+                "value": "",
+                "type": "query",
+                "description": "Only list findings with the given status. Can be specified multiple times."
+              },
+              {
+                "name": "finding_assignee",
+                "value": "",
+                "type": "query",
+                "description": "Only list findings with the given assignee. Cannot be specified together with finding_assignment."
+              },
+              {
+                "name": "finding_assignment",
+                "value": "",
+                "type": "query",
+                "description": "Only list findings of the given assignment state."
+              },
+              {
+                "name": "finding_tag",
+                "value": "",
+                "type": "query",
+                "description": "Only list findings matching the given tag query. Can be specified up to 20 times. A finding will match a series of tag queries if it matches all of them.\n"
+              },
+              {
+                "name": "finding_search",
+                "value": "",
+                "type": "query",
+                "description": "Only list findings containing the given value (under simple Unicode case-folding) in their title or description. Can be specified up to 5 times.  A finding will match a series of searches if it matches all of them.\n"
+              },
+              {
+                "name": "finding_reachable",
+                "value": "",
+                "type": "query",
+                "description": "Only list reachable findings.\n"
+              },
+              {
+                "name": "finding_exploitable",
+                "value": "",
+                "type": "query",
+                "description": "Only list exploitable findings.\n"
+              },
+              {
+                "name": "finding_has_ai_fix",
+                "value": "",
+                "type": "query",
+                "description": "Only list findings with an AI fix available.\n"
+              },
+              {
+                "name": "finding_sort",
+                "value": "",
+                "type": "query",
+                "description": "The field used to sort results.\nIf not given, the default is to sort by ID in descending order. When given, sort by that criterion, defaulting to ascending order.\n"
+              },
+              {
+                "name": "finding_order",
+                "value": "",
+                "type": "query",
+                "description": "How results are sorted. See the note on finding_sort for defaults.\n"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page of results to fetch. Only the findings portion of the response is paginated; counts and scans are present every time.\n"
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page; defaults to 50"
+              },
+              {
+                "name": "finding_fields",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the fields included or excluded in the findings in the response. Can be specified more than once.\n"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List findings for the specified compound. Results are for a single polyglot scan (by default, this is the latest scan).\n"
+        },
+        {
+          "info": {
+            "name": "Read app finding detail",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID/findings/:findingID",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              },
+              {
+                "name": "findingID",
+                "value": "",
+                "type": "path",
+                "description": "The finding ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Read the details for a single finding"
+        },
+        {
+          "info": {
+            "name": "Set finding status",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID/findings/:findingID/status",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              },
+              {
+                "name": "findingID",
+                "value": "",
+                "type": "path",
+                "description": "The finding ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Set the current status for a finding"
+        },
+        {
+          "info": {
+            "name": "Set finding assignee",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID/findings/:findingID/assignment",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              },
+              {
+                "name": "findingID",
+                "value": "",
+                "type": "path",
+                "description": "The finding ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Set the current assignee for a finding"
+        },
+        {
+          "info": {
+            "name": "Set multiple findings status",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID/findings_status",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Set the current status for multiple findings"
+        },
+        {
+          "info": {
+            "name": "Set multiple findings assignee",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID/findings_assignment",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Set the current assignee for a finding"
+        },
+        {
+          "info": {
+            "name": "Read the SCA packages of a compound scan",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/compounds/named/:compoundName/sca/packages",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "compoundName",
+                "value": "",
+                "type": "path",
+                "description": "A compound's name"
+              },
+              {
+                "name": "polyglot_scan",
+                "value": "42",
+                "type": "query",
+                "description": "Polyglot scan ID of the scan to filter to; defaults to the latest scan."
+              },
+              {
+                "name": "scan_version",
+                "value": "9b7e138e1b16dc5261803cceffb86c36800c2c7f",
+                "type": "query",
+                "description": "The version of which to get the latest scan. This is usually a SHA1. Ignored if polyglot_scan is given."
+              },
+              {
+                "name": "scan_branch",
+                "value": "feature/1234",
+                "type": "query",
+                "description": "The branch of which to get the latest scan. Ignored if polygot_scan or scan_version are given."
+              },
+              {
+                "name": "scan_tag",
+                "value": "",
+                "type": "query",
+                "description": "Tags passed to the analyzer at scan time. Ignored if polygot_scan, scan_version, or scan_branch are given."
+              },
+              {
+                "name": "scan_platform",
+                "value": "",
+                "type": "query",
+                "description": "The analysis platform. Cannot be specified together with scan_language."
+              },
+              {
+                "name": "scan_language",
+                "value": "",
+                "type": "query",
+                "description": "The analysis language. Cannot be specified together with scan_platform."
+              },
+              {
+                "name": "type",
+                "value": "package",
+                "type": "query",
+                "description": "The package finding types to include."
+              },
+              {
+                "name": "tag",
+                "value": "package_type__eq__alpine",
+                "type": "query",
+                "description": "a tag query used to filter the findings"
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "The number of results per page."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The specific page of the results to fetch."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "How to sort results; defaults to ID"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Direction of the sort; defaults to descending"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return information about the packages found in a scan of an app"
+        },
+        {
+          "info": {
+            "name": "Read the count of multiple tags of an app.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID/sca/packages",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              },
+              {
+                "name": "scan",
+                "value": "42",
+                "type": "query",
+                "description": "The ID of the scan to filter to. Defaults to the latest scan."
+              },
+              {
+                "name": "branch",
+                "value": "feature/1234",
+                "type": "query",
+                "description": "The branch of which to get the latest scan."
+              },
+              {
+                "name": "type",
+                "value": "package",
+                "type": "query",
+                "description": "The package finding types to include."
+              },
+              {
+                "name": "tag",
+                "value": "package_type__eq__alpine",
+                "type": "query",
+                "description": "a tag query used to filter the findings"
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page; defaults to 50"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page of results to fetch. Results are not guaranteed to be deterministic using this approach; we recommended using the `next_page` URL in a paginated response\n"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "How to sort results; defaults to ID"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Direction of the sort; defaults to descending"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return information about the packages found in a scan of an app"
+        },
+        {
+          "info": {
+            "name": "List org findings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/findings",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "tags",
+                "value": "",
+                "type": "query",
+                "description": "The scan tags to filter by (e.g., `branch=main`)"
+              },
+              {
+                "name": "finding_tags",
+                "value": "",
+                "type": "query",
+                "description": "The findings' filtering tag"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "The type of findings. Accepted values are `oss_vuln`, `vuln`, and `secret`"
+              },
+              {
+                "name": "severity",
+                "value": "",
+                "type": "query",
+                "description": "The severity filter"
+              },
+              {
+                "name": "assignee",
+                "value": "",
+                "type": "query",
+                "description": "The email addresses of users assigned to this finding"
+              },
+              {
+                "name": "assignment",
+                "value": "",
+                "type": "query",
+                "description": "The assignment status filter. By default, all findings, both `unassigned` and `assigned`, are returned.\n"
+              },
+              {
+                "name": "category",
+                "value": "",
+                "type": "query",
+                "description": "The category filter"
+              },
+              {
+                "name": "details_tags",
+                "value": "",
+                "type": "query",
+                "description": "The filter for the finding's details tags"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "The status filter. By default, only `unset` findings are included.\n"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "How to sort results; defaults to ID"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Direction of the sort; defaults to descending"
+              },
+              {
+                "name": "only_counts",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include only finding counts; excludes the list of findings"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page of results to fetch. Results are not guaranteed to be deterministic using this approach; we recommended using the `next_page` URL in a paginated response\n"
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page; defaults to 50"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return all findings for the org."
+        },
+        {
+          "info": {
+            "name": "Read org findings summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/findings/summary",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "tags",
+                "value": "",
+                "type": "query",
+                "description": "The scan tags to filter by (e.g., `branch=main`)"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "The type of findings. Accepted values are `oss_vuln`, `vuln`, and `secret`"
+              },
+              {
+                "name": "default_branch",
+                "value": "",
+                "type": "query",
+                "description": "Return findings from scans of the app's configured default branch"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return a summary of findings for the org."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

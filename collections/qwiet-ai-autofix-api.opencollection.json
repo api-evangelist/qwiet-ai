@@ -1,0 +1,107 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "alerting autofix API",
+    "version": "4.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "autofix",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get the number of fixes available per compound",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/stats/num_fixes_per_compound",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              }
+            ]
+          },
+          "docs": "Get the number of fixes available per compound"
+        },
+        {
+          "info": {
+            "name": "Read Recommended Fix if it exists",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID/findings/:findingID/recommended_fix",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              },
+              {
+                "name": "findingID",
+                "value": "",
+                "type": "path",
+                "description": "The finding ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve the recommended fix for a specific finding if it exists\n"
+        },
+        {
+          "info": {
+            "name": "Read finding's fix if it exists",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID/findings/:findingID/fixes",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              },
+              {
+                "name": "findingID",
+                "value": "",
+                "type": "path",
+                "description": "The finding ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve the fix for a specific finding if it exists. This feature is disabled by default. Contact Qwiet AI Customer Success if you need assistance.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

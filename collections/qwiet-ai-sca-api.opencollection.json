@@ -1,0 +1,264 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "alerting sca API",
+    "version": "4.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "sca",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Read the SCA packages of a compound scan",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/compounds/named/:compoundName/sca/packages",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "compoundName",
+                "value": "",
+                "type": "path",
+                "description": "A compound's name"
+              },
+              {
+                "name": "polyglot_scan",
+                "value": "42",
+                "type": "query",
+                "description": "Polyglot scan ID of the scan to filter to; defaults to the latest scan."
+              },
+              {
+                "name": "scan_version",
+                "value": "9b7e138e1b16dc5261803cceffb86c36800c2c7f",
+                "type": "query",
+                "description": "The version of which to get the latest scan. This is usually a SHA1. Ignored if polyglot_scan is given."
+              },
+              {
+                "name": "scan_branch",
+                "value": "feature/1234",
+                "type": "query",
+                "description": "The branch of which to get the latest scan. Ignored if polygot_scan or scan_version are given."
+              },
+              {
+                "name": "scan_tag",
+                "value": "",
+                "type": "query",
+                "description": "Tags passed to the analyzer at scan time. Ignored if polygot_scan, scan_version, or scan_branch are given."
+              },
+              {
+                "name": "scan_platform",
+                "value": "",
+                "type": "query",
+                "description": "The analysis platform. Cannot be specified together with scan_language."
+              },
+              {
+                "name": "scan_language",
+                "value": "",
+                "type": "query",
+                "description": "The analysis language. Cannot be specified together with scan_platform."
+              },
+              {
+                "name": "type",
+                "value": "package",
+                "type": "query",
+                "description": "The package finding types to include."
+              },
+              {
+                "name": "tag",
+                "value": "package_type__eq__alpine",
+                "type": "query",
+                "description": "a tag query used to filter the findings"
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "The number of results per page."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The specific page of the results to fetch."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "How to sort results; defaults to ID"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Direction of the sort; defaults to descending"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return information about the packages found in a scan of an app"
+        },
+        {
+          "info": {
+            "name": "Read the count of multiple tags of an app.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID/sca/packages",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              },
+              {
+                "name": "scan",
+                "value": "42",
+                "type": "query",
+                "description": "The ID of the scan to filter to. Defaults to the latest scan."
+              },
+              {
+                "name": "branch",
+                "value": "feature/1234",
+                "type": "query",
+                "description": "The branch of which to get the latest scan."
+              },
+              {
+                "name": "type",
+                "value": "package",
+                "type": "query",
+                "description": "The package finding types to include."
+              },
+              {
+                "name": "tag",
+                "value": "package_type__eq__alpine",
+                "type": "query",
+                "description": "a tag query used to filter the findings"
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page; defaults to 50"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page of results to fetch. Results are not guaranteed to be deterministic using this approach; we recommended using the `next_page` URL in a paginated response\n"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "How to sort results; defaults to ID"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Direction of the sort; defaults to descending"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return information about the packages found in a scan of an app"
+        },
+        {
+          "info": {
+            "name": "List dependencies that match the search",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/dependencies",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search filter that looks for matches in finding titles and tags"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page of results to fetch. Currently asking for pages beyond 20 will fail."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page."
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Packages found during scans created as of this time are included in the search. Value should be a Unix timestamp (in seconds). Defaults to 4 months before `until`. Increasing the time window increases the chance that the search will timeout."
+              },
+              {
+                "name": "until",
+                "value": "",
+                "type": "query",
+                "description": "Packages found during scans created up to this time are included in the search. Value should be a Unix timestamp (in seconds). Defaults to the creation timestamp of the most recent successful scan."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return all dependencies for the org apps if they match the search criteria."
+        },
+        {
+          "info": {
+            "name": "Retrieve package information (CVEs, licenses, and more) for a list of PURLs",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.shiftleft.io/api/v4/package_info",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieve package information (CVEs, licenses, and more) for a list of PURLs"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,132 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "alerting tokens API",
+    "version": "4.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "tokens",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List access token roles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/roles",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return a list of roles an that are assigned to an access token and are available for use (includes only the roles that are managed by Qwiet).\n"
+        },
+        {
+          "info": {
+            "name": "List tokens",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/tokens",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "show_expired",
+                "value": "",
+                "type": "query",
+                "description": "Whether expired tokens should be returned or not"
+              },
+              {
+                "name": "token_type",
+                "value": "",
+                "type": "query",
+                "description": "Filter the response by the type of token"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return a list of tokens issued by the org.\n\nThe token data returned includes metadata that identifies a token, included permissions, and an ID you can use to delete/revoke the token. The token data does NOT return the token value, which is exposed only when Qwiet issues the token.\n"
+        },
+        {
+          "info": {
+            "name": "Create token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/tokens",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new token for use with the API. The token can be assigned a role using the `role_id` parameter in the request body."
+        },
+        {
+          "info": {
+            "name": "Delete token",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/tokens/:tokenID",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "tokenID",
+                "value": "",
+                "type": "path",
+                "description": "The token ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete an access token using its identifier."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

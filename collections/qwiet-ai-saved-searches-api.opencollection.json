@@ -1,0 +1,108 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "alerting saved_searches API",
+    "version": "4.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "saved_searches",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all saved searches for an user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/saved_searches",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get all saved searches for an user"
+        },
+        {
+          "info": {
+            "name": "Create a new saved search for a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/saved_searches",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new saved search for a user"
+        },
+        {
+          "info": {
+            "name": "Update a saved search for a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/saved_searches/:searchID",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "searchID",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a saved search for a user"
+        },
+        {
+          "info": {
+            "name": "Delete a saved search for a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/saved_searches/:searchID",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "searchID",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a saved search for a user"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

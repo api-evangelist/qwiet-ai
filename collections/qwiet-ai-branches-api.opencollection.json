@@ -1,0 +1,47 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "alerting branches API",
+    "version": "4.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "branches",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List application scans branches",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID/scanbranches",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return the list of branches of an application that have been scanned, not to be confused with the soon to be deprecated /branches endpoint."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

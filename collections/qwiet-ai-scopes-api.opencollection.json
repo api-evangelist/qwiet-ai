@@ -1,0 +1,99 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "alerting scopes API",
+    "version": "4.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "scopes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List user's org scopes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/my_scopes",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return a list of the scopes the user's bearer token is allowed to perform in the context of an org.\n"
+        },
+        {
+          "info": {
+            "name": "List user's app scopes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID/my_scopes",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return a list of scopes the user is allowed to perform in the context of an app.\n"
+        },
+        {
+          "info": {
+            "name": "List user's team scopes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/rbac/teams/:rbacTeamID/my_scopes",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "rbacTeamID",
+                "value": "",
+                "type": "path",
+                "description": "The team ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return a list of scopes the user is allowed to perform in the context of their team.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

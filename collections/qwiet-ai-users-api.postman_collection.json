@@ -1,0 +1,161 @@
+{
+  "item": [
+    {
+      "id": "7a226ec0-3db2-4ec4-9c4f-ed4329d5f985",
+      "name": "users",
+      "description": {
+        "content": "Users pertains the users in general as qwiet.ai users and of each org as organization users.\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ee8a5a10-b671-4933-a462-5e7048ee3c59",
+          "name": "Read user and their organization information.",
+          "request": {
+            "name": "Read user and their organization information.",
+            "description": {
+              "content": "Read the user and their organization membership and invites information.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "user"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "8f69ce3d-c3ac-4d08-9eb6-070f328a03c8",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "user"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"response\": {\n    \"idv2\": \"fc5ea2bd-a123-3197-f664-e4ae0b4e23af\",\n    \"idv1\": \"string\",\n    \"name\": \"string\",\n    \"email\": \"8ReHGV@IgllPirIAcJxhCzsBIVKGpMDJS.uuyv\",\n    \"emailVerified\": false,\n    \"membership\": [\n      {\n        \"organization\": \"c8379bf8-00c9-2270-9ccd-6229c52f3329\",\n        \"organizationName\": \"string\"\n      },\n      {\n        \"organization\": \"3990f439-c69e-54b4-67fc-6fa4dfad9a43\",\n        \"organizationName\": \"string\"\n      }\n    ],\n    \"invites\": [\n      {\n        \"organization\": \"41a2e623-bea4-41d6-8ce0-d62907afef41\",\n        \"organizationName\": \"string\",\n        \"inviteId\": \"48708684-0eb4-6483-c922-c8192eba798a\"\n      },\n      {\n        \"organization\": \"7df60592-7b23-259f-d6fd-06319d381f7b\",\n        \"organizationName\": \"string\",\n        \"inviteId\": \"ab6af1d4-a702-2bc3-33d0-3545142cfe59\"\n      }\n    ],\n    \"lastLoginUTCTimestampHistory\": [\n      2930,\n      3438\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "454abe30-4442-45ac-8055-3e4f837561ed",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "user"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.shiftleft.io/api/v4",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "c97e05c9-69c6-4f08-9456-5dabd4ec7b5b",
+    "name": "alerting users API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.\n\n# Authentication\n\nUse of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).\n",
+      "type": "text/plain"
+    }
+  }
+}

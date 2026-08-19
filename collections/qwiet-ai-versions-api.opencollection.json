@@ -1,0 +1,106 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "alerting versions API",
+    "version": "4.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "versions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List app versions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID/versions",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              },
+              {
+                "name": "tags",
+                "value": "",
+                "type": "query",
+                "description": "The scan tags to filter by (e.g., `branch=main`)"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "The type of findings. Accepted values are `oss_vuln`, `vuln`, and `secret`"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return a list of the versions of the app that Qwiet has scanned"
+        },
+        {
+          "info": {
+            "name": "Read summary of findings for an app version",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/apps/:appID/versions/:versionID",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "The app ID (e.g., `HelloQwiet`)"
+              },
+              {
+                "name": "versionID",
+                "value": "",
+                "type": "path",
+                "description": "The version ID (e.g., `7d0...8b10`)"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "The type of findings. Accepted values are `oss_vuln`, `vuln`, and `secret`"
+              },
+              {
+                "name": "scan",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the scan to filter to. Defaults to the latest scan"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return a summary of findings for a single version"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

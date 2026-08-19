@@ -1,0 +1,311 @@
+{
+  "item": [
+    {
+      "id": "baa8da30-9841-4ac3-bdb8-5d0186dbe02c",
+      "name": "sarif",
+      "description": {
+        "content": "The integration endpoints for generating and downloading SARIF reports for applications.\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4a979711-6fd7-4859-b405-25083831db8b",
+          "name": "Download Compound SARIF Report",
+          "request": {
+            "name": "Download Compound SARIF Report",
+            "description": {
+              "content": "Downloads the SARIF report for the specified compound.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orgs",
+                ":orgID",
+                "compounds",
+                "named",
+                ":compoundName",
+                "reports",
+                "sarif"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "polyglot_scan",
+                  "value": "<string>",
+                  "description": "Polyglot scan ID to filter to; defaults to the latest scan."
+                },
+                {
+                  "disabled": false,
+                  "key": "scan_version",
+                  "value": "<string>",
+                  "description": "The version of the code at scan time. Ignored if polyglot_scan is given."
+                },
+                {
+                  "disabled": false,
+                  "key": "scan_branch",
+                  "value": "<string>",
+                  "description": "The code branch at scan time. Ignored if polygot_scan or scan_version are given."
+                },
+                {
+                  "disabled": false,
+                  "key": "scan_tag",
+                  "value": "<string>",
+                  "description": "Tags passed to the analyzer at scan time. Ignored if polygot_scan, scan_version, or scan_branch are given."
+                },
+                {
+                  "disabled": false,
+                  "key": "scan_platform",
+                  "value": "<string>",
+                  "description": "The analysis platform. Cannot be specified together with scan_language."
+                },
+                {
+                  "disabled": false,
+                  "key": "scan_language",
+                  "value": "<string>",
+                  "description": "The analysis language. Cannot be specified together with scan_platform."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "orgID",
+                  "description": "(Required) The org ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "compoundName",
+                  "description": "(Required) A compound's name"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/sarif+json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "d0fb1d42-10c7-4113-bc32-4b59a3528aea",
+              "name": "SARIF report file streamed as download",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "compounds",
+                    "named",
+                    ":compoundName",
+                    "reports",
+                    "sarif"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "polyglot_scan",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scan_version",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scan_branch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scan_tag",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scan_platform",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scan_language",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "compoundName",
+                      "description": "(Required) A compound's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/sarif+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/sarif+json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5ec91200-17dc-4dd6-86d8-23a1aff88802",
+              "name": "Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orgs",
+                    ":orgID",
+                    "compounds",
+                    "named",
+                    ":compoundName",
+                    "reports",
+                    "sarif"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "polyglot_scan",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scan_version",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scan_branch",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scan_tag",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scan_platform",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scan_language",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "orgID",
+                      "description": "(Required) The org ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "compoundName",
+                      "description": "(Required) A compound's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\",\n  \"validation_errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.shiftleft.io/api/v4",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "a0daedb7-060f-4884-a146-2c501ff6c531",
+    "name": "alerting sarif API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.\n\n# Authentication\n\nUse of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).\n",
+      "type": "text/plain"
+    }
+  }
+}

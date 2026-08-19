@@ -1,0 +1,142 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "alerting team_config API",
+    "version": "4.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "team_config",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Read team config",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/rbac/teams/:rbacTeamID/configuration",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "rbacTeamID",
+                "value": "",
+                "type": "path",
+                "description": "The team ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return the configuration of a team."
+        },
+        {
+          "info": {
+            "name": "Update team config",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/rbac/teams/:rbacTeamID/configuration",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "rbacTeamID",
+                "value": "",
+                "type": "path",
+                "description": "The team ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update the team's configuration."
+        },
+        {
+          "info": {
+            "name": "Patch team config",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/rbac/teams/:rbacTeamID/configuration",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "rbacTeamID",
+                "value": "",
+                "type": "path",
+                "description": "The team ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Partially update the team's configuration. Only fields present in the request body\nwill be updated; all other fields are preserved.\n"
+        },
+        {
+          "info": {
+            "name": "Read merged team config",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.shiftleft.io/api/v4/orgs/:orgID/rbac/teams/:rbacTeamID/configuration/merged",
+            "params": [
+              {
+                "name": "orgID",
+                "value": "",
+                "type": "path",
+                "description": "The org ID"
+              },
+              {
+                "name": "rbacTeamID",
+                "value": "",
+                "type": "path",
+                "description": "The team ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return the effective configuration of a team by taking the organization configuration before merging in the actual team configuration on top, overriding those defaults."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
