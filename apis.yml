@@ -89,7 +89,7 @@ apis:
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
   tags:
-  - analyze
+  - Analyze
   tags_raw:
   - analyze
   properties:
@@ -115,7 +115,8 @@ apis:
     [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-3251cbed-4ae3-4b06-8cad-c8748e49c7ec?action=collection%2Ffork&collection-url=entityId%3D9829310-3251cbed-4ae3-4b06-8cad-c8748e49c7ec%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)'
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
-  tags: []
+  tags:
+  - App Groups
   tags_raw:
   - app_groups
   properties:
@@ -197,7 +198,7 @@ apis:
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
   tags:
-  - autofix
+  - AutoFix
   tags_raw:
   - autofix
   properties:
@@ -243,7 +244,7 @@ apis:
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
   tags:
-  - branches
+  - Branches
   tags_raw:
   - branches
   properties:
@@ -296,7 +297,7 @@ apis:
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
   tags:
-  - compounds
+  - Compounds
   tags_raw:
   - compounds
   properties:
@@ -322,7 +323,7 @@ apis:
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
   tags:
-  - findings
+  - Findings
   tags_raw:
   - findings
   properties:
@@ -373,7 +374,7 @@ apis:
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
   tags:
-  - orgs
+  - Organization
   tags_raw:
   - orgs
   properties:
@@ -416,7 +417,7 @@ apis:
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
   tags:
-  - rbac
+  - RBAC
   tags_raw:
   - rbac
   properties:
@@ -493,7 +494,7 @@ apis:
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
   tags:
-  - sarif
+  - SARIF
   tags_raw:
   - sarif
   properties:
@@ -517,7 +518,8 @@ apis:
     and app findings
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
-  tags: []
+  tags:
+  - Saved Searches
   tags_raw:
   - saved_searches
   properties:
@@ -544,7 +546,7 @@ apis:
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
   tags:
-  - sca
+  - SCA
   tags_raw:
   - sca
   properties:
@@ -571,7 +573,7 @@ apis:
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
   tags:
-  - scans
+  - Scans
   tags_raw:
   - scans
   properties:
@@ -607,7 +609,7 @@ apis:
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
   tags:
-  - scopes
+  - Scopes
   tags_raw:
   - scopes
   properties:
