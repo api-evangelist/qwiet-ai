@@ -29,15 +29,16 @@ deliveryModel:
   method: derived
 accessModel:
   pricing: unknown
-  onboarding: self-serve
+  onboarding: unknown
   trial: false
   try_now: false
   public: false
-  label: Self-serve signup
-  confidence: medium
+  label: Unknown
+  confidence: low
   source:
   - authentication
-  generated: '2026-07-22'
+  - security
+  generated: '2026-09-03'
   method: derived
 specificationVersion: '0.23'
 created: '2026-07-17'
@@ -777,6 +778,9 @@ apis:
   - type: Webhooks
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 common:
+- type: CapabilityMap
+  url: capabilities/qwiet-ai-capability-edges.yml
+  name: Qwiet Ai Business Capability Map
 - type: Website
   url: https://qwiet.ai
 - type: DeveloperPortal
