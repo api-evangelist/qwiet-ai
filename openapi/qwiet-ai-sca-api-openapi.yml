@@ -1,18 +1,16 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   x-logo:
     url: https://docs.shiftleft.io/img/sl-logo.svg
   version: 4.0.0
-  title: alerting sca API
+  title: Sca API
   description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
 
 
     # Authentication
 
 
-    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
-
-    '
+    Use of the Qwiet API requires an access token, which is available via the Qwiet UI.'
 servers:
 - url: https://app.shiftleft.io/api/v4
 tags:
@@ -21,9 +19,7 @@ tags:
   description: 'The summaries of software composition analysis (SCA) results for apps in an organization.
 
 
-    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/30743751-08a1d64d-5913-409a-ac8a-7074ce5a62d7?action=collection%2Ffork&collection-url=entityId%3D30743751-08a1d64d-5913-409a-ac8a-7074ce5a62d7%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
-
-    '
+    ![Run in Postman](https://god.gw.postman.com/run-collection/30743751-08a1d64d-5913-409a-ac8a-7074ce5a62d7?action=collection%2Ffork&collection-url=entityId%3D30743751-08a1d64d-5913-409a-ac8a-7074ce5a62d7%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)'
 paths:
   /orgs/{orgID}/compounds/named/{compoundName}/sca/packages:
     parameters:
@@ -191,7 +187,7 @@ paths:
     get:
       tags:
       - sca
-      summary: Read the count of multiple tags of an app.
+      summary: Read the count of multiple tags of an app
       operationId: ReadAppSCAPackages
       description: Return information about the packages found in a scan of an app
       security:
@@ -406,6 +402,41 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
+    Tag:
+      anyOf:
+      - $ref: '#/components/schemas/TagWithString'
+      - $ref: '#/components/schemas/TagWithNumber'
+    ScanPlatform:
+      type: string
+      description: The analysis platform identifier.
+      enum:
+      - java
+      - go
+      - csharp
+      - javascript
+      - c
+      - python
+      - terraform_hcl
+      - ruby
+      - php
+      - fuzzytestlang
+      - kotlin
+      - javasrc
+      - pythonsrc
+      - jssrc
+      - secrets
+      - swiftsrc
+      - plsql
+      - apex
+      - groovy
+    SuccessResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful or not
     TagWithString:
       type: object
       required:
@@ -420,76 +451,6 @@ components:
           type: string
           description: The value for the tag key-value pair
           example: XSS
-    Dependency:
-      type: object
-      required:
-      - id
-      - app
-      - title
-      - type
-      properties:
-        id:
-          type: string
-          description: The unique identifier for this finding
-          example: '1'
-        app:
-          type: string
-          description: The app to which this finding belongs
-          example: hello-qwiet
-        type:
-          type: string
-          description: The type of finding
-          example: vuln
-        title:
-          type: string
-          description: The title of the finding
-          example: 'Sensitive Data Leak: Sensitive data contained in HTTP request/response'
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/Tag'
-          example:
-          - key: severity
-            value: info
-          - key: cvss_score
-            value: 2
-    Tag:
-      anyOf:
-      - $ref: '#/components/schemas/TagWithString'
-      - $ref: '#/components/schemas/TagWithNumber'
-    ScanLanguage:
-      type: string
-      description: The analysis language identifier.
-      enum:
-      - java
-      - go
-      - csharp
-      - javascript
-      - c
-      - python
-      - terraform_hcl
-      - ruby
-      - php
-      - fuzzytestlang
-      - kotlin
-      - swift
-      - plsql
-      - apex
-      - groovy
-    TagWithNumber:
-      type: object
-      required:
-      - key
-      - value
-      properties:
-        key:
-          type: string
-          description: The key for the tag key-value pair
-          example: cvss_score
-        value:
-          type: number
-          description: The value for the tag key-value pair
-          example: 5.2
     SCAPackage:
       type: object
       required:
@@ -597,37 +558,20 @@ components:
               type: boolean
             is_repo_hijackable:
               type: boolean
-    ScanPlatform:
-      type: string
-      description: The analysis platform identifier.
-      enum:
-      - java
-      - go
-      - csharp
-      - javascript
-      - c
-      - python
-      - terraform_hcl
-      - ruby
-      - php
-      - fuzzytestlang
-      - kotlin
-      - javasrc
-      - pythonsrc
-      - jssrc
-      - secrets
-      - swiftsrc
-      - plsql
-      - apex
-      - groovy
-    SuccessResponse:
+    TagWithNumber:
       type: object
       required:
-      - ok
+      - key
+      - value
       properties:
-        ok:
-          type: boolean
-          description: Whether the request was successful or not
+        key:
+          type: string
+          description: The key for the tag key-value pair
+          example: cvss_score
+        value:
+          type: number
+          description: The value for the tag key-value pair
+          example: 5.2
     PackageInfo:
       type: object
       properties:
@@ -749,6 +693,58 @@ components:
           items:
             type: string
             description: A description of the validation error
+    Dependency:
+      type: object
+      required:
+      - id
+      - app
+      - title
+      - type
+      properties:
+        id:
+          type: string
+          description: The unique identifier for this finding
+          example: '1'
+        app:
+          type: string
+          description: The app to which this finding belongs
+          example: hello-qwiet
+        type:
+          type: string
+          description: The type of finding
+          example: vuln
+        title:
+          type: string
+          description: The title of the finding
+          example: 'Sensitive Data Leak: Sensitive data contained in HTTP request/response'
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          example:
+          - key: severity
+            value: info
+          - key: cvss_score
+            value: 2
+    ScanLanguage:
+      type: string
+      description: The analysis language identifier.
+      enum:
+      - java
+      - go
+      - csharp
+      - javascript
+      - c
+      - python
+      - terraform_hcl
+      - ruby
+      - php
+      - fuzzytestlang
+      - kotlin
+      - swift
+      - plsql
+      - apex
+      - groovy
   parameters:
     compoundName:
       name: compoundName
@@ -764,23 +760,6 @@ components:
       required: true
       schema:
         type: string
-    orgID:
-      name: orgID
-      in: path
-      description: The org ID
-      required: true
-      schema:
-        type: string
-        format: uuid
-    order:
-      in: query
-      name: order
-      description: Direction of the sort; defaults to descending
-      schema:
-        type: string
-        enum:
-        - desc
-        - asc
     page:
       in: query
       name: page
@@ -795,12 +774,29 @@ components:
       description: Number of results per page; defaults to 50
       schema:
         type: integer
+    orgID:
+      name: orgID
+      in: path
+      description: The org ID
+      required: true
+      schema:
+        type: string
+        format: uuid
     search:
       in: query
       name: search
       description: Search filter that looks for matches in finding titles and tags
       schema:
         type: string
+    order:
+      in: query
+      name: order
+      description: Direction of the sort; defaults to descending
+      schema:
+        type: string
+        enum:
+        - desc
+        - asc
   securitySchemes:
     BearerToken:
       description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\

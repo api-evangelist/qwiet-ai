@@ -1,41 +1,35 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   x-logo:
     url: https://docs.shiftleft.io/img/sl-logo.svg
   version: 4.0.0
-  title: alerting apps API
+  title: Apps API
   description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
 
 
     # Authentication
 
 
-    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
-
-    '
+    Use of the Qwiet API requires an access token, which is available via the Qwiet UI.'
 servers:
 - url: https://app.shiftleft.io/api/v4
 tags:
-- name: apps
+- name: Apps
   x-displayName: Applications
   description: 'The applications submitted for analysis.
 
 
-    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-e9d0bf19-30bd-46f4-b40c-9df03d2a463a?action=collection%2Ffork&collection-url=entityId%3D9829310-e9d0bf19-30bd-46f4-b40c-9df03d2a463a%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
-
-    '
+    ![Run in Postman](https://god.gw.postman.com/run-collection/9829310-e9d0bf19-30bd-46f4-b40c-9df03d2a463a?action=collection%2Ffork&collection-url=entityId%3D9829310-e9d0bf19-30bd-46f4-b40c-9df03d2a463a%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)'
 paths:
   /orgs/{orgID}/apps:
     parameters:
     - $ref: '#/components/parameters/orgID'
     put:
       tags:
-      - apps
+      - Apps
       summary: Create Apps
       operationId: CreateApp
-      description: 'Create one or more apps owned by an organization and potentially assigned to a team.
-
-        '
+      description: Create one or more apps owned by an organization and potentially assigned to a team.
       security:
       - BearerToken:
         - apps:create
@@ -76,12 +70,10 @@ paths:
                 $ref: '#/components/schemas/Error'
     get:
       tags:
-      - apps
+      - Apps
       summary: List apps
       operationId: ListApps
-      description: 'Return a list of the apps owned by the org.
-
-        '
+      description: Return a list of the apps owned by the org.
       security:
       - BearerToken:
         - apps:list
@@ -123,12 +115,10 @@ paths:
     - $ref: '#/components/parameters/appID'
     delete:
       tags:
-      - apps
+      - Apps
       summary: Delete app
       operationId: DeleteApp
-      description: 'Delete an app owned by an organization.
-
-        '
+      description: Delete an app owned by an organization.
       security:
       - BearerToken:
         - project:delete
@@ -153,12 +143,10 @@ paths:
                 $ref: '#/components/schemas/Error'
     get:
       tags:
-      - apps
+      - Apps
       summary: Read app
       operationId: ReadApp
-      description: 'Return an app owned by an organization.
-
-        '
+      description: Return an app owned by an organization.
       security:
       - BearerToken:
         - project:read
@@ -198,12 +186,10 @@ paths:
     - $ref: '#/components/parameters/orgID'
     get:
       tags:
-      - apps
+      - Apps
       summary: List app branches
       operationId: ListAppsBranches
-      description: 'Return a list of the branches of a specific app scanned for an org.
-
-        '
+      description: Return a list of the branches of a specific app scanned for an org.
       security:
       - BearerToken:
         - apps:list
@@ -284,7 +270,7 @@ paths:
     - $ref: '#/components/parameters/appID'
     get:
       tags:
-      - apps
+      - Apps
       summary: Read app config
       description: Return the configuration of an application.
       operationId: ReadAppConfig
@@ -319,7 +305,7 @@ paths:
                 $ref: '#/components/schemas/Error'
     put:
       tags:
-      - apps
+      - Apps
       summary: Update app config
       operationId: UpdateAppConfig
       description: Update the app's configuration.
@@ -363,16 +349,14 @@ paths:
                 $ref: '#/components/schemas/Error'
     patch:
       tags:
-      - apps
+      - Apps
       summary: Patch app config
       operationId: PatchAppConfig
       description: 'Partially update the app''s configuration. Only fields present in the request body
 
         will be updated; all other fields are preserved. This is safer than PUT when you
 
-        only need to change a subset of the configuration.
-
-        '
+        only need to change a subset of the configuration.'
       security:
       - BearerToken:
         - org_configuration:write
@@ -414,7 +398,7 @@ paths:
   /orgs/{orgID}/apps/{appID}/configuration/default_branch:
     patch:
       tags:
-      - apps
+      - Apps
       summary: Update Application Default Branch
       operationId: UpdateAppDefaultBranch
       description: Update the application's default branch.
@@ -465,7 +449,7 @@ paths:
     - $ref: '#/components/parameters/appID'
     get:
       tags:
-      - apps
+      - Apps
       summary: Read merged app config
       description: Return the effective configuration of an application by combining the organization configuration and the configuration of a potentially assigned team as defaults first, before merging in the actual app configuration on top, overriding those defaults.
       operationId: ReadMergedAppConfig
@@ -500,42 +484,6 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    TagWithString:
-      type: object
-      required:
-      - key
-      - value
-      properties:
-        key:
-          type: string
-          description: The key for the tag key-value pair
-          example: category
-        value:
-          type: string
-          description: The value for the tag key-value pair
-          example: XSS
-    Tag:
-      anyOf:
-      - $ref: '#/components/schemas/TagWithString'
-      - $ref: '#/components/schemas/TagWithNumber'
-    AppProvisionRequest:
-      type: array
-      items:
-        $ref: '#/components/schemas/AppSpec'
-    TagWithNumber:
-      type: object
-      required:
-      - key
-      - value
-      properties:
-        key:
-          type: string
-          description: The key for the tag key-value pair
-          example: cvss_score
-        value:
-          type: number
-          description: The value for the tag key-value pair
-          example: 5.2
     AppSpec:
       type: object
       description: contains the information necessary to provision an app.
@@ -556,23 +504,6 @@ components:
           type: string
           description: the name of the principal branch of the app.
           example: master
-    StatusLog:
-      type: object
-      properties:
-        message_id:
-          type: string
-        message:
-          type: string
-        gh_pr_link:
-          type: string
-    SuccessResponse:
-      type: object
-      required:
-      - ok
-      properties:
-        ok:
-          type: boolean
-          description: Whether the request was successful or not
     SecretsConfiguration:
       description: Secrets detection configuration
       type: object
@@ -583,17 +514,71 @@ components:
         disable:
           type: boolean
           description: set to true to disable secrets detection altogether
-    AppAnalysisConfiguration:
-      description: App level analysis configuration
+    Tag:
+      anyOf:
+      - $ref: '#/components/schemas/TagWithString'
+      - $ref: '#/components/schemas/TagWithNumber'
+    TagWithString:
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+          description: The key for the tag key-value pair
+          example: category
+        value:
+          type: string
+          description: The value for the tag key-value pair
+          example: XSS
+    TagWithNumber:
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+          description: The key for the tag key-value pair
+          example: cvss_score
+        value:
+          type: number
+          description: The value for the tag key-value pair
+          example: 5.2
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
+            type: string
+            description: A description of the validation error
+    StatusLog:
       type: object
       properties:
-        secrets:
-          $ref: '#/components/schemas/SecretsConfiguration'
-        cpg2sp:
-          type: object
-          properties:
-            max-steps:
-              type: integer
+        message_id:
+          type: string
+        message:
+          type: string
+        gh_pr_link:
+          type: string
     App:
       type: object
       example:
@@ -650,6 +635,29 @@ components:
           type: array
           items:
             type: string
+    AppProvisionRequest:
+      type: array
+      items:
+        $ref: '#/components/schemas/AppSpec'
+    SuccessResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful or not
+    AppAnalysisConfiguration:
+      description: App level analysis configuration
+      type: object
+      properties:
+        secrets:
+          $ref: '#/components/schemas/SecretsConfiguration'
+        cpg2sp:
+          type: object
+          properties:
+            max-steps:
+              type: integer
     AppProvisionResponse:
       type: object
       description: contains the results of a bulk apps provisioning.
@@ -668,31 +676,14 @@ components:
           description: list of team ids that were rejected due to not existing.
           items:
             type: string
-    Error:
-      type: object
-      required:
-      - ok
-      - code
-      - message
-      properties:
-        ok:
-          type: boolean
-          description: Whether the request was successful (true) or not (false)
-        code:
-          type: string
-          description: The `enum` representing the error encountered
-          example: INTERNAL_SERVER_ERROR
-        message:
-          type: string
-          description: A message describing the error
-          example: Internal Server Error
-        validation_errors:
-          type: array
-          description: The validation errors the user should correct before re-submitting the request
-          items:
-            type: string
-            description: A description of the validation error
   parameters:
+    appID:
+      name: appID
+      in: path
+      description: The app ID (e.g., `HelloQwiet`)
+      required: true
+      schema:
+        type: string
     orgID:
       name: orgID
       in: path
@@ -701,13 +692,6 @@ components:
       schema:
         type: string
         format: uuid
-    appID:
-      name: appID
-      in: path
-      description: The app ID (e.g., `HelloQwiet`)
-      required: true
-      schema:
-        type: string
   securitySchemes:
     BearerToken:
       description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\

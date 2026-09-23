@@ -1,36 +1,30 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   x-logo:
     url: https://docs.shiftleft.io/img/sl-logo.svg
   version: 4.0.0
-  title: alerting users API
+  title: Users API
   description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
 
 
     # Authentication
 
 
-    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
-
-    '
+    Use of the Qwiet API requires an access token, which is available via the Qwiet UI.'
 servers:
 - url: https://app.shiftleft.io/api/v4
 tags:
-- name: users
+- name: Users
   x-displayName: Users
-  description: 'Users pertains the users in general as qwiet.ai users and of each org as organization users.
-
-    '
+  description: Users pertains the users in general as qwiet.ai users and of each org as organization users.
 paths:
   /user:
     get:
       tags:
-      - users
-      summary: Read user and their organization information.
+      - Users
+      summary: Read user and their organization information
       operationId: ReadUser
-      description: 'Read the user and their organization membership and invites information.
-
-        '
+      description: Read the user and their organization membership and invites information.
       security:
       - BearerToken: []
       responses:

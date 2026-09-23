@@ -1,26 +1,22 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   x-logo:
     url: https://docs.shiftleft.io/img/sl-logo.svg
   version: 4.0.0
-  title: alerting compounds API
+  title: Compounds API
   description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
 
 
     # Authentication
 
 
-    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
-
-    '
+    Use of the Qwiet API requires an access token, which is available via the Qwiet UI.'
 servers:
 - url: https://app.shiftleft.io/api/v4
 tags:
-- name: compounds
+- name: Compounds
   x-displayName: Multi-Language Apps
-  description: 'Multi-Language Apps are groups of applications that are scanned together as a single application. This is useful for applications that are a compound of various programming languages and configurations of frameworks.
-
-    '
+  description: Multi-Language Apps are groups of applications that are scanned together as a single application. This is useful for applications that are a compound of various programming languages and configurations of frameworks.
 paths:
   /orgs/{orgID}/compounds/named/{compoundName}:
     parameters:
@@ -28,7 +24,7 @@ paths:
     - $ref: '#/components/parameters/compoundName'
     patch:
       tags:
-      - compounds
+      - Compounds
       summary: Un/Archive Compound
       operationId: ToggleCompoundArchive
       description: Toggle the archived status of a compound
@@ -63,7 +59,7 @@ paths:
   /orgs/{orgID}/compounds/named/{compoundName}/scans/streamlined:
     get:
       tags:
-      - compounds
+      - Compounds
       summary: List scans in a compound, returning a subset of the scan summary information
       operationId: GetStreamlinedScans
       description: The full information we can return about a scan is a lot of data, which slows down a UI that only wants to present a subset of it to the user. This endpoint returns only the subset actually needed for rendering that UI. As such it's meant for internal use only, but is documented because other API users may find it useful for similar reasons.
@@ -140,7 +136,7 @@ paths:
       description: If present, includes archived compounds
     get:
       tags:
-      - compounds
+      - Compounds
       summary: Read compound scan
       operationId: ReadCompoundScan
       description: Retrieve details for a specific scan of a compound
@@ -178,7 +174,7 @@ paths:
       description: If present, includes archived compounds
     get:
       tags:
-      - compounds
+      - Compounds
       summary: Read branches for compound
       operationId: CompoundBranches
       description: List all the branches for a specific compound
@@ -241,7 +237,7 @@ paths:
         type: integer
     get:
       tags:
-      - compounds
+      - Compounds
       summary: List Scans of Compound
       operationId: ListScansInCompound
       description: List all scans for a specific compound
@@ -300,7 +296,7 @@ paths:
       description: Number of items per page
     get:
       tags:
-      - compounds
+      - Compounds
       summary: List Compounds
       operationId: ListOrgCompounds
       description: List all compounds for an organization
@@ -340,12 +336,10 @@ paths:
     - $ref: '#/components/parameters/compoundID'
     get:
       tags:
-      - compounds
+      - Compounds
       summary: Read shallow compound
       operationId: ReadCompoundShallow
-      description: 'Returns a shallow compound object, which includes the compound''s ID, name, and description.
-
-        '
+      description: Returns a shallow compound object, which includes the compound's ID, name, and description.
       security:
       - BearerToken:
         - project:read
@@ -375,12 +369,10 @@ paths:
     - $ref: '#/components/parameters/compoundID'
     get:
       tags:
-      - compounds
+      - Compounds
       summary: Read shallow compound by ID
       operationId: ReadCompoundShallowByID
-      description: 'Returns a shallow compound object by its ID, which includes the compound''s ID, name, and the IDs of the apps that are part of the compound.
-
-        '
+      description: Returns a shallow compound object by its ID, which includes the compound's ID, name, and the IDs of the apps that are part of the compound.
       security:
       - BearerToken:
         - project:read
@@ -410,12 +402,10 @@ paths:
     - $ref: '#/components/parameters/compoundName'
     get:
       tags:
-      - compounds
+      - Compounds
       summary: Read shallow compound by name
       operationId: ReadCompoundShallowByName
-      description: 'Returns a shallow compound object by its name. If no compound is found with the given name, falls back to looking up a project with that name.
-
-        '
+      description: Returns a shallow compound object by its name. If no compound is found with the given name, falls back to looking up a project with that name.
       security:
       - BearerToken:
         - project:read
@@ -446,11 +436,9 @@ paths:
     delete:
       operationId: DeleteCompound
       tags:
-      - compounds
+      - Compounds
       summary: Delete compound
-      description: 'Deletes a compound and all of its associated apps.
-
-        '
+      description: Deletes a compound and all of its associated apps.
       security:
       - BearerToken:
         - project:delete
@@ -473,12 +461,10 @@ paths:
     - $ref: '#/components/parameters/compoundID'
     get:
       tags:
-      - compounds
+      - Compounds
       summary: Read full compound
       operationId: ReadCompoundFull
-      description: 'Returns a full compound object, which includes the compound''s ID, name, description, and the IDs of the apps that are part of the compound.
-
-        '
+      description: Returns a full compound object, which includes the compound's ID, name, description, and the IDs of the apps that are part of the compound.
       security:
       - BearerToken:
         - project:read
@@ -504,29 +490,297 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    Tag:
-      anyOf:
-      - $ref: '#/components/schemas/TagWithString'
-      - $ref: '#/components/schemas/TagWithNumber'
-    ShallowCompound:
+    TagWithString:
       type: object
-      example:
-        id: fab0089f-cc8c-44a8-a927-26e83f6eb6d4
-        name: shiftleft-python-demo
-        apps:
-        - shiftleft-python-demo
-        - shiftleft-python-demo_element_PYTHONSRC
-        - shiftleft-python-demo_element_TERRAFORM_HCL
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+          description: The key for the tag key-value pair
+          example: category
+        value:
+          type: string
+          description: The value for the tag key-value pair
+          example: XSS
+    ScanInfo:
+      type: object
+      required:
+      - id
+      - app
+      - version
+      - successful
       properties:
         id:
           type: string
-          description: the id of the compound
+          description: The unique identifier for the scan
+          example: '1234'
+        app:
+          type: string
+          description: The app represented by the scan
+          example: hello-qwiet
+        version:
+          type: string
+          description: The app version represented by the scan
+          example: f348b507198fee7b6b57a460ef8a6c94783c59258f823dfcde41a2b5cb69765f
+        successful:
+          type: boolean
+          description: Whether the scan was successful or not
+        started_at:
+          type: string
+          format: date-time
+          description: When the scan was started
+        completed_at:
+          type: string
+          format: date-time
+          description: When the scan was completed
+        language:
+          type: string
+          description: The language of the analyzed application
+          example: javascript
+        number_of_expressions:
+          type: integer
+          description: The number of expressions found in the application
+          example: 10
+        tags:
+          type: object
+          description: The tags associated with this scan
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
+            type: string
+            description: A description of the validation error
+    StatusLog:
+      type: object
+      properties:
+        message_id:
+          type: string
+        message:
+          type: string
+        gh_pr_link:
+          type: string
+    TagWithNumber:
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+          description: The key for the tag key-value pair
+          example: cvss_score
+        value:
+          type: number
+          description: The value for the tag key-value pair
+          example: 5.2
+    SCAVulnCounts:
+      allOf:
+      - $ref: '#/components/schemas/SASTVulnCounts'
+      - type: object
+        required:
+        - unreachable
+        properties:
+          unreachable:
+            type: integer
+            description: the number of unreachable vulnerabilities
+            example: 7
+    SASTVulnCounts:
+      type: object
+      required:
+      - critical
+      - high
+      - medium
+      - low
+      properties:
+        critical:
+          type: integer
+          description: the number of critical severity vulnerabilities
+          example: 1
+        high:
+          type: integer
+          description: the number of high severity vulnerabilities
+          example: 2
+        medium:
+          type: integer
+          description: the number of medium severity vulnerabilities
+          example: 3
+        low:
+          type: integer
+          description: the number of low severity vulnerabilities
+          example: 5
+    OSSScan:
+      type: object
+      required:
+      - enabled
+      properties:
+        enabled:
+          type: boolean
+          description: A flag indicating whether OSS Scan was enabled and allowed
+        successful:
+          type: boolean
+          description: A flag indicating whether OSS Scan was successfully performed on the project
+        failure_reason:
+          type: string
+          description: A status message with the reason for the OSS scan failure (if the scan was unsuccessful)
+    CompoundScanResponse:
+      type: object
+      properties:
+        compound_id:
+          type: string
+          format: uuid
+          description: The compound ID of the polyglot scan, if available
+        polyglot_scan_id:
+          type: integer
+          minimum: 1
+          description: The polyglot scan ID, if available
+        scans:
+          type: array
+          description: The element scans that form the polyglot scan
+          items:
+            $ref: '#/components/schemas/ScanInfo'
+        findings_summaries:
+          type: array
+          items:
+            $ref: '#/components/schemas/FindingsSummary'
+        counts:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagCount'
+    StreamlinedScan:
+      type: object
+      required:
+      - polyglot_scan_id
+      - created_at
+      - agent
+      - branch
+      - languages
+      - vulns
+      - oss_vulns
+      - container_vulns
+      - secrets
+      properties:
+        polyglot_scan_id:
+          type: integer
+          description: A polyglot scan's ID
+          example: 1
+        created_at:
+          type: string
+          format: date-time
+          description: The timestamp of the scan
+        agent:
+          type: string
+          description: The agent of the scan
+          example: harness
+        branch:
+          type: string
+          description: The branch of the scan
+          example: feature/more-potatoes
+        languages:
+          type: array
+          items:
+            type: string
+            description: The language of the scan
+            example: javascript
+        platforms:
+          type: array
+          items:
+            type: string
+            description: The platform code of the scan
+            example: JAVASCRIPT
+        vulns:
+          $ref: '#/components/schemas/SASTVulnCounts'
+        oss_vulns:
+          $ref: '#/components/schemas/SCAVulnCounts'
+        container_vulns:
+          $ref: '#/components/schemas/SCAVulnCounts'
+        secrets:
+          type: integer
+          description: the number of secrets
+          example: 42
+        oss_risks:
+          type: integer
+          description: the number of OSS dependency risks
+          example: 3
+        failures:
+          type: array
+          items:
+            type: string
+            description: a problem found in this polyglot scan
+            example: Failed to create CPG File
+    App:
+      type: object
+      example:
+        id: shiftleft-python-demo
+        name: shiftleft-python-demo
+        can_delete: true
+        is_subscription_active: true
+        configuration:
+          analysis_configuration:
+            secrets: {}
+            cpg2sp: {}
+        avg_scan_duration_ms: 43674
+        compound: fab0089f-cc8c-44a8-a927-26e83f6eb6d4
+        labels:
+        - label1
+        - label2
+      properties:
+        id:
+          type: string
+          description: The name of the app
         name:
           type: string
-          description: the name of the compound
-        apps:
+          description: An alternative (human-readable) name for the app
+        tags:
           type: array
-          description: the list of apps that belong to the compound
+          items:
+            $ref: '#/components/schemas/Tag'
+        is_demo:
+          type: boolean
+          description: Indicates whether the app was created as a demo or not
+        potential_new_cves:
+          type: integer
+          description: The number of new CVEs found in a re-scan of the app
+        team_id:
+          type: string
+          description: The name of the team this application belongs to, if any
+        can_delete:
+          type: boolean
+          description: Indicates if the user making the request has deletion permissions on this App
+        is_subscription_active:
+          type: boolean
+          description: Indicates if the organization subscription allows accessing this App
+        latest_status_log:
+          $ref: '#/components/schemas/StatusLog'
+        avg_scan_duration_ms:
+          type: integer
+          description: 'The average duration of (successful) scans for this project. Absent if no scans finished successfully yet.
+
+            '
+        compound:
+          type: string
+          description: The id of the compound (multi language application) this app belongs to, if any.
+        labels:
+          type: array
           items:
             type: string
     Scan:
@@ -596,72 +850,6 @@ components:
           description: The total ignored across all summaries
           type: integer
           example: 17
-    TagWithString:
-      type: object
-      required:
-      - key
-      - value
-      properties:
-        key:
-          type: string
-          description: The key for the tag key-value pair
-          example: category
-        value:
-          type: string
-          description: The value for the tag key-value pair
-          example: XSS
-    NextPage:
-      type: string
-      description: URL for the next page of results
-      example: https://api.shiftleft.io/orgs/4c07962d-745f-4465-9965-002f6cf3c7ff/findings?page=2
-    SASTVulnCounts:
-      type: object
-      required:
-      - critical
-      - high
-      - medium
-      - low
-      properties:
-        critical:
-          type: integer
-          description: the number of critical severity vulnerabilities
-          example: 1
-        high:
-          type: integer
-          description: the number of high severity vulnerabilities
-          example: 2
-        medium:
-          type: integer
-          description: the number of medium severity vulnerabilities
-          example: 3
-        low:
-          type: integer
-          description: the number of low severity vulnerabilities
-          example: 5
-    CompoundScanResponse:
-      type: object
-      properties:
-        compound_id:
-          type: string
-          format: uuid
-          description: The compound ID of the polyglot scan, if available
-        polyglot_scan_id:
-          type: integer
-          minimum: 1
-          description: The polyglot scan ID, if available
-        scans:
-          type: array
-          description: The element scans that form the polyglot scan
-          items:
-            $ref: '#/components/schemas/ScanInfo'
-        findings_summaries:
-          type: array
-          items:
-            $ref: '#/components/schemas/FindingsSummary'
-        counts:
-          type: array
-          items:
-            $ref: '#/components/schemas/TagCount'
     FindingsSummary:
       type: object
       required:
@@ -714,44 +902,6 @@ components:
               total: 10
               total_fixed: 3
               total_ignored: 1
-    Error:
-      type: object
-      required:
-      - ok
-      - code
-      - message
-      properties:
-        ok:
-          type: boolean
-          description: Whether the request was successful (true) or not (false)
-        code:
-          type: string
-          description: The `enum` representing the error encountered
-          example: INTERNAL_SERVER_ERROR
-        message:
-          type: string
-          description: A message describing the error
-          example: Internal Server Error
-        validation_errors:
-          type: array
-          description: The validation errors the user should correct before re-submitting the request
-          items:
-            type: string
-            description: A description of the validation error
-    TagWithNumber:
-      type: object
-      required:
-      - key
-      - value
-      properties:
-        key:
-          type: string
-          description: The key for the tag key-value pair
-          example: cvss_score
-        value:
-          type: number
-          description: The value for the tag key-value pair
-          example: 5.2
     Compound:
       type: object
       example:
@@ -826,123 +976,31 @@ components:
               - 18
           additionalProperties:
             $ref: '#/components/schemas/App'
-    StreamlinedScan:
+    NextPage:
+      type: string
+      description: URL for the next page of results
+      example: https://api.shiftleft.io/orgs/4c07962d-745f-4465-9965-002f6cf3c7ff/findings?page=2
+    ShallowCompound:
       type: object
-      required:
-      - polyglot_scan_id
-      - created_at
-      - agent
-      - branch
-      - languages
-      - vulns
-      - oss_vulns
-      - container_vulns
-      - secrets
-      properties:
-        polyglot_scan_id:
-          type: integer
-          description: A polyglot scan's ID
-          example: 1
-        created_at:
-          type: string
-          format: date-time
-          description: The timestamp of the scan
-        agent:
-          type: string
-          description: The agent of the scan
-          example: harness
-        branch:
-          type: string
-          description: The branch of the scan
-          example: feature/more-potatoes
-        languages:
-          type: array
-          items:
-            type: string
-            description: The language of the scan
-            example: javascript
-        platforms:
-          type: array
-          items:
-            type: string
-            description: The platform code of the scan
-            example: JAVASCRIPT
-        vulns:
-          $ref: '#/components/schemas/SASTVulnCounts'
-        oss_vulns:
-          $ref: '#/components/schemas/SCAVulnCounts'
-        container_vulns:
-          $ref: '#/components/schemas/SCAVulnCounts'
-        secrets:
-          type: integer
-          description: the number of secrets
-          example: 42
-        oss_risks:
-          type: integer
-          description: the number of OSS dependency risks
-          example: 3
-        failures:
-          type: array
-          items:
-            type: string
-            description: a problem found in this polyglot scan
-            example: Failed to create CPG File
-    OSSScan:
-      type: object
-      required:
-      - enabled
-      properties:
-        enabled:
-          type: boolean
-          description: A flag indicating whether OSS Scan was enabled and allowed
-        successful:
-          type: boolean
-          description: A flag indicating whether OSS Scan was successfully performed on the project
-        failure_reason:
-          type: string
-          description: A status message with the reason for the OSS scan failure (if the scan was unsuccessful)
-    ScanInfo:
-      type: object
-      required:
-      - id
-      - app
-      - version
-      - successful
+      example:
+        id: fab0089f-cc8c-44a8-a927-26e83f6eb6d4
+        name: shiftleft-python-demo
+        apps:
+        - shiftleft-python-demo
+        - shiftleft-python-demo_element_PYTHONSRC
+        - shiftleft-python-demo_element_TERRAFORM_HCL
       properties:
         id:
           type: string
-          description: The unique identifier for the scan
-          example: '1234'
-        app:
+          description: the id of the compound
+        name:
           type: string
-          description: The app represented by the scan
-          example: hello-qwiet
-        version:
-          type: string
-          description: The app version represented by the scan
-          example: f348b507198fee7b6b57a460ef8a6c94783c59258f823dfcde41a2b5cb69765f
-        successful:
-          type: boolean
-          description: Whether the scan was successful or not
-        started_at:
-          type: string
-          format: date-time
-          description: When the scan was started
-        completed_at:
-          type: string
-          format: date-time
-          description: When the scan was completed
-        language:
-          type: string
-          description: The language of the analyzed application
-          example: javascript
-        number_of_expressions:
-          type: integer
-          description: The number of expressions found in the application
-          example: 10
-        tags:
-          type: object
-          description: The tags associated with this scan
+          description: the name of the compound
+        apps:
+          type: array
+          description: the list of apps that belong to the compound
+          items:
+            type: string
     TagCount:
       allOf:
       - $ref: '#/components/schemas/Tag'
@@ -955,15 +1013,6 @@ components:
           count:
             type: integer
             example: 42
-    StatusLog:
-      type: object
-      properties:
-        message_id:
-          type: string
-        message:
-          type: string
-        gh_pr_link:
-          type: string
     SuccessResponse:
       type: object
       required:
@@ -972,78 +1021,15 @@ components:
         ok:
           type: boolean
           description: Whether the request was successful or not
-    SCAVulnCounts:
-      allOf:
-      - $ref: '#/components/schemas/SASTVulnCounts'
-      - type: object
-        required:
-        - unreachable
-        properties:
-          unreachable:
-            type: integer
-            description: the number of unreachable vulnerabilities
-            example: 7
-    App:
-      type: object
-      example:
-        id: shiftleft-python-demo
-        name: shiftleft-python-demo
-        can_delete: true
-        is_subscription_active: true
-        configuration:
-          analysis_configuration:
-            secrets: {}
-            cpg2sp: {}
-        avg_scan_duration_ms: 43674
-        compound: fab0089f-cc8c-44a8-a927-26e83f6eb6d4
-        labels:
-        - label1
-        - label2
-      properties:
-        id:
-          type: string
-          description: The name of the app
-        name:
-          type: string
-          description: An alternative (human-readable) name for the app
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/Tag'
-        is_demo:
-          type: boolean
-          description: Indicates whether the app was created as a demo or not
-        potential_new_cves:
-          type: integer
-          description: The number of new CVEs found in a re-scan of the app
-        team_id:
-          type: string
-          description: The name of the team this application belongs to, if any
-        can_delete:
-          type: boolean
-          description: Indicates if the user making the request has deletion permissions on this App
-        is_subscription_active:
-          type: boolean
-          description: Indicates if the organization subscription allows accessing this App
-        latest_status_log:
-          $ref: '#/components/schemas/StatusLog'
-        avg_scan_duration_ms:
-          type: integer
-          description: 'The average duration of (successful) scans for this project. Absent if no scans finished successfully yet.
-
-            '
-        compound:
-          type: string
-          description: The id of the compound (multi language application) this app belongs to, if any.
-        labels:
-          type: array
-          items:
-            type: string
+    Tag:
+      anyOf:
+      - $ref: '#/components/schemas/TagWithString'
+      - $ref: '#/components/schemas/TagWithNumber'
   parameters:
-    orgID:
-      name: orgID
+    compoundID:
+      name: compoundID
       in: path
-      description: The org ID
+      description: A compound's ID
       required: true
       schema:
         type: string
@@ -1055,10 +1041,10 @@ components:
       required: true
       schema:
         type: string
-    compoundID:
-      name: compoundID
+    orgID:
+      name: orgID
       in: path
-      description: A compound's ID
+      description: The org ID
       required: true
       schema:
         type: string

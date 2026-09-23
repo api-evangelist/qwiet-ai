@@ -1,41 +1,35 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   x-logo:
     url: https://docs.shiftleft.io/img/sl-logo.svg
   version: 4.0.0
-  title: alerting app_groups API
+  title: App Groups API
   description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
 
 
     # Authentication
 
 
-    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
-
-    '
+    Use of the Qwiet API requires an access token, which is available via the Qwiet UI.'
 servers:
 - url: https://app.shiftleft.io/api/v4
 tags:
-- name: app_groups
+- name: App Groups
   x-displayName: App groups
   description: 'The user-created groups of applications.
 
 
-    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-3251cbed-4ae3-4b06-8cad-c8748e49c7ec?action=collection%2Ffork&collection-url=entityId%3D9829310-3251cbed-4ae3-4b06-8cad-c8748e49c7ec%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
-
-    '
+    ![Run in Postman](https://god.gw.postman.com/run-collection/9829310-3251cbed-4ae3-4b06-8cad-c8748e49c7ec?action=collection%2Ffork&collection-url=entityId%3D9829310-3251cbed-4ae3-4b06-8cad-c8748e49c7ec%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)'
 paths:
   /orgs/{orgID}/app_groups:
     parameters:
     - $ref: '#/components/parameters/orgID'
     get:
       tags:
-      - app_groups
+      - App Groups
       summary: Read organization app groups
       operationId: ReadOrgGroups
-      description: 'Return a list of all the organization groups.
-
-        '
+      description: Return a list of all the organization groups.
       security:
       - BearerToken:
         - orgs:read
@@ -75,12 +69,10 @@ paths:
     - $ref: '#/components/parameters/appGroupName'
     get:
       tags:
-      - app_groups
+      - App Groups
       summary: Read app group
       operationId: ReadAppGroup
-      description: 'Return information about an app group.
-
-        '
+      description: Return information about an app group.
       security:
       - BearerToken:
         - orgs:read
@@ -119,12 +111,10 @@ paths:
                 $ref: '#/components/schemas/Error'
     put:
       tags:
-      - app_groups
+      - App Groups
       summary: Create or update app group
       operationId: UpsertAppGroup
-      description: 'Create or update an application group.
-
-        '
+      description: Create or update an application group.
       security:
       - BearerToken:
         - app_group:update
@@ -176,12 +166,10 @@ paths:
                 $ref: '#/components/schemas/Error'
     delete:
       tags:
-      - app_groups
+      - App Groups
       summary: Delete app group
       operationId: DeleteAppGroup
-      description: 'Deletes an application group.
-
-        '
+      description: Deletes an application group.
       security:
       - BearerToken:
         - app_group:delete
@@ -206,25 +194,24 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    ReadGroupResponse:
+    UpsertAppGroupRequest:
       type: object
       properties:
-        name:
+        rename:
           type: string
-          description: The current name of the group
-        app_ids:
+          description: A new name for the group (optional)
+        add_app_ids:
           type: array
+          description: The application IDs to add to the group
           items:
             type: string
-            description: The application IDs for the group
-    SuccessResponse:
-      type: object
-      required:
-      - ok
-      properties:
-        ok:
-          type: boolean
-          description: Whether the request was successful or not
+            description: The application IDs to add to the group
+        remove_app_ids:
+          type: array
+          description: The application IDs to remove from the group
+          items:
+            type: string
+            description: The application IDs to remove from the group
     Error:
       type: object
       required:
@@ -249,24 +236,25 @@ components:
           items:
             type: string
             description: A description of the validation error
-    UpsertAppGroupRequest:
+    SuccessResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful or not
+    ReadGroupResponse:
       type: object
       properties:
-        rename:
+        name:
           type: string
-          description: A new name for the group (optional)
-        add_app_ids:
+          description: The current name of the group
+        app_ids:
           type: array
-          description: The application IDs to add to the group
           items:
             type: string
-            description: The application IDs to add to the group
-        remove_app_ids:
-          type: array
-          description: The application IDs to remove from the group
-          items:
-            type: string
-            description: The application IDs to remove from the group
+            description: The application IDs for the group
   parameters:
     orgID:
       name: orgID

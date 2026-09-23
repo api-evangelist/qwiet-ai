@@ -1,53 +1,32 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   x-logo:
     url: https://docs.shiftleft.io/img/sl-logo.svg
   version: 4.0.0
-  title: alerting rbac API
+  title: Rbac API
   description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
 
 
     # Authentication
 
 
-    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
-
-    '
+    Use of the Qwiet API requires an access token, which is available via the Qwiet UI.'
 servers:
 - url: https://app.shiftleft.io/api/v4
 tags:
-- name: rbac
+- name: RBAC
   x-displayName: RBAC (users and teams)
-  description: 'Roles-based access control (RBAC) allows you to control the permissions users in an organization are granted.
-
-
-    The permissions granted to a user are additive. The base level of a user''s permission is determined by their role in the organization.
-
-
-    A team represents a group of users and the applications that group of users can access. Users are granted additional permissions based on their team role.
-
-
-    Users can belong to multiple teams, but an application can only belong to one team.
-
-
-    You can use the `TEAM_DEFINED` organization role to limit user access to only the apps assigned to their team.
-
-
-    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-c002d05e-2fae-4914-8629-54cff59e1e6b?action=collection%2Ffork&collection-url=entityId%3D9829310-c002d05e-2fae-4914-8629-54cff59e1e6b%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
-
-    '
+  description: Roles-based access control (RBAC) allows you to control the permissions users in an organization are granted.
 paths:
   /orgs/{orgID}/rbac/roles:
     parameters:
     - $ref: '#/components/parameters/orgID'
     get:
       tags:
-      - rbac
+      - RBAC
       summary: List roles
       operationId: ListOrgRBACRoles
-      description: 'Return a list of roles an org has available to use (includes only the roles that are managed by Qwiet). Note that the ID and role ID for a CI token are also used for access tokens. The ID and role ID for an integration token are also used for a Jira integration token.
-
-        '
+      description: Return a list of roles an org has available to use (includes only the roles that are managed by Qwiet). Note that the ID and role ID for a CI token are also used for access tokens. The ID and role ID for an integration token are also used for a Jira integration token.
       security:
       - BearerToken:
         - roles:list
@@ -257,12 +236,10 @@ paths:
                 $ref: '#/components/schemas/Error'
     post:
       tags:
-      - rbac
+      - RBAC
       summary: Create custom RBAC role
       operationId: CreateCustomRBACRole
-      description: 'Creates a custom RBAC role for the provided organization
-
-        '
+      description: Creates a custom RBAC role for the provided organization
       security:
       - BearerToken:
         - roles:create
@@ -343,15 +320,13 @@ paths:
   /orgs/{orgID}/rbac/roles/{rbacRoleID}:
     put:
       tags:
-      - rbac
+      - RBAC
       summary: Update RBAC role
       operationId: UpdateRBACRole
       parameters:
       - $ref: '#/components/parameters/orgID'
       - $ref: '#/components/parameters/rbacRoleID'
-      description: 'Update the scopes of an existing RBAC role.
-
-        '
+      description: Update the scopes of an existing RBAC role.
       security:
       - BearerToken:
         - roles:update
@@ -409,12 +384,10 @@ paths:
                 $ref: '#/components/schemas/Error'
     delete:
       tags:
-      - rbac
+      - RBAC
       summary: Delete a custom RBAC role
       operationId: DeleteCustomRBACRole
-      description: 'Deletes a custom RBAC role for the provided organization. This operation only applies to custom roles and will not delete built-in system roles.
-
-        '
+      description: Deletes a custom RBAC role for the provided organization. This operation only applies to custom roles and will not delete built-in system roles.
       security:
       - BearerToken:
         - roles:delete
@@ -464,14 +437,12 @@ paths:
     - $ref: '#/components/parameters/orgID'
     get:
       tags:
-      - rbac
+      - RBAC
       summary: List available RBAC scopes
       operationId: ListAvailableRBACScopes
       description: 'Returns a list of RBAC scopes available for an organization to use when creating custom roles.
 
-        These will match directly with the Super Admin role scopes.
-
-        '
+        These will match directly with the Super Admin role scopes.'
       security:
       - BearerToken:
         - scopes:list
@@ -510,7 +481,7 @@ paths:
     - $ref: '#/components/parameters/orgID'
     get:
       tags:
-      - rbac
+      - RBAC
       summary: List users
       operationId: ListOrgRBACUsers
       description: 'Returns users in the organization with team membership and roles.
@@ -536,9 +507,7 @@ paths:
 
         ascending; supported sort fields are `name`, `email`, `role`, and
 
-        `joined`.
-
-        '
+        `joined`.'
       security:
       - BearerToken:
         - org_user:list
@@ -598,7 +567,7 @@ paths:
     - $ref: '#/components/parameters/orgID'
     get:
       tags:
-      - rbac
+      - RBAC
       summary: List invitations
       operationId: ListOrgRBACInvitations
       description: 'Returns the pending (unaccepted) invitations in the organization, with
@@ -620,9 +589,7 @@ paths:
 
         404. Sort defaults to email ascending; supported sort fields are `name`,
 
-        `email`, and `invited`.
-
-        '
+        `email`, and `invited`.'
       security:
       - BearerToken:
         - org_invitations:list
@@ -669,12 +636,10 @@ paths:
     - $ref: '#/components/parameters/userIDv2'
     put:
       tags:
-      - rbac
+      - RBAC
       summary: Update user
       operationId: UpdateOrgUser
-      description: 'Update a user
-
-        '
+      description: Update a user
       security:
       - BearerToken:
         - teams:update
@@ -704,12 +669,10 @@ paths:
                 $ref: '#/components/schemas/Error'
     delete:
       tags:
-      - rbac
+      - RBAC
       summary: Delete user
       operationId: DeleteOrgUser
-      description: 'Delete a user
-
-        '
+      description: Delete a user
       security:
       - BearerToken:
         - org_user:delete
@@ -756,7 +719,7 @@ paths:
     - $ref: '#/components/parameters/orgID'
     get:
       tags:
-      - rbac
+      - RBAC
       summary: List human groups
       operationId: ListHumanGroups
       description: 'Return a list of human groups in the organization.
@@ -772,9 +735,7 @@ paths:
 
         paginated like the unfiltered listing. `search` is mutually exclusive
 
-        with `name`/`iname`.
-
-        '
+        with `name`/`iname`.'
       security:
       - BearerToken:
         - teams:list
@@ -832,12 +793,10 @@ paths:
     - $ref: '#/components/parameters/orgID'
     post:
       tags:
-      - rbac
+      - RBAC
       summary: Create team
       operationId: CreateTeam
-      description: 'Create a new team for an organization.
-
-        '
+      description: Create a new team for an organization.
       security:
       - BearerToken:
         - teams:create
@@ -881,7 +840,7 @@ paths:
                 $ref: '#/components/schemas/Error'
     get:
       tags:
-      - rbac
+      - RBAC
       summary: List teams
       operationId: ListTeams
       description: 'Return the teams within an organization, sorted by team name. By
@@ -930,9 +889,7 @@ paths:
 
         across those teams is rejected with `507 TOO_MUCH_WORK`. Resolve it by
 
-        adding `page=1`, setting `no_members=true`, or narrowing with `name`.
-
-        '
+        adding `page=1`, setting `no_members=true`, or narrowing with `name`.'
       security:
       - BearerToken:
         - teams:list
@@ -976,12 +933,10 @@ paths:
     - $ref: '#/components/parameters/rbacTeamID'
     put:
       tags:
-      - rbac
+      - RBAC
       summary: Update the members of a team
       operationId: UpdateTeamMembership
-      description: 'Update the members of a team.
-
-        '
+      description: Update the members of a team.
       security:
       - BearerToken:
         - team_members:update
@@ -1037,12 +992,10 @@ paths:
     - $ref: '#/components/parameters/rbacTeamID'
     put:
       tags:
-      - rbac
+      - RBAC
       summary: Update a team's applications
       operationId: UpdateTeamApps
-      description: 'Update the apps assigned to a team.
-
-        '
+      description: Update the apps assigned to a team.
       security:
       - BearerToken:
         - team_apps:update
@@ -1096,12 +1049,10 @@ paths:
     - $ref: '#/components/parameters/rbacTeamID'
     put:
       tags:
-      - rbac
+      - RBAC
       summary: Update the metadata of a team
       operationId: UpdateTeamMetadata
-      description: 'Update the metadata of a team.
-
-        '
+      description: Update the metadata of a team.
       security:
       - BearerToken:
         - teams:update
@@ -1152,12 +1103,10 @@ paths:
     - $ref: '#/components/parameters/rbacTeamID'
     get:
       tags:
-      - rbac
+      - RBAC
       summary: Read team
       operationId: ReadTeam
-      description: 'Return information about a team.
-
-        '
+      description: Return information about a team.
       security:
       - BearerToken:
         - teams:read
@@ -1197,12 +1146,10 @@ paths:
                 $ref: '#/components/schemas/Error'
     put:
       tags:
-      - rbac
+      - RBAC
       summary: Update a team
       operationId: UpdateTeam
-      description: 'Update a team within an organization.
-
-        '
+      description: Update a team within an organization.
       security:
       - BearerToken:
         - teams:update
@@ -1258,12 +1205,10 @@ paths:
                 $ref: '#/components/schemas/Error'
     delete:
       tags:
-      - rbac
+      - RBAC
       summary: Delete team
       operationId: DeleteTeam
-      description: 'Delete a team within an organization.
-
-        '
+      description: Delete a team within an organization.
       security:
       - BearerToken:
         - teams:delete
@@ -1296,12 +1241,10 @@ paths:
     - $ref: '#/components/parameters/rbacTeamID'
     get:
       tags:
-      - rbac
+      - RBAC
       summary: List groups
       operationId: ListGroups
-      description: 'Return a list of all groups within a team.
-
-        '
+      description: Return a list of all groups within a team.
       security:
       - BearerToken:
         - teams:list
@@ -1323,12 +1266,10 @@ paths:
                         $ref: '#/components/schemas/ReadHumanGroupResponse'
     put:
       tags:
-      - rbac
+      - RBAC
       summary: Create or update group
       operationId: UpsertGroup
-      description: 'Create or update a group within a team.
-
-        '
+      description: Create or update a group within a team.
       security:
       - BearerToken:
         - teams:update
@@ -1361,12 +1302,10 @@ paths:
     - $ref: '#/components/parameters/groupID'
     get:
       tags:
-      - rbac
+      - RBAC
       summary: Read group
       operationId: ReadGroup
-      description: 'Return information about a group.
-
-        '
+      description: Return information about a group.
       security:
       - BearerToken:
         - teams:read
@@ -1400,12 +1339,10 @@ paths:
     - $ref: '#/components/parameters/groupID'
     post:
       tags:
-      - rbac
+      - RBAC
       summary: Update group
       operationId: UpdateGroup
-      description: 'Update a group''s role within a team.
-
-        '
+      description: Update a group's role within a team.
       security:
       - BearerToken:
         - teams:update
@@ -1435,12 +1372,10 @@ paths:
                 $ref: '#/components/schemas/Error'
     delete:
       tags:
-      - rbac
+      - RBAC
       summary: Remove group from team
       operationId: RemoveGroupFromTeam
-      description: 'Remove a group''s membership to a team.
-
-        '
+      description: Remove a group's membership to a team.
       security:
       - BearerToken:
         - teams:update
@@ -1465,12 +1400,10 @@ paths:
                 $ref: '#/components/schemas/Error'
     get:
       tags:
-      - rbac
+      - RBAC
       summary: Read Team group
       operationId: ReadTeamGroup
-      description: 'Return information about a group.
-
-        '
+      description: Return information about a group.
       security:
       - BearerToken:
         - teams:read
@@ -1500,16 +1433,51 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    UpsertGroupIntoTeamRequest:
+    UpdateTeamMetadataRequest:
       allOf:
       - type: object
         required:
-        - group_ids
+        - version
         properties:
-          group_ids:
+          version:
+            type: integer
+            description: The team configuration version
+          change_name:
+            type: string
+            description: The team's new name
+    ReadTeamResponse:
+      allOf:
+      - type: object
+        properties:
+          team_id:
+            type: string
+            description: The ID of the team
+          risk_score:
+            type: number
+            description: The risk score of the team applications
+          version:
+            type: integer
+            description: The version of the team
+          applications:
             type: array
+            description: The applications that are part of the team
             items:
-              $ref: '#/components/schemas/GroupAndRole'
+              type: string
+          groups:
+            type: array
+            description: The groups that are members of the team
+            items:
+              $ref: '#/components/schemas/ReadHumanGroupResponse'
+          members:
+            type: array
+            description: The members of the team and their roles
+            items:
+              type: object
+              properties:
+                user_id_v2:
+                  type: string
+                team_role:
+                  type: string
     UpdateOrganizationUserRequest:
       allOf:
       - type: object
@@ -1525,19 +1493,96 @@ components:
             - GUEST
             - TEAM_DEFINED
             type: string
-    UpdateTeamMetadataRequest:
+    UpdateRBACRoleRequest:
       allOf:
       - type: object
         required:
-        - version
+        - scopes
         properties:
-          version:
-            type: integer
-            description: The team configuration version
-          change_name:
+          name:
             type: string
-            description: The team's new name
-    UpdateTeamMembershipRequest:
+            description: The name of the role
+          description:
+            type: string
+            description: The description of the role
+          scopes:
+            type: array
+            description: The array of scopes that are granted by the role
+            items:
+              $ref: '#/components/schemas/Scope'
+    CreateCustomRBACRoleRequest:
+      allOf:
+      - type: object
+        required:
+        - name
+        - scopes
+        properties:
+          name:
+            type: string
+            description: The name of the role
+          description:
+            type: string
+            description: The description of the role
+          scopes:
+            type: array
+            description: The array of scopes that are granted by the role
+            items:
+              $ref: '#/components/schemas/Scope'
+          role_type:
+            $ref: '#/components/schemas/RoleType'
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
+            type: string
+            description: A description of the validation error
+    RBACRole:
+      allOf:
+      - type: object
+        required:
+        - id
+        - scopes
+        properties:
+          id:
+            type: string
+            format: uuid
+            description: The role ID
+          id_aliases:
+            type: array
+            description: A list of human-readable aliases that can be used instead of the ID in requests
+            items:
+              type: string
+          description:
+            type: string
+            description: A summary of the scopes that are granted by the role
+          scopes:
+            type: array
+            description: The array of scopes that are granted by the role
+            items:
+              $ref: '#/components/schemas/Scope'
+          resource_type:
+            $ref: '#/components/schemas/ResourceType'
+          role_type:
+            $ref: '#/components/schemas/RoleType'
+    UpdateTeamAppsRequest:
       allOf:
       - type: object
         required:
@@ -1546,9 +1591,116 @@ components:
           version:
             type: integer
             description: The team configuration version
+          add_applications:
+            type: array
+            description: A list of the applications to add to the team
+            items:
+              type: string
+          force_app_inclusion:
+            type: boolean
+            description: Whether the app should be added if it belongs to another team. The app will be removed from the conflicting team if added
+          remove_applications:
+            type: array
+            description: A list of the application IDs to remove from the team
+            items:
+              type: string
+    ResourceType:
+      type: string
+      enum:
+      - organization
+      - application
+      - organization_user
+      - team
+      description: The type of resource to which the role applies
+    ListHumanGroupsResponse:
+      type: object
+      properties:
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReadHumanGroupResponse'
+    ListRBACInvitationInfo:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        role:
+          type: string
+          format: uuid
+          description: 'The org-level role ID the invitee will receive on acceptance. Empty when no org-level role is recorded for the invitation.
+
+            '
+        invited_utc_timestamp:
+          type: integer
+          description: Nanosecond unix timestamp for when the invitation was created
+    UpsertGroupIntoTeamRequest:
+      allOf:
+      - type: object
+        required:
+        - group_ids
+        properties:
+          group_ids:
+            type: array
+            items:
+              $ref: '#/components/schemas/GroupAndRole'
+    CreateTeamRequest:
+      allOf:
+      - type: object
+        required:
+        - name
+        properties:
+          name:
+            type: string
+            description: The name of the team to be created
+          applications:
+            type: array
+            description: The applications that should be added to the team
+            items:
+              type: string
+          members:
+            type: array
+            description: The members that should be added to the team
+            items:
+              type: object
+              properties:
+                user_id_v2:
+                  type: string
+                team_role:
+                  type: string
+    GroupAndRole:
+      allOf:
+      - type: object
+        properties:
+          group_id:
+            type: string
+          team_role:
+            type: string
+    UpdateTeamRequest:
+      allOf:
+      - type: object
+        properties:
+          version:
+            type: integer
+            description: The team configuration version
+          add_applications:
+            type: array
+            description: A list of the application to add to this team
+            items:
+              type: string
+          force_app_inclusion:
+            type: boolean
+            description: Whether the app should be added if it belongs to another team (the app will be removed from the conflicting team if added)
+          remove_applications:
+            type: array
+            description: A list of the applications to remove from the team
+            items:
+              type: string
           add_team_membership:
             type: array
-            description: A list of the members to be added to the team
+            description: A list of members to be added to the team
             items:
               type: object
               properties:
@@ -1558,7 +1710,7 @@ components:
                   type: string
           remove_team_membership:
             type: array
-            description: A list of the members to be removed from the team
+            description: A list of members to be removed from the team
             items:
               type: object
               properties:
@@ -1566,13 +1718,6 @@ components:
                   type: string
                 team_role:
                   type: string
-    ListHumanGroupsResponse:
-      type: object
-      properties:
-        groups:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReadHumanGroupResponse'
     ListTeamsResponse:
       allOf:
       - type: array
@@ -1604,27 +1749,15 @@ components:
                     type: string
                   team_role:
                     type: string
-    CreateCustomRBACRoleRequest:
-      allOf:
-      - type: object
-        required:
-        - name
-        - scopes
-        properties:
-          name:
-            type: string
-            description: The name of the role
-          description:
-            type: string
-            description: The description of the role
-          scopes:
-            type: array
-            description: The array of scopes that are granted by the role
-            items:
-              $ref: '#/components/schemas/Scope'
-          role_type:
-            $ref: '#/components/schemas/RoleType'
-    UpdateTeamAppsRequest:
+    RoleType:
+      type: string
+      enum:
+      - team
+      - organization
+      - qwiet
+      example: team
+      description: The type of role. This is used to categorize roles and determine in what context they can be used. Team roles can only be used in teams, organization roles can be used across the organization, and qwiet roles are predefined roles. Note that 'qwiet' type is reserved for system-defined roles and cannot be used when creating or updating custom roles.
+    DeleteTeamRequest:
       allOf:
       - type: object
         required:
@@ -1632,96 +1765,15 @@ components:
         properties:
           version:
             type: integer
-            description: The team configuration version
-          add_applications:
-            type: array
-            description: A list of the applications to add to the team
-            items:
-              type: string
-          force_app_inclusion:
-            type: boolean
-            description: Whether the app should be added if it belongs to another team. The app will be removed from the conflicting team if added
-          remove_applications:
-            type: array
-            description: A list of the application IDs to remove from the team
-            items:
-              type: string
-    UpdateRBACRoleRequest:
+            description: The team's configuration version
+    CreateTeamResponse:
       allOf:
       - type: object
         required:
-        - scopes
+        - team_id
         properties:
-          name:
+          team_id:
             type: string
-            description: The name of the role
-          description:
-            type: string
-            description: The description of the role
-          scopes:
-            type: array
-            description: The array of scopes that are granted by the role
-            items:
-              $ref: '#/components/schemas/Scope'
-    NextPage:
-      type: string
-      description: URL for the next page of results
-      example: https://api.shiftleft.io/orgs/4c07962d-745f-4465-9965-002f6cf3c7ff/findings?page=2
-    Scope:
-      type: string
-      pattern: ^\w+:\w+$|^\w+:\*$
-    RBACRole:
-      allOf:
-      - type: object
-        required:
-        - id
-        - scopes
-        properties:
-          id:
-            type: string
-            format: uuid
-            description: The role ID
-          id_aliases:
-            type: array
-            description: A list of human-readable aliases that can be used instead of the ID in requests
-            items:
-              type: string
-          description:
-            type: string
-            description: A summary of the scopes that are granted by the role
-          scopes:
-            type: array
-            description: The array of scopes that are granted by the role
-            items:
-              $ref: '#/components/schemas/Scope'
-          resource_type:
-            $ref: '#/components/schemas/ResourceType'
-          role_type:
-            $ref: '#/components/schemas/RoleType'
-    CreateTeamRequest:
-      allOf:
-      - type: object
-        required:
-        - name
-        properties:
-          name:
-            type: string
-            description: The name of the team to be created
-          applications:
-            type: array
-            description: The applications that should be added to the team
-            items:
-              type: string
-          members:
-            type: array
-            description: The members that should be added to the team
-            items:
-              type: object
-              properties:
-                user_id_v2:
-                  type: string
-                team_role:
-                  type: string
     ReadHumanGroupResponse:
       allOf:
       - type: object
@@ -1754,30 +1806,39 @@ components:
                   type: string
                 role:
                   type: string
-    Error:
-      type: object
-      required:
-      - ok
-      - code
-      - message
-      properties:
-        ok:
-          type: boolean
-          description: Whether the request was successful (true) or not (false)
-        code:
-          type: string
-          description: The `enum` representing the error encountered
-          example: INTERNAL_SERVER_ERROR
-        message:
-          type: string
-          description: A message describing the error
-          example: Internal Server Error
-        validation_errors:
-          type: array
-          description: The validation errors the user should correct before re-submitting the request
-          items:
-            type: string
-            description: A description of the validation error
+    NextPage:
+      type: string
+      description: URL for the next page of results
+      example: https://api.shiftleft.io/orgs/4c07962d-745f-4465-9965-002f6cf3c7ff/findings?page=2
+    UpdateTeamMembershipRequest:
+      allOf:
+      - type: object
+        required:
+        - version
+        properties:
+          version:
+            type: integer
+            description: The team configuration version
+          add_team_membership:
+            type: array
+            description: A list of the members to be added to the team
+            items:
+              type: object
+              properties:
+                user_id_v2:
+                  type: string
+                team_role:
+                  type: string
+          remove_team_membership:
+            type: array
+            description: A list of the members to be removed from the team
+            items:
+              type: object
+              properties:
+                user_id_v2:
+                  type: string
+                team_role:
+                  type: string
     ListRBACUserInfo:
       type: object
       properties:
@@ -1830,143 +1891,12 @@ components:
         joined_utc_timestamp:
           type: integer
           description: Nanosecond unix timestamp for when the user joined the organization
-    RoleType:
-      type: string
-      enum:
-      - team
-      - organization
-      - qwiet
-      example: team
-      description: The type of role. This is used to categorize roles and determine in what context they can be used. Team roles can only be used in teams, organization roles can be used across the organization, and qwiet roles are predefined roles. Note that 'qwiet' type is reserved for system-defined roles and cannot be used when creating or updating custom roles.
-    CreateTeamResponse:
-      allOf:
-      - type: object
-        required:
-        - team_id
-        properties:
-          team_id:
-            type: string
-    ListRBACInvitationInfo:
-      type: object
-      properties:
-        name:
-          type: string
-        email:
-          type: string
-          format: email
-        role:
-          type: string
-          format: uuid
-          description: 'The org-level role ID the invitee will receive on acceptance. Empty when no org-level role is recorded for the invitation.
-
-            '
-        invited_utc_timestamp:
-          type: integer
-          description: Nanosecond unix timestamp for when the invitation was created
-    ResourceType:
-      type: string
-      enum:
-      - organization
-      - application
-      - organization_user
-      - team
-      description: The type of resource to which the role applies
-    GroupAndRole:
-      allOf:
-      - type: object
-        properties:
-          group_id:
-            type: string
-          team_role:
-            type: string
     UpdateGroupRoleRequest:
       allOf:
       - type: object
         properties:
           team_role:
             type: string
-    UpdateTeamRequest:
-      allOf:
-      - type: object
-        properties:
-          version:
-            type: integer
-            description: The team configuration version
-          add_applications:
-            type: array
-            description: A list of the application to add to this team
-            items:
-              type: string
-          force_app_inclusion:
-            type: boolean
-            description: Whether the app should be added if it belongs to another team (the app will be removed from the conflicting team if added)
-          remove_applications:
-            type: array
-            description: A list of the applications to remove from the team
-            items:
-              type: string
-          add_team_membership:
-            type: array
-            description: A list of members to be added to the team
-            items:
-              type: object
-              properties:
-                user_id_v2:
-                  type: string
-                team_role:
-                  type: string
-          remove_team_membership:
-            type: array
-            description: A list of members to be removed from the team
-            items:
-              type: object
-              properties:
-                user_id_v2:
-                  type: string
-                team_role:
-                  type: string
-    DeleteTeamRequest:
-      allOf:
-      - type: object
-        required:
-        - version
-        properties:
-          version:
-            type: integer
-            description: The team's configuration version
-    ReadTeamResponse:
-      allOf:
-      - type: object
-        properties:
-          team_id:
-            type: string
-            description: The ID of the team
-          risk_score:
-            type: number
-            description: The risk score of the team applications
-          version:
-            type: integer
-            description: The version of the team
-          applications:
-            type: array
-            description: The applications that are part of the team
-            items:
-              type: string
-          groups:
-            type: array
-            description: The groups that are members of the team
-            items:
-              $ref: '#/components/schemas/ReadHumanGroupResponse'
-          members:
-            type: array
-            description: The members of the team and their roles
-            items:
-              type: object
-              properties:
-                user_id_v2:
-                  type: string
-                team_role:
-                  type: string
     SuccessResponse:
       type: object
       required:
@@ -1975,6 +1905,9 @@ components:
         ok:
           type: boolean
           description: Whether the request was successful or not
+    Scope:
+      type: string
+      pattern: ^\w+:\w+$|^\w+:\*$
   parameters:
     humanGroupSearch:
       name: search
@@ -1985,10 +1918,135 @@ components:
       required: false
       schema:
         type: string
+    rbacUserSearch:
+      name: search
+      in: query
+      description: 'Case-insensitive substring search on the user''s display name or email address. Mutually exclusive with `email`.
+
+        '
+      required: false
+      schema:
+        type: string
+        maxLength: 320
+        minLength: 1
+    rbacTeamID:
+      name: rbacTeamID
+      in: path
+      description: The team ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    userIDv2:
+      name: userIDv2
+      in: path
+      description: The user's ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    rbacUserOrder:
+      name: order
+      in: query
+      description: 'Sort direction. Defaults to ascending when omitted.
+
+        '
+      required: false
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
     rbacRoleID:
       name: rbacRoleID
       in: path
       description: The role ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    noMembers:
+      name: no_members
+      in: query
+      description: Indicates whether or not to include the team members in the response
+      required: false
+      schema:
+        type: boolean
+        enum:
+        - true
+    page:
+      in: query
+      name: page
+      description: 'The page of results to fetch. Results are not guaranteed to be deterministic using this approach; we recommended using the `next_page` URL in a paginated response
+
+        '
+      schema:
+        type: integer
+    rbacInvitationSearch:
+      name: search
+      in: query
+      description: 'Case-insensitive substring search on the invitee''s name or email address.
+
+        '
+      required: false
+      schema:
+        type: string
+        maxLength: 320
+        minLength: 1
+    email:
+      name: email
+      in: query
+      description: 'Exact email lookup. When present, returns users matching the given address(es) instead of listing the organization. Mutually exclusive with `search`.
+
+        '
+      required: false
+      schema:
+        type: string
+        format: email
+    rbacUserTeam:
+      name: team
+      in: query
+      description: 'Restrict results to members of the team with this ID. Composes with `search`, `sort`, and `order`. When no user matches, the response is an empty list rather than a 404.
+
+        '
+      required: false
+      schema:
+        type: string
+        format: uuid
+    humanGroupName:
+      name: name
+      in: query
+      description: The human group name, case sensitive
+      required: false
+      schema:
+        type: string
+    humanGroupNameI:
+      name: iname
+      in: query
+      description: The human group name, case insensitive
+      required: false
+      schema:
+        type: string
+    groupID:
+      name: groupID
+      in: path
+      description: A human group's ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    teamName:
+      name: name
+      in: query
+      description: 'Filter the listing to teams whose name matches this value case-insensitively. The legacy `teamName` spelling is accepted as an alias and used only when `name` is absent.
+
+        '
+      schema:
+        type: string
+    orgID:
+      name: orgID
+      in: path
+      description: The org ID
       required: true
       schema:
         type: string
@@ -2007,107 +2065,6 @@ components:
         - email
         - role
         - joined
-    rbacInvitationSearch:
-      name: search
-      in: query
-      description: 'Case-insensitive substring search on the invitee''s name or email address.
-
-        '
-      required: false
-      schema:
-        type: string
-        maxLength: 320
-        minLength: 1
-    rbacUserSearch:
-      name: search
-      in: query
-      description: 'Case-insensitive substring search on the user''s display name or email address. Mutually exclusive with `email`.
-
-        '
-      required: false
-      schema:
-        type: string
-        maxLength: 320
-        minLength: 1
-    humanGroupName:
-      name: name
-      in: query
-      description: The human group name, case sensitive
-      required: false
-      schema:
-        type: string
-    orgID:
-      name: orgID
-      in: path
-      description: The org ID
-      required: true
-      schema:
-        type: string
-        format: uuid
-    groupID:
-      name: groupID
-      in: path
-      description: A human group's ID
-      required: true
-      schema:
-        type: string
-        format: uuid
-    email:
-      name: email
-      in: query
-      description: 'Exact email lookup. When present, returns users matching the given address(es) instead of listing the organization. Mutually exclusive with `search`.
-
-        '
-      required: false
-      schema:
-        type: string
-        format: email
-    rbacUserOrder:
-      name: order
-      in: query
-      description: 'Sort direction. Defaults to ascending when omitted.
-
-        '
-      required: false
-      schema:
-        type: string
-        enum:
-        - asc
-        - desc
-    noMembers:
-      name: no_members
-      in: query
-      description: Indicates whether or not to include the team members in the response
-      required: false
-      schema:
-        type: boolean
-        enum:
-        - true
-    humanGroupNameI:
-      name: iname
-      in: query
-      description: The human group name, case insensitive
-      required: false
-      schema:
-        type: string
-    rbacUserTeam:
-      name: team
-      in: query
-      description: 'Restrict results to members of the team with this ID. Composes with `search`, `sort`, and `order`. When no user matches, the response is an empty list rather than a 404.
-
-        '
-      required: false
-      schema:
-        type: string
-        format: uuid
-    teamName:
-      name: name
-      in: query
-      description: 'Filter the listing to teams whose name matches this value case-insensitively. The legacy `teamName` spelling is accepted as an alias and used only when `name` is absent.
-
-        '
-      schema:
-        type: string
     rbacInvitationSort:
       name: sort
       in: query
@@ -2121,30 +2078,6 @@ components:
         - name
         - email
         - invited
-    page:
-      in: query
-      name: page
-      description: 'The page of results to fetch. Results are not guaranteed to be deterministic using this approach; we recommended using the `next_page` URL in a paginated response
-
-        '
-      schema:
-        type: integer
-    rbacTeamID:
-      name: rbacTeamID
-      in: path
-      description: The team ID
-      required: true
-      schema:
-        type: string
-        format: uuid
-    userIDv2:
-      name: userIDv2
-      in: path
-      description: The user's ID
-      required: true
-      schema:
-        type: string
-        format: uuid
   securitySchemes:
     BearerToken:
       description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\

@@ -1,29 +1,25 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   x-logo:
     url: https://docs.shiftleft.io/img/sl-logo.svg
   version: 4.0.0
-  title: alerting orgs API
+  title: Orgs API
   description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
 
 
     # Authentication
 
 
-    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
-
-    '
+    Use of the Qwiet API requires an access token, which is available via the Qwiet UI.'
 servers:
 - url: https://app.shiftleft.io/api/v4
 tags:
-- name: orgs
+- name: Orgs
   x-displayName: Organizations
   description: 'The logical grouping (e.g., tenant/account) within Qwiet that defines a set of users, teams, and applications.
 
 
-    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-f0ae38d5-6c27-41a9-a1c3-9721d39f5df0?action=collection%2Ffork&collection-url=entityId%3D9829310-f0ae38d5-6c27-41a9-a1c3-9721d39f5df0%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
-
-    '
+    ![Run in Postman](https://god.gw.postman.com/run-collection/9829310-f0ae38d5-6c27-41a9-a1c3-9721d39f5df0?action=collection%2Ffork&collection-url=entityId%3D9829310-f0ae38d5-6c27-41a9-a1c3-9721d39f5df0%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)'
 paths:
   /orgs/{orgID}/audit/csv/{auditYear}/{auditMonth}:
     parameters:
@@ -32,12 +28,10 @@ paths:
     - $ref: '#/components/parameters/auditMonth'
     get:
       tags:
-      - orgs
+      - Orgs
       summary: Download audit log CSV
       operationId: DownloadAuditLog
-      description: 'Download the CSV formatted audit log for an organization for a specific month. This feature is disabled by default. Contact Qwiet AI Customer Success to enable it.
-
-        '
+      description: Download the CSV formatted audit log for an organization for a specific month. This feature is disabled by default. Contact Qwiet AI Customer Success to enable it.
       security:
       - BearerToken:
         - org_audit_trail:read
@@ -56,12 +50,10 @@ paths:
     - $ref: '#/components/parameters/auditDay'
     get:
       tags:
-      - orgs
+      - Orgs
       summary: Download Daily CSV audit log
       operationId: DownloadDailyAuditLog
-      description: 'Download the CSV formatted audit log for an organization for a specific day. This feature is disabled by default. Contact Qwiet AI Customer Success to enable it.
-
-        '
+      description: Download the CSV formatted audit log for an organization for a specific day. This feature is disabled by default. Contact Qwiet AI Customer Success to enable it.
       security:
       - BearerToken:
         - org_audit_trail:read
@@ -78,16 +70,14 @@ paths:
     - $ref: '#/components/parameters/reference'
     put:
       tags:
-      - orgs
+      - Orgs
       summary: Upsert check-analysis Configuration
       operationId: UpsertCheckAnalysisConfiguration
       description: 'Upload configuration file for the `check-analysis` server-side configuration and
 
         returns the hash of the uploaded file when successful.
 
-        The reference here takes no tag, just a name.
-
-        '
+        The reference here takes no tag, just a name.'
       parameters:
       - $ref: '#/components/parameters/checkAnalysisTags'
       - $ref: '#/components/parameters/useDefaults'
@@ -140,14 +130,12 @@ paths:
                 $ref: '#/components/schemas/Error'
     get:
       tags:
-      - orgs
+      - Orgs
       summary: Resolve check-analysis Configuration
       operationId: ResolveCheckAnalysisConfiguration
       description: 'Resolve the given reference (name plus a tag, which is usually a version number) and
 
-        return the raw file back to the caller.
-
-        '
+        return the raw file back to the caller.'
       security:
       - BearerToken:
         - check_analysis_configuration:read
@@ -170,12 +158,10 @@ paths:
     - $ref: '#/components/parameters/orgID'
     get:
       tags:
-      - orgs
+      - Orgs
       summary: List check-analysis Configurations
       operationId: ListCheckAnalysisConfiguration
-      description: 'List all check-analysis configurations for the given
-
-        '
+      description: List all check-analysis configurations for the given
       security:
       - BearerToken:
         - check_analysis_configuration:list
@@ -242,12 +228,10 @@ paths:
     - $ref: '#/components/parameters/orgID'
     get:
       tags:
-      - orgs
+      - Orgs
       summary: Returns the audit log report for the org's SCM secrets
       operationId: GetOrgSCMSecretsAuditLog
-      description: 'Returns the audit log report for the org''s SCM secrets, showing the number of times secrets were attempted to be committed to a repository. The report can be grouped by project or user. One of the ''by-project'' or ''by-user'' query parameters must be specified.
-
-        '
+      description: Returns the audit log report for the org's SCM secrets, showing the number of times secrets were attempted to be committed to a repository. The report can be grouped by project or user. One of the 'by-project' or 'by-user' query parameters must be specified.
       security:
       - BearerToken:
         - org_runs:read
@@ -342,16 +326,14 @@ paths:
     - $ref: '#/components/parameters/orgID'
     put:
       tags:
-      - orgs
+      - Orgs
       summary: Update org configuration
       operationId: UpdateOrgConfig
       description: 'Update configuration options for the organization. Note that this endpoint will overwrite all configuration existing configuration options.
 
         We recommend using the GET endpoint to obtain the current configuration for your records before proceeding.
 
-        Alternatively, if you intend to change only analysis configuration, then you can use UpdateOrgAnalysisConfig endpoint
-
-        '
+        Alternatively, if you intend to change only analysis configuration, then you can use UpdateOrgAnalysisConfig endpoint'
       security:
       - BearerToken:
         - org_configuration:write
@@ -375,16 +357,14 @@ paths:
                 $ref: '#/components/schemas/Error'
     patch:
       tags:
-      - orgs
+      - Orgs
       summary: Patch org configuration
       operationId: PatchOrgConfig
       description: 'Partially update configuration options for the organization. Only fields present in the request body
 
         will be updated; all other fields are preserved. This is safer than PUT when you only need to change
 
-        a subset of the configuration.
-
-        '
+        a subset of the configuration.'
       security:
       - BearerToken:
         - org_configuration:write
@@ -408,7 +388,7 @@ paths:
                 $ref: '#/components/schemas/Error'
     get:
       tags:
-      - orgs
+      - Orgs
       summary: Read org configuration
       operationId: ReadOrgConfig
       description: Return the configuration options for the organization
@@ -440,7 +420,7 @@ paths:
     - $ref: '#/components/parameters/orgID'
     get:
       tags:
-      - orgs
+      - Orgs
       summary: Read AutoFix configuration for the organization
       operationId: ReadOrgAutoFixConfig
       description: Return the AutoFix configuration options for the organization
@@ -469,7 +449,7 @@ paths:
     - $ref: '#/components/parameters/orgID'
     put:
       tags:
-      - orgs
+      - Orgs
       summary: Update org analysis configuration
       operationId: CreateOrgAnalysisConfig
       description: Create analysis analysis configuration options for the organization. Doesn't touch other parts of configuration (like e.g. default_saml_config)
@@ -496,7 +476,7 @@ paths:
                 $ref: '#/components/schemas/Error'
     patch:
       tags:
-      - orgs
+      - Orgs
       summary: Update org analysis configuration
       operationId: UpdateOrgAnalysisConfig
       description: Update analysis analysis configuration options for the organization. Doesn't touch other parts of configuration (like e.g. default_saml_config)
@@ -523,28 +503,6 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    Severity:
-      type: string
-      enum:
-      - low
-      - medium
-      - high
-      - critical
-      description: The severity of a finding
-    OrgAutoFixConfig:
-      description: An object describing the AutoFix configuration options of an organization
-      type: object
-      properties:
-        autofix_configuration:
-          $ref: '#/components/schemas/AutoFixConfig'
-    SuccessResponse:
-      type: object
-      required:
-      - ok
-      properties:
-        ok:
-          type: boolean
-          description: Whether the request was successful or not
     SecretsConfiguration:
       description: Secrets detection configuration
       type: object
@@ -555,36 +513,20 @@ components:
         disable:
           type: boolean
           description: set to true to disable secrets detection altogether
-    AutoFixConfig:
-      description: An object describing the AutoFix configuration options of an organization
+    Severity:
+      type: string
+      enum:
+      - low
+      - medium
+      - high
+      - critical
+      description: The severity of a finding
+    OrgAnalysisConfiguration:
+      description: Organization level analysis configuration
       type: object
       properties:
-        enable:
-          type: boolean
-          description: set to true if AutoFix is enabled for the organization
-        disable:
-          type: boolean
-          description: set to true if AutoFix is disabled for the organization
-        auto_run:
-          type: boolean
-          description: set to true if AutoFix should run automatically
-        auto_run_disable:
-          type: boolean
-          description: set to true if AutoFix should stop running automatically, this will be stored as auto_run = false
-        manual:
-          type: boolean
-          description: set to true if AutoFix should run manually
-        manual_disable:
-          type: boolean
-          description: set to true if AutoFix should stop running manually, this will be stored as manual = false
-        max_fixes_per_run:
-          type: integer
-          description: The maximum number of AutoFix suggestions that can be generated in a single run
-        fix_only_severities:
-          type: array
-          items:
-            $ref: '#/components/schemas/Severity'
-          description: The severities of findings for which AutoFix will generate suggestions
+        secrets:
+          $ref: '#/components/schemas/SecretsConfiguration'
     OrgConfig:
       description: An object describing the configuration options of an organization
       type: object
@@ -617,12 +559,6 @@ components:
         session_timeout_hours:
           type: integer
           description: The number of hours after which the session will expire. The default value is 168 hours (7 days).
-    OrgAnalysisConfiguration:
-      description: Organization level analysis configuration
-      type: object
-      properties:
-        secrets:
-          $ref: '#/components/schemas/SecretsConfiguration'
     Error:
       type: object
       required:
@@ -647,13 +583,57 @@ components:
           items:
             type: string
             description: A description of the validation error
+    OrgAutoFixConfig:
+      description: An object describing the AutoFix configuration options of an organization
+      type: object
+      properties:
+        autofix_configuration:
+          $ref: '#/components/schemas/AutoFixConfig'
+    AutoFixConfig:
+      description: An object describing the AutoFix configuration options of an organization
+      type: object
+      properties:
+        enable:
+          type: boolean
+          description: set to true if AutoFix is enabled for the organization
+        disable:
+          type: boolean
+          description: set to true if AutoFix is disabled for the organization
+        auto_run:
+          type: boolean
+          description: set to true if AutoFix should run automatically
+        auto_run_disable:
+          type: boolean
+          description: set to true if AutoFix should stop running automatically, this will be stored as auto_run = false
+        manual:
+          type: boolean
+          description: set to true if AutoFix should run manually
+        manual_disable:
+          type: boolean
+          description: set to true if AutoFix should stop running manually, this will be stored as manual = false
+        max_fixes_per_run:
+          type: integer
+          description: The maximum number of AutoFix suggestions that can be generated in a single run
+        fix_only_severities:
+          type: array
+          items:
+            $ref: '#/components/schemas/Severity'
+          description: The severities of findings for which AutoFix will generate suggestions
+    SuccessResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful or not
   parameters:
-    useDefaults:
-      name: useDefaults
+    checkAnalysisTags:
+      name: tag
       in: query
-      description: whether to apply the default versioning mechanism
+      description: the tags
       schema:
-        type: boolean
+        type: string
     reference:
       name: reference
       in: path
@@ -661,13 +641,19 @@ components:
       required: true
       schema:
         type: string
-    auditYear:
-      name: auditYear
+    auditDay:
+      name: auditDay
       in: path
-      description: The year for a requested report
+      description: The day for a requested report
       required: true
       schema:
         type: number
+    useDefaults:
+      name: useDefaults
+      in: query
+      description: whether to apply the default versioning mechanism
+      schema:
+        type: boolean
     orgID:
       name: orgID
       in: path
@@ -676,10 +662,10 @@ components:
       schema:
         type: string
         format: uuid
-    auditDay:
-      name: auditDay
+    auditYear:
+      name: auditYear
       in: path
-      description: The day for a requested report
+      description: The year for a requested report
       required: true
       schema:
         type: number
@@ -690,12 +676,6 @@ components:
       required: true
       schema:
         type: number
-    checkAnalysisTags:
-      name: tag
-      in: query
-      description: the tags
-      schema:
-        type: string
   securitySchemes:
     BearerToken:
       description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\

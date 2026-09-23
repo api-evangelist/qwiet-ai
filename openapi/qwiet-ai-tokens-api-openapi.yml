@@ -1,22 +1,20 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   x-logo:
     url: https://docs.shiftleft.io/img/sl-logo.svg
   version: 4.0.0
-  title: alerting tokens API
+  title: Tokens API
   description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
 
 
     # Authentication
 
 
-    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
-
-    '
+    Use of the Qwiet API requires an access token, which is available via the Qwiet UI.'
 servers:
 - url: https://app.shiftleft.io/api/v4
 tags:
-- name: tokens
+- name: Tokens
   x-displayName: Access tokens
   description: 'Used to authenticate with the API.
 
@@ -24,21 +22,17 @@ tags:
     Can be issued by org admins. Each access token is owned by the org that issued it.
 
 
-    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-0a2fce9d-f679-41e8-a438-bcf13ddec403?action=collection%2Ffork&collection-url=entityId%3D9829310-0a2fce9d-f679-41e8-a438-bcf13ddec403%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
-
-    '
+    ![Run in Postman](https://god.gw.postman.com/run-collection/9829310-0a2fce9d-f679-41e8-a438-bcf13ddec403?action=collection%2Ffork&collection-url=entityId%3D9829310-0a2fce9d-f679-41e8-a438-bcf13ddec403%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)'
 paths:
   /orgs/{orgID}/roles:
     parameters:
     - $ref: '#/components/parameters/orgID'
     get:
       tags:
-      - tokens
+      - Tokens
       summary: List access token roles
       operationId: ListRoles
-      description: 'Return a list of roles an that are assigned to an access token and are available for use (includes only the roles that are managed by Qwiet).
-
-        '
+      description: Return a list of roles an that are assigned to an access token and are available for use (includes only the roles that are managed by Qwiet).
       security:
       - BearerToken:
         - roles:list
@@ -78,15 +72,13 @@ paths:
     - $ref: '#/components/parameters/orgID'
     get:
       tags:
-      - tokens
+      - Tokens
       summary: List tokens
       operationId: ListTokens
       description: 'Return a list of tokens issued by the org.
 
 
-        The token data returned includes metadata that identifies a token, included permissions, and an ID you can use to delete/revoke the token. The token data does NOT return the token value, which is exposed only when Qwiet issues the token.
-
-        '
+        The token data returned includes metadata that identifies a token, included permissions, and an ID you can use to delete/revoke the token. The token data does NOT return the token value, which is exposed only when Qwiet issues the token.'
       security:
       - BearerToken:
         - tokens:list
@@ -133,7 +125,7 @@ paths:
                 $ref: '#/components/schemas/Error'
     post:
       tags:
-      - tokens
+      - Tokens
       summary: Create token
       operationId: CreateToken
       description: Create a new token for use with the API. The token can be assigned a role using the `role_id` parameter in the request body.
@@ -192,7 +184,7 @@ paths:
         format: uuid
     delete:
       tags:
-      - tokens
+      - Tokens
       summary: Delete token
       operationId: DeleteToken
       description: Delete an access token using its identifier.
@@ -214,6 +206,48 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
+    Token:
+      allOf:
+      - type: object
+        required:
+        - id
+        properties:
+          id:
+            type: string
+            format: uuid
+            description: The ID of the token that can be used to delete the token
+          expires_at:
+            type: string
+            description: An expiry date for the token (optional)
+      - $ref: '#/components/schemas/NewToken'
+    CreateOrgTokenResponse:
+      allOf:
+      - type: object
+        required:
+        - value
+        properties:
+          value:
+            type: string
+            description: The value of the token that will only be exposed once (and only in this API response)
+      - $ref: '#/components/schemas/Token'
+    NewRole:
+      type: object
+      required:
+      - label
+      - description
+      properties:
+        label:
+          type: string
+          description: The user-defined label used to identify the token
+        description:
+          type: string
+          description: The user-defined description that describes why this role was created and how it should be used
+        role_type:
+          type: string
+          enum:
+          - managed
+          - org
+          description: "Whether this role is a managed role or an org role:\n  - Managed roles are maintained by Qwiet\n  - Org roles are created/maintained by a customer's organization admin\n"
     NewToken:
       type: object
       required:
@@ -234,43 +268,11 @@ components:
         valid_for_seconds:
           type: integer
           description: The duration (in seconds) for which the token is valid (optional)
-    CreateOrgTokenResponse:
-      allOf:
-      - type: object
-        required:
-        - value
-        properties:
-          value:
-            type: string
-            description: The value of the token that will only be exposed once (and only in this API response)
-      - $ref: '#/components/schemas/Token'
-    Token:
-      allOf:
-      - type: object
-        required:
-        - id
-        properties:
-          id:
-            type: string
-            format: uuid
-            description: The ID of the token that can be used to delete the token
-          expires_at:
-            type: string
-            description: An expiry date for the token (optional)
-      - $ref: '#/components/schemas/NewToken'
     TokenType:
       type: string
       enum:
       - access
       - integration
-    SuccessResponse:
-      type: object
-      required:
-      - ok
-      properties:
-        ok:
-          type: boolean
-          description: Whether the request was successful or not
     Role:
       allOf:
       - type: object
@@ -281,24 +283,6 @@ components:
             type: string
             format: uuid
       - $ref: '#/components/schemas/NewRole'
-    NewRole:
-      type: object
-      required:
-      - label
-      - description
-      properties:
-        label:
-          type: string
-          description: The user-defined label used to identify the token
-        description:
-          type: string
-          description: The user-defined description that describes why this role was created and how it should be used
-        role_type:
-          type: string
-          enum:
-          - managed
-          - org
-          description: "Whether this role is a managed role or an org role:\n  - Managed roles are maintained by Qwiet\n  - Org roles are created/maintained by a customer's organization admin\n"
     Error:
       type: object
       required:
@@ -323,6 +307,14 @@ components:
           items:
             type: string
             description: A description of the validation error
+    SuccessResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful or not
   parameters:
     orgID:
       name: orgID

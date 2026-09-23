@@ -1,36 +1,32 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   x-logo:
     url: https://docs.shiftleft.io/img/sl-logo.svg
   version: 4.0.0
-  title: alerting analyze API
+  title: Analyze API
   description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
 
 
     # Authentication
 
 
-    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
-
-    '
+    Use of the Qwiet API requires an access token, which is available via the Qwiet UI.'
 servers:
 - url: https://app.shiftleft.io/api/v4
 tags:
-- name: analyze
+- name: Analyze
 paths:
   /orgs/{orgID}/analyze-failures:
     parameters:
     - $ref: '#/components/parameters/orgID'
     get:
       tags:
-      - analyze
+      - Analyze
       summary: List analyze failures for an organization
       operationId: ListAnalyzeFailures
       description: 'Returns a list of client-side analyze failures that occurred before cloud submission.
 
-        These records provide visibility into local analysis issues.
-
-        '
+        These records provide visibility into local analysis issues.'
       security:
       - BearerToken:
         - org_runs:read
@@ -78,12 +74,10 @@ paths:
         format: uuid
     get:
       tags:
-      - analyze
+      - Analyze
       summary: Get a single analyze failure
       operationId: GetAnalyzeFailure
-      description: 'Returns details of a specific client-side analyze failure.
-
-        '
+      description: Returns details of a specific client-side analyze failure.
       security:
       - BearerToken:
         - org_runs:read
@@ -122,30 +116,6 @@ components:
         type: string
         format: uuid
   schemas:
-    Error:
-      type: object
-      required:
-      - ok
-      - code
-      - message
-      properties:
-        ok:
-          type: boolean
-          description: Whether the request was successful (true) or not (false)
-        code:
-          type: string
-          description: The `enum` representing the error encountered
-          example: INTERNAL_SERVER_ERROR
-        message:
-          type: string
-          description: A message describing the error
-          example: Internal Server Error
-        validation_errors:
-          type: array
-          description: The validation errors the user should correct before re-submitting the request
-          items:
-            type: string
-            description: A description of the validation error
     AnalyzeFailure:
       type: object
       description: A client-side analyze failure record
@@ -224,6 +194,30 @@ components:
           type: string
           format: date-time
           description: The timestamp when the failure was recorded
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
+            type: string
+            description: A description of the validation error
   securitySchemes:
     BearerToken:
       description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\

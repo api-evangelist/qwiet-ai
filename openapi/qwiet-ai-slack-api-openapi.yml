@@ -1,36 +1,30 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   x-logo:
     url: https://docs.shiftleft.io/img/sl-logo.svg
   version: 4.0.0
-  title: alerting slack API
+  title: Slack API
   description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
 
 
     # Authentication
 
 
-    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
-
-    '
+    Use of the Qwiet API requires an access token, which is available via the Qwiet UI.'
 servers:
 - url: https://app.shiftleft.io/api/v4
 tags:
-- name: slack
+- name: Slack
   x-displayName: Slack
-  description: 'The integration endpoints enabling users to set up a Slack integration.
-
-    '
+  description: The integration endpoints enabling users to set up a Slack integration.
 paths:
   /slack/authorize/orgs/{orgID}:
     get:
       tags:
-      - slack
+      - Slack
       summary: Authorize Slack
       operationId: AuthorizeSlack
-      description: 'Authorize Slack for the given organization and redirect to Slack authorization prompt
-
-        '
+      description: Authorize Slack for the given organization and redirect to Slack authorization prompt
       parameters:
       - $ref: '#/components/parameters/orgID'
       responses:
@@ -50,12 +44,10 @@ paths:
   /slack/orgs/{orgID}:
     get:
       tags:
-      - slack
+      - Slack
       summary: Receive Slack OAuth 2.0 data
       operationId: SlackCallback
-      description: 'Receive Slack OAuth 2.0 data and set up organization configuration with API token
-
-        '
+      description: Receive Slack OAuth 2.0 data and set up organization configuration with API token
       parameters:
       - $ref: '#/components/parameters/orgID'
       responses:
@@ -74,12 +66,10 @@ paths:
                 $ref: '#/components/schemas/Error'
     delete:
       tags:
-      - slack
+      - Slack
       summary: Delete Slack OAuth 2.0 data
       operationId: DeleteSlackConfiguration
-      description: 'Delete the Slack configuration for the given organization and revoke stored API token
-
-        '
+      description: Delete the Slack configuration for the given organization and revoke stored API token
       parameters:
       - $ref: '#/components/parameters/orgID'
       responses:

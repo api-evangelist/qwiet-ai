@@ -1,28 +1,24 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   x-logo:
     url: https://docs.shiftleft.io/img/sl-logo.svg
   version: 4.0.0
-  title: alerting findings API
+  title: Findings API
   description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
 
 
     # Authentication
 
 
-    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
-
-    '
+    Use of the Qwiet API requires an access token, which is available via the Qwiet UI.'
 servers:
 - url: https://app.shiftleft.io/api/v4
 tags:
-- name: findings
+- name: Findings
   x-displayName: Findings
   description: 'The results of a scan (which can include vulnerabilities, secrets, or insights).
 
-    [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-156075f8-c7cf-4e2c-95fa-0823a3313658?action=collection%2Ffork&collection-url=entityId%3D9829310-156075f8-c7cf-4e2c-95fa-0823a3313658%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)
-
-    '
+    ![Run in Postman](https://god.gw.postman.com/run-collection/9829310-156075f8-c7cf-4e2c-95fa-0823a3313658?action=collection%2Ffork&collection-url=entityId%3D9829310-156075f8-c7cf-4e2c-95fa-0823a3313658%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)'
 paths:
   /orgs/{orgID}/apps/{appID}/findings:
     parameters:
@@ -71,7 +67,7 @@ paths:
           - -related_findings
     get:
       tags:
-      - findings
+      - Findings
       summary: List app findings
       operationId: ListAppFindings
       description: List findings for the specified app. Results are filtered to a single scan (by default, this is the latest scan).
@@ -169,7 +165,7 @@ paths:
     get:
       deprecated: true
       tags:
-      - findings
+      - Findings
       summary: List compound findings
       operationId: ListCompoundFindingsDEPRECATED
       description: DEPRECATED - use /orgs/{orgID}/compounds/byname/{compoundName}/findings instead. List findings for the specified compound. Results are filtered to a single scan (by default, this is the latest scan).
@@ -491,12 +487,10 @@ paths:
         - -description
     get:
       tags:
-      - findings
+      - Findings
       summary: List compound findings
       operationId: ListCompoundFindings
-      description: 'List findings for the specified compound. Results are for a single polyglot scan (by default, this is the latest scan).
-
-        '
+      description: List findings for the specified compound. Results are for a single polyglot scan (by default, this is the latest scan).
       security:
       - BearerToken:
         - findings:list
@@ -590,7 +584,7 @@ paths:
     - $ref: '#/components/parameters/findingID'
     get:
       tags:
-      - findings
+      - Findings
       summary: Read app finding detail
       operationId: ReadAppFinding
       description: Read the details for a single finding
@@ -624,7 +618,7 @@ paths:
     - $ref: '#/components/parameters/findingID'
     put:
       tags:
-      - findings
+      - Findings
       summary: Set finding status
       operationId: SetAppFindingStatus
       description: Set the current status for a finding
@@ -658,7 +652,7 @@ paths:
     - $ref: '#/components/parameters/findingID'
     put:
       tags:
-      - findings
+      - Findings
       summary: Set finding assignee
       operationId: SetAppFindingAssignee
       description: Set the current assignee for a finding
@@ -689,7 +683,7 @@ paths:
     - $ref: '#/components/parameters/appID'
     put:
       tags:
-      - findings
+      - Findings
       summary: Set multiple findings status
       operationId: SetAppMultipleFindingsStatus
       description: Set the current status for multiple findings
@@ -722,7 +716,7 @@ paths:
     - $ref: '#/components/parameters/appID'
     put:
       tags:
-      - findings
+      - Findings
       summary: Set multiple findings assignee
       operationId: SetAppMultipleFindingsAssignee
       description: Set the current assignee for a finding
@@ -753,7 +747,7 @@ paths:
     - $ref: '#/components/parameters/compoundName'
     get:
       tags:
-      - findings
+      - Findings
       summary: Read the SCA packages of a compound scan
       operationId: ReadCompoundSCAPackages
       description: Return information about the packages found in a scan of an app
@@ -912,8 +906,8 @@ paths:
     - $ref: '#/components/parameters/appID'
     get:
       tags:
-      - findings
-      summary: Read the count of multiple tags of an app.
+      - Findings
+      summary: Read the count of multiple tags of an app
       operationId: ReadAppSCAPackages
       description: Return information about the packages found in a scan of an app
       security:
@@ -1041,7 +1035,7 @@ paths:
     - $ref: '#/components/parameters/per_page'
     get:
       tags:
-      - findings
+      - Findings
       summary: List org findings
       operationId: ListOrgFindings
       description: Return all findings for the org.
@@ -1091,7 +1085,7 @@ paths:
     - $ref: '#/components/parameters/default_branch'
     get:
       tags:
-      - findings
+      - Findings
       summary: Read org findings summary
       operationId: ReadOrgFindingsSummary
       description: Return a summary of findings for the org.
@@ -1139,17 +1133,16 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    Diff:
-      type: string
-      enum:
-      - new
-      - regression
-      - common
-      - fixed
-    Tag:
-      anyOf:
-      - $ref: '#/components/schemas/TagWithString'
-      - $ref: '#/components/schemas/TagWithNumber'
+    MultipleFindingsAssigneeUpdate:
+      type: object
+      properties:
+        findings:
+          type: array
+          items:
+            type: integer
+        assignee:
+          type: string
+          description: The email of the person to be assigned to the findings
     SCAPackage:
       type: object
       required:
@@ -1257,16 +1250,141 @@ components:
               type: boolean
             is_repo_hijackable:
               type: boolean
-    MultipleFindingsAssigneeUpdate:
+    FindingAssigneeUpdate:
       type: object
       properties:
-        findings:
-          type: array
-          items:
-            type: integer
         assignee:
           type: string
-          description: The email of the person to be assigned to the findings
+          description: The email of the person to be assigned to the finding
+    TagWithString:
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+          description: The key for the tag key-value pair
+          example: category
+        value:
+          type: string
+          description: The value for the tag key-value pair
+          example: XSS
+    Status:
+      type: string
+      enum:
+      - unset
+      - fixed
+      - ignored
+      - 3rdparty
+      - any
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
+            type: string
+            description: A description of the validation error
+    TagWithNumber:
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+          description: The key for the tag key-value pair
+          example: cvss_score
+        value:
+          type: number
+          description: The value for the tag key-value pair
+          example: 5.2
+    Severity:
+      type: string
+      enum:
+      - low
+      - medium
+      - high
+      - critical
+      description: The severity of a finding
+    OSSScan:
+      type: object
+      required:
+      - enabled
+      properties:
+        enabled:
+          type: boolean
+          description: A flag indicating whether OSS Scan was enabled and allowed
+        successful:
+          type: boolean
+          description: A flag indicating whether OSS Scan was successfully performed on the project
+        failure_reason:
+          type: string
+          description: A status message with the reason for the OSS scan failure (if the scan was unsuccessful)
+    Assignment:
+      type: string
+      enum:
+      - unassigned
+      - assigned
+    ScanLanguage:
+      type: string
+      description: The analysis language identifier.
+      enum:
+      - java
+      - go
+      - csharp
+      - javascript
+      - c
+      - python
+      - terraform_hcl
+      - ruby
+      - php
+      - fuzzytestlang
+      - kotlin
+      - swift
+      - plsql
+      - apex
+      - groovy
+    ScanPlatform:
+      type: string
+      description: The analysis platform identifier.
+      enum:
+      - java
+      - go
+      - csharp
+      - javascript
+      - c
+      - python
+      - terraform_hcl
+      - ruby
+      - php
+      - fuzzytestlang
+      - kotlin
+      - javasrc
+      - pythonsrc
+      - jssrc
+      - secrets
+      - swiftsrc
+      - plsql
+      - apex
+      - groovy
     Scan:
       type: object
       required:
@@ -1334,28 +1452,74 @@ components:
           description: The total ignored across all summaries
           type: integer
           example: 17
-    Severity:
-      type: string
-      enum:
-      - low
-      - medium
-      - high
-      - critical
-      description: The severity of a finding
-    TagWithString:
+    FindingsSummary:
       type: object
       required:
-      - key
-      - value
+      - total
       properties:
-        key:
+        finding_type:
           type: string
-          description: The key for the tag key-value pair
-          example: category
-        value:
+          description: The type of finding this summary is for
+          example: vuln
+        total:
+          type: integer
+          description: The total number of findings
+          example: 10
+        total_reachable:
+          type: integer
+          description: The total number of reachable findings
+        total_ignored:
+          type: integer
+          description: The total number of ignored findings
+          example: 1
+        total_fixed:
+          type: integer
+          description: The total number of fixed findings
+          example: 3
+        by_severity:
+          type: object
+          description: The summary of findings (by severity)
+          example:
+            info:
+              total: 6
+            critical:
+              total: 3
+              total_fixed: 3
+            moderate:
+              total: 1
+              total_ignored: 1
+        by_category:
+          type: object
+          description: The summary of findings (by category)
+          example:
+            Sensitive Data Leak:
+              total: 10
+              total_fixed: 3
+              total_ignored: 1
+        by_assignee:
+          type: object
+          description: The summary of findings (by assignee)
+          example:
+            test@qwiet.ai:
+              total: 10
+              total_fixed: 3
+              total_ignored: 1
+    MultipleFindingsStatusUpdate:
+      type: object
+      properties:
+        findings:
+          type: array
+          items:
+            type: integer
+        status:
           type: string
-          description: The value for the tag key-value pair
-          example: XSS
+          description: The status to be set; leaving it blank will remove status
+          enum:
+          - fixed
+          - ignore
+          - codeviolationfixed
+          - codeviolationignore
+          - codeviolationremovestatus
     NextPage:
       type: string
       description: URL for the next page of results
@@ -1422,194 +1586,6 @@ components:
             value: info
           - key: cvss_score
             value: 2
-    FindingAssigneeUpdate:
-      type: object
-      properties:
-        assignee:
-          type: string
-          description: The email of the person to be assigned to the finding
-    FindingsSummary:
-      type: object
-      required:
-      - total
-      properties:
-        finding_type:
-          type: string
-          description: The type of finding this summary is for
-          example: vuln
-        total:
-          type: integer
-          description: The total number of findings
-          example: 10
-        total_reachable:
-          type: integer
-          description: The total number of reachable findings
-        total_ignored:
-          type: integer
-          description: The total number of ignored findings
-          example: 1
-        total_fixed:
-          type: integer
-          description: The total number of fixed findings
-          example: 3
-        by_severity:
-          type: object
-          description: The summary of findings (by severity)
-          example:
-            info:
-              total: 6
-            critical:
-              total: 3
-              total_fixed: 3
-            moderate:
-              total: 1
-              total_ignored: 1
-        by_category:
-          type: object
-          description: The summary of findings (by category)
-          example:
-            Sensitive Data Leak:
-              total: 10
-              total_fixed: 3
-              total_ignored: 1
-        by_assignee:
-          type: object
-          description: The summary of findings (by assignee)
-          example:
-            test@qwiet.ai:
-              total: 10
-              total_fixed: 3
-              total_ignored: 1
-    Error:
-      type: object
-      required:
-      - ok
-      - code
-      - message
-      properties:
-        ok:
-          type: boolean
-          description: Whether the request was successful (true) or not (false)
-        code:
-          type: string
-          description: The `enum` representing the error encountered
-          example: INTERNAL_SERVER_ERROR
-        message:
-          type: string
-          description: A message describing the error
-          example: Internal Server Error
-        validation_errors:
-          type: array
-          description: The validation errors the user should correct before re-submitting the request
-          items:
-            type: string
-            description: A description of the validation error
-    TagWithNumber:
-      type: object
-      required:
-      - key
-      - value
-      properties:
-        key:
-          type: string
-          description: The key for the tag key-value pair
-          example: cvss_score
-        value:
-          type: number
-          description: The value for the tag key-value pair
-          example: 5.2
-    Assignment:
-      type: string
-      enum:
-      - unassigned
-      - assigned
-    ScanPlatform:
-      type: string
-      description: The analysis platform identifier.
-      enum:
-      - java
-      - go
-      - csharp
-      - javascript
-      - c
-      - python
-      - terraform_hcl
-      - ruby
-      - php
-      - fuzzytestlang
-      - kotlin
-      - javasrc
-      - pythonsrc
-      - jssrc
-      - secrets
-      - swiftsrc
-      - plsql
-      - apex
-      - groovy
-    FindingStatusUpdate:
-      type: object
-      properties:
-        status:
-          type: string
-          description: The status to be set; leaving it blank will remove status
-          enum:
-          - fixed
-          - ignore
-          - codeviolationfixed
-          - codeviolationignore
-          - codeviolationremovestatus
-        optional_comment:
-          type: string
-          description: Optional text to be used as the comment that is created along with every status.
-    OSSScan:
-      type: object
-      required:
-      - enabled
-      properties:
-        enabled:
-          type: boolean
-          description: A flag indicating whether OSS Scan was enabled and allowed
-        successful:
-          type: boolean
-          description: A flag indicating whether OSS Scan was successfully performed on the project
-        failure_reason:
-          type: string
-          description: A status message with the reason for the OSS scan failure (if the scan was unsuccessful)
-    MultipleFindingsStatusUpdate:
-      type: object
-      properties:
-        findings:
-          type: array
-          items:
-            type: integer
-        status:
-          type: string
-          description: The status to be set; leaving it blank will remove status
-          enum:
-          - fixed
-          - ignore
-          - codeviolationfixed
-          - codeviolationignore
-          - codeviolationremovestatus
-    ScanLanguage:
-      type: string
-      description: The analysis language identifier.
-      enum:
-      - java
-      - go
-      - csharp
-      - javascript
-      - c
-      - python
-      - terraform_hcl
-      - ruby
-      - php
-      - fuzzytestlang
-      - kotlin
-      - swift
-      - plsql
-      - apex
-      - groovy
     TagCount:
       allOf:
       - $ref: '#/components/schemas/Tag'
@@ -1630,35 +1606,56 @@ components:
         ok:
           type: boolean
           description: Whether the request was successful or not
-    Status:
+    Diff:
       type: string
       enum:
-      - unset
+      - new
+      - regression
+      - common
       - fixed
-      - ignored
-      - 3rdparty
-      - any
+    Tag:
+      anyOf:
+      - $ref: '#/components/schemas/TagWithString'
+      - $ref: '#/components/schemas/TagWithNumber'
+    FindingStatusUpdate:
+      type: object
+      properties:
+        status:
+          type: string
+          description: The status to be set; leaving it blank will remove status
+          enum:
+          - fixed
+          - ignore
+          - codeviolationfixed
+          - codeviolationignore
+          - codeviolationremovestatus
+        optional_comment:
+          type: string
+          description: Optional text to be used as the comment that is created along with every status.
   parameters:
-    assignment:
+    details_tags:
+      name: details_tags
       in: query
-      name: assignment
-      description: 'The assignment status filter. By default, all findings, both `unassigned` and `assigned`, are returned.
-
-        '
+      description: The filter for the finding's details tags
+      style: form
       schema:
-        $ref: '#/components/schemas/Assignment'
-    assignee:
-      name: assignee
-      in: query
-      description: The email addresses of users assigned to this finding
-      schema:
-        type: string
-    sort:
-      in: query
-      name: sort
-      description: How to sort results; defaults to ID
+        items:
+          type: string
+    appID:
+      name: appID
+      in: path
+      description: The app ID (e.g., `HelloQwiet`)
+      required: true
       schema:
         type: string
+    finding_tags:
+      name: finding_tags
+      in: query
+      description: The findings' filtering tag
+      schema:
+        items:
+          type: string
+          example: category=XSS
     default_branch:
       in: query
       name: default_branch
@@ -1671,14 +1668,39 @@ components:
       description: The type of findings. Accepted values are `oss_vuln`, `vuln`, and `secret`
       schema:
         type: string
-    status:
+    compoundName:
+      name: compoundName
+      in: path
+      description: A compound's name
+      required: true
+      schema:
+        type: string
+    only_counts:
       in: query
-      name: status
-      description: 'The status filter. By default, only `unset` findings are included.
+      name: only_counts
+      description: Whether to include only finding counts; excludes the list of findings
+      schema:
+        type: boolean
+    assignee:
+      name: assignee
+      in: query
+      description: The email addresses of users assigned to this finding
+      schema:
+        type: string
+    page:
+      in: query
+      name: page
+      description: 'The page of results to fetch. Results are not guaranteed to be deterministic using this approach; we recommended using the `next_page` URL in a paginated response
 
         '
       schema:
-        $ref: '#/components/schemas/Status'
+        type: integer
+    per_page:
+      in: query
+      name: per_page
+      description: Number of results per page; defaults to 50
+      schema:
+        type: integer
     findingID:
       name: findingID
       in: path
@@ -1686,6 +1708,27 @@ components:
       required: true
       schema:
         type: string
+    sort:
+      in: query
+      name: sort
+      description: How to sort results; defaults to ID
+      schema:
+        type: string
+    optionalComparableVersionIdentifierSource:
+      name: source
+      in: query
+      description: The source scan for a comparision
+      schema:
+        type: string
+        pattern: ^scan\.\d+|tag\.\w=\w$
+        example: scan.128|tag.branch=samplebranch
+    tags:
+      name: tags
+      in: query
+      description: The scan tags to filter by (e.g., `branch=main`)
+      schema:
+        items:
+          type: string
     orgID:
       name: orgID
       in: path
@@ -1694,40 +1737,6 @@ components:
       schema:
         type: string
         format: uuid
-    category:
-      name: category
-      in: query
-      description: The category filter
-      schema:
-        type: string
-    per_page:
-      in: query
-      name: per_page
-      description: Number of results per page; defaults to 50
-      schema:
-        type: integer
-    tags:
-      name: tags
-      in: query
-      description: The scan tags to filter by (e.g., `branch=main`)
-      schema:
-        items:
-          type: string
-    finding_tags:
-      name: finding_tags
-      in: query
-      description: The findings' filtering tag
-      schema:
-        items:
-          type: string
-          example: category=XSS
-    compoundName:
-      name: compoundName
-      in: path
-      description: A compound's name
-      required: true
-      schema:
-        type: string
     order:
       in: query
       name: order
@@ -1737,49 +1746,34 @@ components:
         enum:
         - desc
         - asc
-    only_counts:
+    category:
+      name: category
       in: query
-      name: only_counts
-      description: Whether to include only finding counts; excludes the list of findings
-      schema:
-        type: boolean
-    details_tags:
-      name: details_tags
-      in: query
-      description: The filter for the finding's details tags
-      style: form
-      schema:
-        items:
-          type: string
-    optionalComparableVersionIdentifierSource:
-      name: source
-      in: query
-      description: The source scan for a comparision
+      description: The category filter
       schema:
         type: string
-        pattern: ^scan\.\d+|tag\.\w=\w$
-        example: scan.128|tag.branch=samplebranch
-    appID:
-      name: appID
-      in: path
-      description: The app ID (e.g., `HelloQwiet`)
-      required: true
+    status:
+      in: query
+      name: status
+      description: 'The status filter. By default, only `unset` findings are included.
+
+        '
       schema:
-        type: string
+        $ref: '#/components/schemas/Status'
     severity:
       in: query
       name: severity
       description: The severity filter
       schema:
         $ref: '#/components/schemas/Severity'
-    page:
+    assignment:
       in: query
-      name: page
-      description: 'The page of results to fetch. Results are not guaranteed to be deterministic using this approach; we recommended using the `next_page` URL in a paginated response
+      name: assignment
+      description: 'The assignment status filter. By default, all findings, both `unassigned` and `assigned`, are returned.
 
         '
       schema:
-        type: integer
+        $ref: '#/components/schemas/Assignment'
   securitySchemes:
     BearerToken:
       description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\

@@ -1,26 +1,22 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   x-logo:
     url: https://docs.shiftleft.io/img/sl-logo.svg
   version: 4.0.0
-  title: alerting azureboard API
+  title: Azureboard API
   description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
 
 
     # Authentication
 
 
-    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
-
-    '
+    Use of the Qwiet API requires an access token, which is available via the Qwiet UI.'
 servers:
 - url: https://app.shiftleft.io/api/v4
 tags:
 - name: azureboard
   x-displayName: Azure Boards
-  description: 'The endpoints to manage the Azure Boards integration.
-
-    '
+  description: The endpoints to manage the Azure Boards integration.
 paths:
   /azureboard/authorization/orgs/{orgID}/status:
     x-internal: false
@@ -51,7 +47,6 @@ paths:
       - azureboard
       summary: azureboard authorization at the org level
       operationId: AzureAuthorization
-      description: azureboard authorization at the org level
       parameters:
       - $ref: '#/components/parameters/orgID'
       security:
@@ -78,7 +73,6 @@ paths:
       - azureboard
       summary: AzureCallback is authorized redirect_url in oAuth2 app
       operationId: AzureCallback
-      description: AzureCallback is authorized redirect_url in oAuth2 app
       responses:
         '302':
           description: redirect
@@ -103,7 +97,6 @@ paths:
       - azureboard
       summary: Get AzureBoard Association
       operationId: GetAzureboardAssociation
-      description: Get AzureBoard Association
       parameters:
       - $ref: '#/components/parameters/orgID'
       - $ref: '#/components/parameters/appID'
@@ -135,7 +128,6 @@ paths:
       - azureboard
       summary: Update AzureBoard Association
       operationId: PutAzureboardAssociation
-      description: Update AzureBoard Association
       parameters:
       - $ref: '#/components/parameters/orgID'
       - $ref: '#/components/parameters/appID'
@@ -184,7 +176,6 @@ paths:
       - azureboard
       summary: Get AzureBoard Association
       operationId: DeleteAzureboardAssociation
-      description: Get AzureBoard Association
       parameters:
       - $ref: '#/components/parameters/orgID'
       - $ref: '#/components/parameters/appID'
@@ -218,7 +209,6 @@ paths:
       - azureboard
       summary: Get Azure organizations
       operationId: GetAzureOrgList
-      description: Get Azure organizations
       parameters:
       - $ref: '#/components/parameters/orgID'
       security:
@@ -243,7 +233,6 @@ paths:
       - azureboard
       summary: Get azureboard association by finding id
       operationId: GetAssociationAzureBoardByFindingID
-      description: Get azureboard association by finding id
       parameters:
       - $ref: '#/components/parameters/orgID'
       - $ref: '#/components/parameters/appID'
@@ -272,7 +261,6 @@ paths:
       - azureboard
       summary: Puts azureboard association by finding ids
       operationId: SubmitFindingToAzureBoardPut
-      description: Puts azureboard association by finding ids
       parameters:
       - $ref: '#/components/parameters/orgID'
       - $ref: '#/components/parameters/appID'
@@ -294,63 +282,6 @@ paths:
                 $ref: '#/components/schemas/AzureGenericOKResponse'
 components:
   schemas:
-    SubmitFindingsToAzureBoardRequest:
-      type: object
-      required:
-      - scan_id
-      - finding_ids
-      properties:
-        scan_id:
-          type: integer
-          format: int64
-          description: The unique ID of the scan. Must be greater than 0.
-        finding_ids:
-          type: array
-          items:
-            type: integer
-            format: int64
-          description: A list of finding IDs. Each ID must be greater than 0.
-        extra_parameters:
-          type: object
-          additionalProperties:
-            type: string
-          description: A map of extra parameters for the request. The keys and values are strings.
-    AzureOrgProjectAssociationResponse:
-      type: object
-      required:
-      - ok
-      properties:
-        ok:
-          type: boolean
-        response:
-          $ref: '#/components/schemas/AzureAssociationSuccessResponse'
-    AzureAssociationSuccessResponse:
-      type: object
-      properties:
-        azure_org_name:
-          type: string
-          description: The name of the Azure organization
-        azure_project_name:
-          type: string
-          description: The name of the Azure project
-        finding_work_item_type:
-          type: string
-          description: Work item type that will be used to create work items
-    AzureFindingResponse:
-      type: object
-      properties:
-        azure_org_name:
-          type: string
-          description: name of Azure organization
-        azure_project_name:
-          type: string
-          description: name of Azure project
-        azure_workitem_id:
-          type: integer
-          description: work item id associated with the finding
-        azure_workitem_url:
-          type: string
-          description: Azure board work item url
     AzureOrgSuccessResponse:
       type: object
       properties:
@@ -383,6 +314,18 @@ components:
         finding_work_item_type:
           type: string
           description: Work item type that will be used to create work items
+    AzureAssociationSuccessResponse:
+      type: object
+      properties:
+        azure_org_name:
+          type: string
+          description: The name of the Azure organization
+        azure_project_name:
+          type: string
+          description: The name of the Azure project
+        finding_work_item_type:
+          type: string
+          description: Work item type that will be used to create work items
     Error:
       type: object
       required:
@@ -407,6 +350,42 @@ components:
           items:
             type: string
             description: A description of the validation error
+    AzureFindingResponse:
+      type: object
+      properties:
+        azure_org_name:
+          type: string
+          description: name of Azure organization
+        azure_project_name:
+          type: string
+          description: name of Azure project
+        azure_workitem_id:
+          type: integer
+          description: work item id associated with the finding
+        azure_workitem_url:
+          type: string
+          description: Azure board work item url
+    SubmitFindingsToAzureBoardRequest:
+      type: object
+      required:
+      - scan_id
+      - finding_ids
+      properties:
+        scan_id:
+          type: integer
+          format: int64
+          description: The unique ID of the scan. Must be greater than 0.
+        finding_ids:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: A list of finding IDs. Each ID must be greater than 0.
+        extra_parameters:
+          type: object
+          additionalProperties:
+            type: string
+          description: A map of extra parameters for the request. The keys and values are strings.
     AzureGenericOKResponse:
       type: object
       required:
@@ -414,11 +393,27 @@ components:
       properties:
         ok:
           type: boolean
+    AzureOrgProjectAssociationResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+        response:
+          $ref: '#/components/schemas/AzureAssociationSuccessResponse'
   parameters:
     findingID:
       name: findingID
       in: path
       description: The finding ID
+      required: true
+      schema:
+        type: string
+    appID:
+      name: appID
+      in: path
+      description: The app ID (e.g., `HelloQwiet`)
       required: true
       schema:
         type: string
@@ -430,13 +425,6 @@ components:
       schema:
         type: string
         format: uuid
-    appID:
-      name: appID
-      in: path
-      description: The app ID (e.g., `HelloQwiet`)
-      required: true
-      schema:
-        type: string
   securitySchemes:
     BearerToken:
       description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\

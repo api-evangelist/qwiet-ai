@@ -1,31 +1,27 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   x-logo:
     url: https://docs.shiftleft.io/img/sl-logo.svg
   version: 4.0.0
-  title: alerting saved_searches API
+  title: Saved Searches API
   description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
 
 
     # Authentication
 
 
-    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
-
-    '
+    Use of the Qwiet API requires an access token, which is available via the Qwiet UI.'
 servers:
 - url: https://app.shiftleft.io/api/v4
 tags:
-- name: saved_searches
+- name: Saved Searches
   x-displayName: Saved Searches
-  description: 'The saved searches endpoints allow users to save specific search queries for organization and app findings
-
-    '
+  description: The saved searches endpoints allow users to save specific search queries for organization and app findings
 paths:
   /orgs/{orgID}/saved_searches:
     get:
       tags:
-      - saved_searches
+      - Saved Searches
       summary: Get all saved searches for an user
       operationId: ListSavedSearches
       parameters:
@@ -58,7 +54,7 @@ paths:
                       format: date-time
     post:
       tags:
-      - saved_searches
+      - Saved Searches
       summary: Create a new saved search for a user
       operationId: CreateSavedSearch
       parameters:
@@ -86,7 +82,7 @@ paths:
   /orgs/{orgID}/saved_searches/{searchID}:
     put:
       tags:
-      - saved_searches
+      - Saved Searches
       summary: Update a saved search for a user
       operationId: UpdateSavedSearch
       parameters:
@@ -118,7 +114,7 @@ paths:
           description: Saved search updated
     delete:
       tags:
-      - saved_searches
+      - Saved Searches
       summary: Delete a saved search for a user
       operationId: DeleteSavedSearch
       parameters:

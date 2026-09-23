@@ -1,26 +1,22 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   x-logo:
     url: https://docs.shiftleft.io/img/sl-logo.svg
   version: 4.0.0
-  title: alerting API
+  title: Alerting API
   description: 'The Qwiet API allows you to programmatically interact with Qwiet. You can manage users and their roles and get scan-related information, such as which applications were scanned and what vulnerabilities were identified by Qwiet as being present. You can also compare scans to see changes to your applications over time.
 
 
     # Authentication
 
 
-    Use of the Qwiet API requires an access token, which is available via the [Qwiet UI](https://app.shiftleft.io/user/profile).
-
-    '
+    Use of the Qwiet API requires an access token, which is available via the Qwiet UI.'
 servers:
 - url: https://app.shiftleft.io/api/v4
 tags:
-- name: alerting
+- name: Alerting
   x-displayName: Alerting
-  description: 'Notification and alerting related endpoints (such as webhooks)
-
-    '
+  description: Notification and alerting related endpoints (such as webhooks)
 paths:
   /orgs/{orgID}/alerting/webhook:
     parameters:
@@ -28,12 +24,10 @@ paths:
     - $ref: '#/components/parameters/version'
     put:
       tags:
-      - alerting
+      - Alerting
       summary: Set up a webhook
       operationId: SetUpWebhook
-      description: 'Set up a webhook for the given organization
-
-        '
+      description: Set up a webhook for the given organization
       security:
       - BearerToken:
         - webhook:write
@@ -92,12 +86,10 @@ paths:
                 $ref: '#/components/schemas/Error'
     delete:
       tags:
-      - alerting
+      - Alerting
       summary: Delete a webhook
       operationId: DeleteWebhook
-      description: 'Delete the webhook for the given organization
-
-        '
+      description: Delete the webhook for the given organization
       security:
       - BearerToken:
         - webhook:write
@@ -116,12 +108,10 @@ paths:
                 $ref: '#/components/schemas/Error'
     get:
       tags:
-      - alerting
+      - Alerting
       summary: Get a webhook
       operationId: GetWebhook
-      description: 'Get the webhook url and token ID for the given organization
-
-        '
+      description: Get the webhook url and token ID for the given organization
       security:
       - BearerToken:
         - webhook:read
@@ -141,12 +131,10 @@ paths:
   /alerting/events:
     get:
       tags:
-      - alerting
+      - Alerting
       summary: Get alerting events
       operationId: GetAlertingEvents
-      description: 'Get the list of events that can be subscribed to receive webhook notifications.
-
-        '
+      description: Get the list of events that can be subscribed to receive webhook notifications.
       security:
       - BearerToken:
         - webhook:read
@@ -165,24 +153,29 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    WebhookTokenRenewMetadata:
+    ListEventsResponse:
       type: object
       properties:
-        url:
+        events:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+            description: A list of events that can be subscribed to via webhooks
+    TokenRenewalResponseHandling:
+      type: object
+      properties:
+        tokenField:
           type: string
-          description: The URL in which the token can be renewed
-        method:
+          description: The field in the response that contains the token
+        ttlField:
           type: string
-          description: The method to be used for the renewal
-        bodyFields:
-          type: object
-          description: The fields to be sent in the body and the values
-        asJson:
-          type: boolean
-          description: Whether the body should be sent as JSON or FORM data
-        forceFormUrlEncoding:
-          type: boolean
-          description: Whether the body should be sent as query arguments even if the method is POST
+          description: The field in the response that contains the time to live of the token
+        typeField:
+          type: string
+          description: The field in the response that contains the type of the token (only Bearer is supported for now)
     RegisterWebhookResponse:
       type: object
       properties:
@@ -210,6 +203,30 @@ components:
               items:
                 type: string
                 description: The list of events for which the webhook is registered
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
+            type: string
+            description: A description of the validation error
     RegisterWebhookRequest:
       type: object
       required:
@@ -261,6 +278,24 @@ components:
           items:
             type: string
           description: The events that are subscribed to this webhook url. A list of active events that can be fetched from the `/alerting/events` endpoint.
+    WebhookTokenRenewMetadata:
+      type: object
+      properties:
+        url:
+          type: string
+          description: The URL in which the token can be renewed
+        method:
+          type: string
+          description: The method to be used for the renewal
+        bodyFields:
+          type: object
+          description: The fields to be sent in the body and the values
+        asJson:
+          type: boolean
+          description: Whether the body should be sent as JSON or FORM data
+        forceFormUrlEncoding:
+          type: boolean
+          description: Whether the body should be sent as query arguments even if the method is POST
     SuccessResponse:
       type: object
       required:
@@ -269,29 +304,6 @@ components:
         ok:
           type: boolean
           description: Whether the request was successful or not
-    TokenRenewalResponseHandling:
-      type: object
-      properties:
-        tokenField:
-          type: string
-          description: The field in the response that contains the token
-        ttlField:
-          type: string
-          description: The field in the response that contains the time to live of the token
-        typeField:
-          type: string
-          description: The field in the response that contains the type of the token (only Bearer is supported for now)
-    ListEventsResponse:
-      type: object
-      properties:
-        events:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-            description: A list of events that can be subscribed to via webhooks
     AuthenticatedWebHookTokenConfiguration:
       type: object
       description: Configuration for a webhook that requires a token
@@ -303,39 +315,7 @@ components:
           $ref: '#/components/schemas/WebhookTokenRenewMetadata'
         responseHandling:
           $ref: '#/components/schemas/TokenRenewalResponseHandling'
-    Error:
-      type: object
-      required:
-      - ok
-      - code
-      - message
-      properties:
-        ok:
-          type: boolean
-          description: Whether the request was successful (true) or not (false)
-        code:
-          type: string
-          description: The `enum` representing the error encountered
-          example: INTERNAL_SERVER_ERROR
-        message:
-          type: string
-          description: A message describing the error
-          example: Internal Server Error
-        validation_errors:
-          type: array
-          description: The validation errors the user should correct before re-submitting the request
-          items:
-            type: string
-            description: A description of the validation error
   parameters:
-    orgID:
-      name: orgID
-      in: path
-      description: The org ID
-      required: true
-      schema:
-        type: string
-        format: uuid
     version:
       name: version
       in: query
@@ -347,6 +327,14 @@ components:
         - 2
         default: 2
         example: 2
+    orgID:
+      name: orgID
+      in: path
+      description: The org ID
+      required: true
+      schema:
+        type: string
+        format: uuid
   securitySchemes:
     BearerToken:
       description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\
