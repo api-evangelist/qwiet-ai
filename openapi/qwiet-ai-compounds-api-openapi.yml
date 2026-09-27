@@ -490,7 +490,67 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    TagWithString:
+    SuccessResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful or not
+    FindingsSummary:
+      type: object
+      required:
+      - total
+      properties:
+        finding_type:
+          type: string
+          description: The type of finding this summary is for
+          example: vuln
+        total:
+          type: integer
+          description: The total number of findings
+          example: 10
+        total_reachable:
+          type: integer
+          description: The total number of reachable findings
+        total_ignored:
+          type: integer
+          description: The total number of ignored findings
+          example: 1
+        total_fixed:
+          type: integer
+          description: The total number of fixed findings
+          example: 3
+        by_severity:
+          type: object
+          description: The summary of findings (by severity)
+          example:
+            info:
+              total: 6
+            critical:
+              total: 3
+              total_fixed: 3
+            moderate:
+              total: 1
+              total_ignored: 1
+        by_category:
+          type: object
+          description: The summary of findings (by category)
+          example:
+            Sensitive Data Leak:
+              total: 10
+              total_fixed: 3
+              total_ignored: 1
+        by_assignee:
+          type: object
+          description: The summary of findings (by assignee)
+          example:
+            test@qwiet.ai:
+              total: 10
+              total_fixed: 3
+              total_ignored: 1
+    TagWithNumber:
       type: object
       required:
       - key
@@ -499,11 +559,32 @@ components:
         key:
           type: string
           description: The key for the tag key-value pair
-          example: category
+          example: cvss_score
         value:
-          type: string
+          type: number
           description: The value for the tag key-value pair
-          example: XSS
+          example: 5.2
+    ShallowCompound:
+      type: object
+      example:
+        id: fab0089f-cc8c-44a8-a927-26e83f6eb6d4
+        name: shiftleft-python-demo
+        apps:
+        - shiftleft-python-demo
+        - shiftleft-python-demo_element_PYTHONSRC
+        - shiftleft-python-demo_element_TERRAFORM_HCL
+      properties:
+        id:
+          type: string
+          description: the id of the compound
+        name:
+          type: string
+          description: the name of the compound
+        apps:
+          type: array
+          description: the list of apps that belong to the compound
+          items:
+            type: string
     ScanInfo:
       type: object
       required:
@@ -546,6 +627,10 @@ components:
         tags:
           type: object
           description: The tags associated with this scan
+    NextPage:
+      type: string
+      description: URL for the next page of results
+      example: https://api.shiftleft.io/orgs/4c07962d-745f-4465-9965-002f6cf3c7ff/findings?page=2
     Error:
       type: object
       required:
@@ -570,102 +655,6 @@ components:
           items:
             type: string
             description: A description of the validation error
-    StatusLog:
-      type: object
-      properties:
-        message_id:
-          type: string
-        message:
-          type: string
-        gh_pr_link:
-          type: string
-    TagWithNumber:
-      type: object
-      required:
-      - key
-      - value
-      properties:
-        key:
-          type: string
-          description: The key for the tag key-value pair
-          example: cvss_score
-        value:
-          type: number
-          description: The value for the tag key-value pair
-          example: 5.2
-    SCAVulnCounts:
-      allOf:
-      - $ref: '#/components/schemas/SASTVulnCounts'
-      - type: object
-        required:
-        - unreachable
-        properties:
-          unreachable:
-            type: integer
-            description: the number of unreachable vulnerabilities
-            example: 7
-    SASTVulnCounts:
-      type: object
-      required:
-      - critical
-      - high
-      - medium
-      - low
-      properties:
-        critical:
-          type: integer
-          description: the number of critical severity vulnerabilities
-          example: 1
-        high:
-          type: integer
-          description: the number of high severity vulnerabilities
-          example: 2
-        medium:
-          type: integer
-          description: the number of medium severity vulnerabilities
-          example: 3
-        low:
-          type: integer
-          description: the number of low severity vulnerabilities
-          example: 5
-    OSSScan:
-      type: object
-      required:
-      - enabled
-      properties:
-        enabled:
-          type: boolean
-          description: A flag indicating whether OSS Scan was enabled and allowed
-        successful:
-          type: boolean
-          description: A flag indicating whether OSS Scan was successfully performed on the project
-        failure_reason:
-          type: string
-          description: A status message with the reason for the OSS scan failure (if the scan was unsuccessful)
-    CompoundScanResponse:
-      type: object
-      properties:
-        compound_id:
-          type: string
-          format: uuid
-          description: The compound ID of the polyglot scan, if available
-        polyglot_scan_id:
-          type: integer
-          minimum: 1
-          description: The polyglot scan ID, if available
-        scans:
-          type: array
-          description: The element scans that form the polyglot scan
-          items:
-            $ref: '#/components/schemas/ScanInfo'
-        findings_summaries:
-          type: array
-          items:
-            $ref: '#/components/schemas/FindingsSummary'
-        counts:
-          type: array
-          items:
-            $ref: '#/components/schemas/TagCount'
     StreamlinedScan:
       type: object
       required:
@@ -727,6 +716,57 @@ components:
             type: string
             description: a problem found in this polyglot scan
             example: Failed to create CPG File
+    SCAVulnCounts:
+      allOf:
+      - $ref: '#/components/schemas/SASTVulnCounts'
+      - type: object
+        required:
+        - unreachable
+        properties:
+          unreachable:
+            type: integer
+            description: the number of unreachable vulnerabilities
+            example: 7
+    Tag:
+      anyOf:
+      - $ref: '#/components/schemas/TagWithString'
+      - $ref: '#/components/schemas/TagWithNumber'
+    TagCount:
+      allOf:
+      - $ref: '#/components/schemas/Tag'
+      - type: object
+        properties:
+          finding_type:
+            type: string
+            description: The type of finding
+            example: vuln
+          count:
+            type: integer
+            example: 42
+    SASTVulnCounts:
+      type: object
+      required:
+      - critical
+      - high
+      - medium
+      - low
+      properties:
+        critical:
+          type: integer
+          description: the number of critical severity vulnerabilities
+          example: 1
+        high:
+          type: integer
+          description: the number of high severity vulnerabilities
+          example: 2
+        medium:
+          type: integer
+          description: the number of medium severity vulnerabilities
+          example: 3
+        low:
+          type: integer
+          description: the number of low severity vulnerabilities
+          example: 5
     App:
       type: object
       example:
@@ -783,6 +823,30 @@ components:
           type: array
           items:
             type: string
+    CompoundScanResponse:
+      type: object
+      properties:
+        compound_id:
+          type: string
+          format: uuid
+          description: The compound ID of the polyglot scan, if available
+        polyglot_scan_id:
+          type: integer
+          minimum: 1
+          description: The polyglot scan ID, if available
+        scans:
+          type: array
+          description: The element scans that form the polyglot scan
+          items:
+            $ref: '#/components/schemas/ScanInfo'
+        findings_summaries:
+          type: array
+          items:
+            $ref: '#/components/schemas/FindingsSummary'
+        counts:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagCount'
     Scan:
       type: object
       required:
@@ -850,58 +914,29 @@ components:
           description: The total ignored across all summaries
           type: integer
           example: 17
-    FindingsSummary:
+    TagWithString:
       type: object
       required:
-      - total
+      - key
+      - value
       properties:
-        finding_type:
+        key:
           type: string
-          description: The type of finding this summary is for
-          example: vuln
-        total:
-          type: integer
-          description: The total number of findings
-          example: 10
-        total_reachable:
-          type: integer
-          description: The total number of reachable findings
-        total_ignored:
-          type: integer
-          description: The total number of ignored findings
-          example: 1
-        total_fixed:
-          type: integer
-          description: The total number of fixed findings
-          example: 3
-        by_severity:
-          type: object
-          description: The summary of findings (by severity)
-          example:
-            info:
-              total: 6
-            critical:
-              total: 3
-              total_fixed: 3
-            moderate:
-              total: 1
-              total_ignored: 1
-        by_category:
-          type: object
-          description: The summary of findings (by category)
-          example:
-            Sensitive Data Leak:
-              total: 10
-              total_fixed: 3
-              total_ignored: 1
-        by_assignee:
-          type: object
-          description: The summary of findings (by assignee)
-          example:
-            test@qwiet.ai:
-              total: 10
-              total_fixed: 3
-              total_ignored: 1
+          description: The key for the tag key-value pair
+          example: category
+        value:
+          type: string
+          description: The value for the tag key-value pair
+          example: XSS
+    StatusLog:
+      type: object
+      properties:
+        message_id:
+          type: string
+        message:
+          type: string
+        gh_pr_link:
+          type: string
     Compound:
       type: object
       example:
@@ -976,56 +1011,28 @@ components:
               - 18
           additionalProperties:
             $ref: '#/components/schemas/App'
-    NextPage:
-      type: string
-      description: URL for the next page of results
-      example: https://api.shiftleft.io/orgs/4c07962d-745f-4465-9965-002f6cf3c7ff/findings?page=2
-    ShallowCompound:
-      type: object
-      example:
-        id: fab0089f-cc8c-44a8-a927-26e83f6eb6d4
-        name: shiftleft-python-demo
-        apps:
-        - shiftleft-python-demo
-        - shiftleft-python-demo_element_PYTHONSRC
-        - shiftleft-python-demo_element_TERRAFORM_HCL
-      properties:
-        id:
-          type: string
-          description: the id of the compound
-        name:
-          type: string
-          description: the name of the compound
-        apps:
-          type: array
-          description: the list of apps that belong to the compound
-          items:
-            type: string
-    TagCount:
-      allOf:
-      - $ref: '#/components/schemas/Tag'
-      - type: object
-        properties:
-          finding_type:
-            type: string
-            description: The type of finding
-            example: vuln
-          count:
-            type: integer
-            example: 42
-    SuccessResponse:
+    OSSScan:
       type: object
       required:
-      - ok
+      - enabled
       properties:
-        ok:
+        enabled:
           type: boolean
-          description: Whether the request was successful or not
-    Tag:
-      anyOf:
-      - $ref: '#/components/schemas/TagWithString'
-      - $ref: '#/components/schemas/TagWithNumber'
+          description: A flag indicating whether OSS Scan was enabled and allowed
+        successful:
+          type: boolean
+          description: A flag indicating whether OSS Scan was successfully performed on the project
+        failure_reason:
+          type: string
+          description: A status message with the reason for the OSS scan failure (if the scan was unsuccessful)
   parameters:
+    compoundName:
+      name: compoundName
+      in: path
+      description: A compound's name
+      required: true
+      schema:
+        type: string
     compoundID:
       name: compoundID
       in: path
@@ -1034,13 +1041,6 @@ components:
       schema:
         type: string
         format: uuid
-    compoundName:
-      name: compoundName
-      in: path
-      description: A compound's name
-      required: true
-      schema:
-        type: string
     orgID:
       name: orgID
       in: path

@@ -184,6 +184,20 @@ components:
         disable:
           type: boolean
           description: set to true to disable secrets detection altogether
+    SuccessResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful or not
+    TeamAnalysisConfiguration:
+      description: Team level analysis configuration
+      type: object
+      properties:
+        secrets:
+          $ref: '#/components/schemas/SecretsConfiguration'
     Error:
       type: object
       required:
@@ -208,20 +222,6 @@ components:
           items:
             type: string
             description: A description of the validation error
-    SuccessResponse:
-      type: object
-      required:
-      - ok
-      properties:
-        ok:
-          type: boolean
-          description: Whether the request was successful or not
-    TeamAnalysisConfiguration:
-      description: Team level analysis configuration
-      type: object
-      properties:
-        secrets:
-          $ref: '#/components/schemas/SecretsConfiguration'
   parameters:
     rbacTeamID:
       name: rbacTeamID

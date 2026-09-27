@@ -282,6 +282,34 @@ paths:
                 $ref: '#/components/schemas/AzureGenericOKResponse'
 components:
   schemas:
+    AzureOrgProjectAssociationResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+        response:
+          $ref: '#/components/schemas/AzureAssociationSuccessResponse'
+    AzureGenericOKResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+    AzureAssociationSuccessResponse:
+      type: object
+      properties:
+        azure_org_name:
+          type: string
+          description: The name of the Azure organization
+        azure_project_name:
+          type: string
+          description: The name of the Azure project
+        finding_work_item_type:
+          type: string
+          description: Work item type that will be used to create work items
     AzureOrgSuccessResponse:
       type: object
       properties:
@@ -299,33 +327,21 @@ components:
                   name:
                     type: string
                     description: The name of the Azure account
-    AzureBoardAssociationRequest:
-      type: object
-      required:
-      - azure_org_name
-      - azure_project_name
-      properties:
-        azure_org_name:
-          type: string
-          description: The name of the Azure DevOps organization.
-        azure_project_name:
-          type: string
-          description: The name of the Azure DevOps project.
-        finding_work_item_type:
-          type: string
-          description: Work item type that will be used to create work items
-    AzureAssociationSuccessResponse:
+    AzureFindingResponse:
       type: object
       properties:
         azure_org_name:
           type: string
-          description: The name of the Azure organization
+          description: name of Azure organization
         azure_project_name:
           type: string
-          description: The name of the Azure project
-        finding_work_item_type:
+          description: name of Azure project
+        azure_workitem_id:
+          type: integer
+          description: work item id associated with the finding
+        azure_workitem_url:
           type: string
-          description: Work item type that will be used to create work items
+          description: Azure board work item url
     Error:
       type: object
       required:
@@ -350,21 +366,6 @@ components:
           items:
             type: string
             description: A description of the validation error
-    AzureFindingResponse:
-      type: object
-      properties:
-        azure_org_name:
-          type: string
-          description: name of Azure organization
-        azure_project_name:
-          type: string
-          description: name of Azure project
-        azure_workitem_id:
-          type: integer
-          description: work item id associated with the finding
-        azure_workitem_url:
-          type: string
-          description: Azure board work item url
     SubmitFindingsToAzureBoardRequest:
       type: object
       required:
@@ -386,34 +387,33 @@ components:
           additionalProperties:
             type: string
           description: A map of extra parameters for the request. The keys and values are strings.
-    AzureGenericOKResponse:
+    AzureBoardAssociationRequest:
       type: object
       required:
-      - ok
+      - azure_org_name
+      - azure_project_name
       properties:
-        ok:
-          type: boolean
-    AzureOrgProjectAssociationResponse:
-      type: object
-      required:
-      - ok
-      properties:
-        ok:
-          type: boolean
-        response:
-          $ref: '#/components/schemas/AzureAssociationSuccessResponse'
+        azure_org_name:
+          type: string
+          description: The name of the Azure DevOps organization.
+        azure_project_name:
+          type: string
+          description: The name of the Azure DevOps project.
+        finding_work_item_type:
+          type: string
+          description: Work item type that will be used to create work items
   parameters:
-    findingID:
-      name: findingID
-      in: path
-      description: The finding ID
-      required: true
-      schema:
-        type: string
     appID:
       name: appID
       in: path
       description: The app ID (e.g., `HelloQwiet`)
+      required: true
+      schema:
+        type: string
+    findingID:
+      name: findingID
+      in: path
+      description: The finding ID
       required: true
       schema:
         type: string

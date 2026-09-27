@@ -206,7 +206,7 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    Token:
+    Role:
       allOf:
       - type: object
         required:
@@ -215,39 +215,7 @@ components:
           id:
             type: string
             format: uuid
-            description: The ID of the token that can be used to delete the token
-          expires_at:
-            type: string
-            description: An expiry date for the token (optional)
-      - $ref: '#/components/schemas/NewToken'
-    CreateOrgTokenResponse:
-      allOf:
-      - type: object
-        required:
-        - value
-        properties:
-          value:
-            type: string
-            description: The value of the token that will only be exposed once (and only in this API response)
-      - $ref: '#/components/schemas/Token'
-    NewRole:
-      type: object
-      required:
-      - label
-      - description
-      properties:
-        label:
-          type: string
-          description: The user-defined label used to identify the token
-        description:
-          type: string
-          description: The user-defined description that describes why this role was created and how it should be used
-        role_type:
-          type: string
-          enum:
-          - managed
-          - org
-          description: "Whether this role is a managed role or an org role:\n  - Managed roles are maintained by Qwiet\n  - Org roles are created/maintained by a customer's organization admin\n"
+      - $ref: '#/components/schemas/NewRole'
     NewToken:
       type: object
       required:
@@ -268,21 +236,32 @@ components:
         valid_for_seconds:
           type: integer
           description: The duration (in seconds) for which the token is valid (optional)
-    TokenType:
-      type: string
-      enum:
-      - access
-      - integration
-    Role:
-      allOf:
-      - type: object
-        required:
-        - id
-        properties:
-          id:
-            type: string
-            format: uuid
-      - $ref: '#/components/schemas/NewRole'
+    SuccessResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful or not
+    NewRole:
+      type: object
+      required:
+      - label
+      - description
+      properties:
+        label:
+          type: string
+          description: The user-defined label used to identify the token
+        description:
+          type: string
+          description: The user-defined description that describes why this role was created and how it should be used
+        role_type:
+          type: string
+          enum:
+          - managed
+          - org
+          description: "Whether this role is a managed role or an org role:\n  - Managed roles are maintained by Qwiet\n  - Org roles are created/maintained by a customer's organization admin\n"
     Error:
       type: object
       required:
@@ -307,14 +286,35 @@ components:
           items:
             type: string
             description: A description of the validation error
-    SuccessResponse:
-      type: object
-      required:
-      - ok
-      properties:
-        ok:
-          type: boolean
-          description: Whether the request was successful or not
+    CreateOrgTokenResponse:
+      allOf:
+      - type: object
+        required:
+        - value
+        properties:
+          value:
+            type: string
+            description: The value of the token that will only be exposed once (and only in this API response)
+      - $ref: '#/components/schemas/Token'
+    TokenType:
+      type: string
+      enum:
+      - access
+      - integration
+    Token:
+      allOf:
+      - type: object
+        required:
+        - id
+        properties:
+          id:
+            type: string
+            format: uuid
+            description: The ID of the token that can be used to delete the token
+          expires_at:
+            type: string
+            description: An expiry date for the token (optional)
+      - $ref: '#/components/schemas/NewToken'
   parameters:
     orgID:
       name: orgID

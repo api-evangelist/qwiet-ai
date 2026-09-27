@@ -503,6 +503,12 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
+    OrgAutoFixConfig:
+      description: An object describing the AutoFix configuration options of an organization
+      type: object
+      properties:
+        autofix_configuration:
+          $ref: '#/components/schemas/AutoFixConfig'
     SecretsConfiguration:
       description: Secrets detection configuration
       type: object
@@ -513,20 +519,6 @@ components:
         disable:
           type: boolean
           description: set to true to disable secrets detection altogether
-    Severity:
-      type: string
-      enum:
-      - low
-      - medium
-      - high
-      - critical
-      description: The severity of a finding
-    OrgAnalysisConfiguration:
-      description: Organization level analysis configuration
-      type: object
-      properties:
-        secrets:
-          $ref: '#/components/schemas/SecretsConfiguration'
     OrgConfig:
       description: An object describing the configuration options of an organization
       type: object
@@ -559,6 +551,22 @@ components:
         session_timeout_hours:
           type: integer
           description: The number of hours after which the session will expire. The default value is 168 hours (7 days).
+    SuccessResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful or not
+    Severity:
+      type: string
+      enum:
+      - low
+      - medium
+      - high
+      - critical
+      description: The severity of a finding
     Error:
       type: object
       required:
@@ -583,12 +591,12 @@ components:
           items:
             type: string
             description: A description of the validation error
-    OrgAutoFixConfig:
-      description: An object describing the AutoFix configuration options of an organization
+    OrgAnalysisConfiguration:
+      description: Organization level analysis configuration
       type: object
       properties:
-        autofix_configuration:
-          $ref: '#/components/schemas/AutoFixConfig'
+        secrets:
+          $ref: '#/components/schemas/SecretsConfiguration'
     AutoFixConfig:
       description: An object describing the AutoFix configuration options of an organization
       type: object
@@ -619,28 +627,15 @@ components:
           items:
             $ref: '#/components/schemas/Severity'
           description: The severities of findings for which AutoFix will generate suggestions
-    SuccessResponse:
-      type: object
-      required:
-      - ok
-      properties:
-        ok:
-          type: boolean
-          description: Whether the request was successful or not
   parameters:
-    checkAnalysisTags:
-      name: tag
-      in: query
-      description: the tags
-      schema:
-        type: string
-    reference:
-      name: reference
+    orgID:
+      name: orgID
       in: path
-      description: the reference
+      description: The org ID
       required: true
       schema:
         type: string
+        format: uuid
     auditDay:
       name: auditDay
       in: path
@@ -654,14 +649,6 @@ components:
       description: whether to apply the default versioning mechanism
       schema:
         type: boolean
-    orgID:
-      name: orgID
-      in: path
-      description: The org ID
-      required: true
-      schema:
-        type: string
-        format: uuid
     auditYear:
       name: auditYear
       in: path
@@ -676,6 +663,19 @@ components:
       required: true
       schema:
         type: number
+    reference:
+      name: reference
+      in: path
+      description: the reference
+      required: true
+      schema:
+        type: string
+    checkAnalysisTags:
+      name: tag
+      in: query
+      description: the tags
+      schema:
+        type: string
   securitySchemes:
     BearerToken:
       description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\

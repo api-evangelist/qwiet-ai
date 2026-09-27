@@ -61,7 +61,7 @@ maintainers:
   email: info@apis.io
 apis:
 - aid: qwiet-ai:qwiet-ai-alerting-api
-  name: Qwiet Ai alerting API
+  name: Qwiet Ai Alerting API
   description: Notification and alerting related endpoints (such as webhooks)
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
@@ -85,7 +85,7 @@ apis:
   - type: Webhooks
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-analyze-api
-  name: Qwiet Ai analyze API
+  name: Qwiet Ai Analyze API
   description: The analyze API from Qwiet Ai — 2 operation(s) for analyze.
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
@@ -109,7 +109,7 @@ apis:
   - type: Webhooks
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-app-groups-api
-  name: Qwiet Ai app_groups API
+  name: Qwiet Ai App Groups API
   description: 'The user-created groups of applications.
 
 
@@ -136,7 +136,7 @@ apis:
   - type: Webhooks
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-app-labels-api
-  name: Qwiet Ai app_labels API
+  name: Qwiet Ai App Labels API
   description: 'The user-created application labels.
 
 
@@ -162,7 +162,7 @@ apis:
   - type: Webhooks
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-apps-api
-  name: Qwiet Ai apps API
+  name: Qwiet Ai Apps API
   description: 'The applications submitted for analysis.
 
 
@@ -189,7 +189,7 @@ apis:
   - type: Webhooks
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-autofix-api
-  name: Qwiet Ai autofix API
+  name: Qwiet Ai Autofix API
   description: 'The AutoFix suggestions for findings in applications. Harness SAST and SCA AutoFix uses
     large language models (LLMs) to generate potential code fix suggestions for findings produced by Qwiet
     AI by Harness analyses.
@@ -218,7 +218,7 @@ apis:
   - type: Webhooks
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-azureboard-api
-  name: Qwiet Ai azureboard API
+  name: Qwiet Ai Azureboard API
   description: The endpoints to manage the Azure Boards integration.
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
@@ -240,7 +240,7 @@ apis:
   - type: Webhooks
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-branches-api
-  name: Qwiet Ai branches API
+  name: Qwiet Ai Branches API
   description: The branch information for scans of applications.
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
@@ -264,7 +264,7 @@ apis:
   - type: Webhooks
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-comments-api
-  name: Qwiet Ai comments API
+  name: Qwiet Ai Comments API
   description: 'The text threads (with individual comments ordered by time) attached to findings.
 
 
@@ -291,7 +291,7 @@ apis:
   - type: Webhooks
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-compounds-api
-  name: Qwiet Ai compounds API
+  name: Qwiet Ai Compounds API
   description: Multi-Language Apps are groups of applications that are scanned together as a single application.
     This is useful for applications that are a compound of various programming languages and configurations
     of frameworks.
@@ -317,7 +317,7 @@ apis:
   - type: Webhooks
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-findings-api
-  name: Qwiet Ai findings API
+  name: Qwiet Ai Findings API
   description: 'The results of a scan (which can include vulnerabilities, secrets, or insights).
 
     [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-156075f8-c7cf-4e2c-95fa-0823a3313658?action=collection%2Ffork&collection-url=entityId%3D9829310-156075f8-c7cf-4e2c-95fa-0823a3313658%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)'
@@ -343,7 +343,7 @@ apis:
   - type: Webhooks
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-org-backup-api
-  name: Qwiet Ai org_backup API
+  name: Qwiet Ai Org Backup API
   description: The endpoints for downloading backups of an organization's data.
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
@@ -366,7 +366,7 @@ apis:
   - type: Webhooks
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-orgs-api
-  name: Qwiet Ai orgs API
+  name: Qwiet Ai Orgs API
   description: 'The logical grouping (e.g., tenant/account) within Qwiet that defines a set of users,
     teams, and applications.
 
@@ -394,7 +394,7 @@ apis:
   - type: Webhooks
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-rbac-api
-  name: Qwiet Ai rbac API
+  name: Qwiet Ai Rbac API
   description: 'Roles-based access control (RBAC) allows you to control the permissions users in an organization
     are granted.
 
@@ -437,7 +437,7 @@ apis:
   - type: Webhooks
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-reports-api
-  name: Qwiet Ai reports API
+  name: Qwiet Ai Reports API
   description: 'The summaries of applications and their findings for a specific organization.
 
 
@@ -490,7 +490,7 @@ apis:
   - type: Webhooks
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-sarif-api
-  name: Qwiet Ai sarif API
+  name: Qwiet Ai Sarif API
   description: The integration endpoints for generating and downloading SARIF reports for applications.
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
@@ -514,7 +514,7 @@ apis:
   - type: Webhooks
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-saved-searches-api
-  name: Qwiet Ai saved_searches API
+  name: Qwiet Ai Saved Searches API
   description: The saved searches endpoints allow users to save specific search queries for organization
     and app findings
   humanURL: https://docs.shiftleft.io/api/
@@ -539,7 +539,7 @@ apis:
   - type: Webhooks
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-sca-api
-  name: Qwiet Ai sca API
+  name: Qwiet Ai Sca API
   description: 'The summaries of software composition analysis (SCA) results for apps in an organization.
 
 
@@ -566,7 +566,7 @@ apis:
   - type: Webhooks
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-scans-api
-  name: Qwiet Ai scans API
+  name: Qwiet Ai Scans API
   description: 'The instances where Qwiet AI by Harness is invoked to identify findings in an application.
 
 
@@ -593,7 +593,7 @@ apis:
   - type: Webhooks
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-scopes-api
-  name: Qwiet Ai scopes API
+  name: Qwiet Ai Scopes API
   description: 'Scopes define the type of resource and the operation that you can perform with the access
     token you bear. For example, `scans:create` means that the bearer of the token with this scope can
     create scans via the API.
@@ -629,7 +629,7 @@ apis:
   - type: Webhooks
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-slack-api
-  name: Qwiet Ai slack API
+  name: Qwiet Ai Slack API
   description: The integration endpoints enabling users to set up a Slack integration.
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
@@ -653,7 +653,7 @@ apis:
   - type: Webhooks
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-team-config-api
-  name: Qwiet Ai team_config API
+  name: Qwiet Ai Team Config API
   description: The endpoints to manage team-level configuration.
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
@@ -676,7 +676,7 @@ apis:
   - type: Webhooks
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-tokens-api
-  name: Qwiet Ai tokens API
+  name: Qwiet Ai Tokens API
   description: 'Used to authenticate with the API.
 
 
@@ -706,7 +706,7 @@ apis:
   - type: Webhooks
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-users-api
-  name: Qwiet Ai users API
+  name: Qwiet Ai Users API
   description: Users pertains the users in general as qwiet.ai users and of each org as organization users.
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
@@ -730,7 +730,7 @@ apis:
   - type: Webhooks
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-versions-api
-  name: Qwiet Ai versions API
+  name: Qwiet Ai Versions API
   description: 'The specific instances of an application scanned using Qwiet AI by Harness.
 
     [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/9829310-d8e4a6f2-bdce-4807-a8ca-74fc00dbc089?action=collection%2Ffork&collection-url=entityId%3D9829310-d8e4a6f2-bdce-4807-a8ca-74fc00dbc089%26entityType%3Dcollection%26workspaceId%3Da63f69cc-5c31-4f2b-8d28-b647f83b9e97)'
@@ -756,7 +756,7 @@ apis:
   - type: Webhooks
     url: asyncapi/qwiet-ai-alerting-webhooks.yml
 - aid: qwiet-ai:qwiet-ai-wiz-api
-  name: Qwiet Ai wiz API
+  name: Qwiet Ai Wiz API
   description: The endpoints to manage the Wiz integration.
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4

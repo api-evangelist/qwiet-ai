@@ -77,6 +77,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 components:
+  parameters:
+    compoundName:
+      name: compoundName
+      in: path
+      description: A compound's name
+      required: true
+      schema:
+        type: string
+    orgID:
+      name: orgID
+      in: path
+      description: The org ID
+      required: true
+      schema:
+        type: string
+        format: uuid
   schemas:
     ScanLanguage:
       type: string
@@ -144,22 +160,6 @@ components:
       - plsql
       - apex
       - groovy
-  parameters:
-    compoundName:
-      name: compoundName
-      in: path
-      description: A compound's name
-      required: true
-      schema:
-        type: string
-    orgID:
-      name: orgID
-      in: path
-      description: The org ID
-      required: true
-      schema:
-        type: string
-        format: uuid
   securitySchemes:
     BearerToken:
       description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\

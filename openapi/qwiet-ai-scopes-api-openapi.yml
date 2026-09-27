@@ -138,31 +138,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 components:
-  parameters:
-    appID:
-      name: appID
-      in: path
-      description: The app ID (e.g., `HelloQwiet`)
-      required: true
-      schema:
-        type: string
-    rbacTeamID:
-      name: rbacTeamID
-      in: path
-      description: The team ID
-      required: true
-      schema:
-        type: string
-        format: uuid
-    orgID:
-      name: orgID
-      in: path
-      description: The org ID
-      required: true
-      schema:
-        type: string
-        format: uuid
   schemas:
+    SuccessResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful or not
     Error:
       type: object
       required:
@@ -187,17 +171,33 @@ components:
           items:
             type: string
             description: A description of the validation error
-    SuccessResponse:
-      type: object
-      required:
-      - ok
-      properties:
-        ok:
-          type: boolean
-          description: Whether the request was successful or not
     Scope:
       type: string
       pattern: ^\w+:\w+$|^\w+:\*$
+  parameters:
+    rbacTeamID:
+      name: rbacTeamID
+      in: path
+      description: The team ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    appID:
+      name: appID
+      in: path
+      description: The app ID (e.g., `HelloQwiet`)
+      required: true
+      schema:
+        type: string
+    orgID:
+      name: orgID
+      in: path
+      description: The org ID
+      required: true
+      schema:
+        type: string
+        format: uuid
   securitySchemes:
     BearerToken:
       description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\

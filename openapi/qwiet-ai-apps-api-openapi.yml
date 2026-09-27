@@ -484,26 +484,6 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    AppSpec:
-      type: object
-      description: contains the information necessary to provision an app.
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          pattern: '[a-zA-Z0-9]([a-zA-Z0-9_:.-]*[a-zA-Z0-9])?'
-          description: the id of the app
-        name:
-          type: string
-          description: the user friendly name of the app
-        team_id:
-          type: string
-          description: the id of the team the app belongs to
-        base_branch:
-          type: string
-          description: the name of the principal branch of the app.
-          example: master
     SecretsConfiguration:
       description: Secrets detection configuration
       type: object
@@ -514,71 +494,6 @@ components:
         disable:
           type: boolean
           description: set to true to disable secrets detection altogether
-    Tag:
-      anyOf:
-      - $ref: '#/components/schemas/TagWithString'
-      - $ref: '#/components/schemas/TagWithNumber'
-    TagWithString:
-      type: object
-      required:
-      - key
-      - value
-      properties:
-        key:
-          type: string
-          description: The key for the tag key-value pair
-          example: category
-        value:
-          type: string
-          description: The value for the tag key-value pair
-          example: XSS
-    TagWithNumber:
-      type: object
-      required:
-      - key
-      - value
-      properties:
-        key:
-          type: string
-          description: The key for the tag key-value pair
-          example: cvss_score
-        value:
-          type: number
-          description: The value for the tag key-value pair
-          example: 5.2
-    Error:
-      type: object
-      required:
-      - ok
-      - code
-      - message
-      properties:
-        ok:
-          type: boolean
-          description: Whether the request was successful (true) or not (false)
-        code:
-          type: string
-          description: The `enum` representing the error encountered
-          example: INTERNAL_SERVER_ERROR
-        message:
-          type: string
-          description: A message describing the error
-          example: Internal Server Error
-        validation_errors:
-          type: array
-          description: The validation errors the user should correct before re-submitting the request
-          items:
-            type: string
-            description: A description of the validation error
-    StatusLog:
-      type: object
-      properties:
-        message_id:
-          type: string
-        message:
-          type: string
-        gh_pr_link:
-          type: string
     App:
       type: object
       example:
@@ -635,29 +550,6 @@ components:
           type: array
           items:
             type: string
-    AppProvisionRequest:
-      type: array
-      items:
-        $ref: '#/components/schemas/AppSpec'
-    SuccessResponse:
-      type: object
-      required:
-      - ok
-      properties:
-        ok:
-          type: boolean
-          description: Whether the request was successful or not
-    AppAnalysisConfiguration:
-      description: App level analysis configuration
-      type: object
-      properties:
-        secrets:
-          $ref: '#/components/schemas/SecretsConfiguration'
-        cpg2sp:
-          type: object
-          properties:
-            max-steps:
-              type: integer
     AppProvisionResponse:
       type: object
       description: contains the results of a bulk apps provisioning.
@@ -676,6 +568,114 @@ components:
           description: list of team ids that were rejected due to not existing.
           items:
             type: string
+    SuccessResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful or not
+    AppSpec:
+      type: object
+      description: contains the information necessary to provision an app.
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          pattern: '[a-zA-Z0-9]([a-zA-Z0-9_:.-]*[a-zA-Z0-9])?'
+          description: the id of the app
+        name:
+          type: string
+          description: the user friendly name of the app
+        team_id:
+          type: string
+          description: the id of the team the app belongs to
+        base_branch:
+          type: string
+          description: the name of the principal branch of the app.
+          example: master
+    AppAnalysisConfiguration:
+      description: App level analysis configuration
+      type: object
+      properties:
+        secrets:
+          $ref: '#/components/schemas/SecretsConfiguration'
+        cpg2sp:
+          type: object
+          properties:
+            max-steps:
+              type: integer
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
+            type: string
+            description: A description of the validation error
+    TagWithString:
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+          description: The key for the tag key-value pair
+          example: category
+        value:
+          type: string
+          description: The value for the tag key-value pair
+          example: XSS
+    AppProvisionRequest:
+      type: array
+      items:
+        $ref: '#/components/schemas/AppSpec'
+    TagWithNumber:
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+          description: The key for the tag key-value pair
+          example: cvss_score
+        value:
+          type: number
+          description: The value for the tag key-value pair
+          example: 5.2
+    Tag:
+      anyOf:
+      - $ref: '#/components/schemas/TagWithString'
+      - $ref: '#/components/schemas/TagWithNumber'
+    StatusLog:
+      type: object
+      properties:
+        message_id:
+          type: string
+        message:
+          type: string
+        gh_pr_link:
+          type: string
   parameters:
     appID:
       name: appID

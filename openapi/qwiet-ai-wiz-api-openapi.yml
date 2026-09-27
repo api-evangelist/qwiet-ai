@@ -204,21 +204,23 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 components:
+  parameters:
+    compoundName:
+      name: compoundName
+      in: path
+      description: A compound's name
+      required: true
+      schema:
+        type: string
+    orgID:
+      name: orgID
+      in: path
+      description: The org ID
+      required: true
+      schema:
+        type: string
+        format: uuid
   schemas:
-    WizProjectEnrollmentRequest:
-      type: object
-      properties:
-        enrolled_for:
-          type: array
-          description: enrichment type, possible values [SAST, SCA]
-          items:
-            type: string
-        scope:
-          type: string
-          description: indicates the scope from which configuration are fetched. If no config found for requested scope, it fetches the config from higher level. possible values- compound / organization.
-        is_enabled:
-          type: boolean
-          description: disables enrichment at the config level. i.e. If a compound level enrichment is disabled, the compound will be ignored during enrichment even if the org level enrichment is enabled. Granular level configuration takes the higher precedence.
     Error:
       type: object
       required:
@@ -258,22 +260,20 @@ components:
         api_url:
           type: string
           description: wiz api endpoint (i.e. "https://api.us17.app.wiz.io/graphql")
-  parameters:
-    compoundName:
-      name: compoundName
-      in: path
-      description: A compound's name
-      required: true
-      schema:
-        type: string
-    orgID:
-      name: orgID
-      in: path
-      description: The org ID
-      required: true
-      schema:
-        type: string
-        format: uuid
+    WizProjectEnrollmentRequest:
+      type: object
+      properties:
+        enrolled_for:
+          type: array
+          description: enrichment type, possible values [SAST, SCA]
+          items:
+            type: string
+        scope:
+          type: string
+          description: indicates the scope from which configuration are fetched. If no config found for requested scope, it fetches the config from higher level. possible values- compound / organization.
+        is_enabled:
+          type: boolean
+          description: disables enrichment at the config level. i.e. If a compound level enrichment is disabled, the compound will be ignored during enrichment even if the org level enrichment is enabled. Granular level configuration takes the higher precedence.
   securitySchemes:
     BearerToken:
       description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\

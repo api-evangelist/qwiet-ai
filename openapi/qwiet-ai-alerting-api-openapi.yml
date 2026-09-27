@@ -153,80 +153,21 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    ListEventsResponse:
+    WebhookConfigurationResponse:
       type: object
       properties:
+        url:
+          type: string
+          description: The URL to which the webhook will be sent
+        tokenID:
+          type: string
+          format: uuid
+          description: The token ID to be used for the webhook (only present if token based authentication was used while regsistering the webhook)
         events:
           type: array
           items:
-            type: object
-            properties:
-              name:
-                type: string
-            description: A list of events that can be subscribed to via webhooks
-    TokenRenewalResponseHandling:
-      type: object
-      properties:
-        tokenField:
-          type: string
-          description: The field in the response that contains the token
-        ttlField:
-          type: string
-          description: The field in the response that contains the time to live of the token
-        typeField:
-          type: string
-          description: The field in the response that contains the type of the token (only Bearer is supported for now)
-    RegisterWebhookResponse:
-      type: object
-      properties:
-        ok:
-          type: boolean
-          description: Indicates whether the webhook was successfully registered
-        response:
-          type: object
-          properties:
-            secret:
-              type: string
-              description: secret used to sign the webhook events
-            authType:
-              type: string
-              description: The authentication type used for the webhook
-              enum:
-              - hmac
-              - bearer
-            url:
-              type: string
-              format: uri
-              description: The URL to which the webhook will send events
-            events:
-              type: array
-              items:
-                type: string
-                description: The list of events for which the webhook is registered
-    Error:
-      type: object
-      required:
-      - ok
-      - code
-      - message
-      properties:
-        ok:
-          type: boolean
-          description: Whether the request was successful (true) or not (false)
-        code:
-          type: string
-          description: The `enum` representing the error encountered
-          example: INTERNAL_SERVER_ERROR
-        message:
-          type: string
-          description: A message describing the error
-          example: Internal Server Error
-        validation_errors:
-          type: array
-          description: The validation errors the user should correct before re-submitting the request
-          items:
             type: string
-            description: A description of the validation error
+          description: The events that are subscribed to this webhook url. A list of active events that can be fetched from the `/alerting/events` endpoint.
     RegisterWebhookRequest:
       type: object
       required:
@@ -263,21 +204,60 @@ components:
         enableEmailNotification:
           type: boolean
           description: If true, organization administrators will receive email notifications when webhook event delivery fails.
-    WebhookConfigurationResponse:
+    SuccessResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful or not
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
+            type: string
+            description: A description of the validation error
+    AuthenticatedWebHookTokenConfiguration:
+      type: object
+      description: Configuration for a webhook that requires a token
+      properties:
+        token:
+          type: string
+          description: The token to be used for the webhook
+        renewalMetadata:
+          $ref: '#/components/schemas/WebhookTokenRenewMetadata'
+        responseHandling:
+          $ref: '#/components/schemas/TokenRenewalResponseHandling'
+    ListEventsResponse:
       type: object
       properties:
-        url:
-          type: string
-          description: The URL to which the webhook will be sent
-        tokenID:
-          type: string
-          format: uuid
-          description: The token ID to be used for the webhook (only present if token based authentication was used while regsistering the webhook)
         events:
           type: array
           items:
-            type: string
-          description: The events that are subscribed to this webhook url. A list of active events that can be fetched from the `/alerting/events` endpoint.
+            type: object
+            properties:
+              name:
+                type: string
+            description: A list of events that can be subscribed to via webhooks
     WebhookTokenRenewMetadata:
       type: object
       properties:
@@ -296,25 +276,45 @@ components:
         forceFormUrlEncoding:
           type: boolean
           description: Whether the body should be sent as query arguments even if the method is POST
-    SuccessResponse:
+    RegisterWebhookResponse:
       type: object
-      required:
-      - ok
       properties:
         ok:
           type: boolean
-          description: Whether the request was successful or not
-    AuthenticatedWebHookTokenConfiguration:
+          description: Indicates whether the webhook was successfully registered
+        response:
+          type: object
+          properties:
+            secret:
+              type: string
+              description: secret used to sign the webhook events
+            authType:
+              type: string
+              description: The authentication type used for the webhook
+              enum:
+              - hmac
+              - bearer
+            url:
+              type: string
+              format: uri
+              description: The URL to which the webhook will send events
+            events:
+              type: array
+              items:
+                type: string
+                description: The list of events for which the webhook is registered
+    TokenRenewalResponseHandling:
       type: object
-      description: Configuration for a webhook that requires a token
       properties:
-        token:
+        tokenField:
           type: string
-          description: The token to be used for the webhook
-        renewalMetadata:
-          $ref: '#/components/schemas/WebhookTokenRenewMetadata'
-        responseHandling:
-          $ref: '#/components/schemas/TokenRenewalResponseHandling'
+          description: The field in the response that contains the token
+        ttlField:
+          type: string
+          description: The field in the response that contains the time to live of the token
+        typeField:
+          type: string
+          description: The field in the response that contains the type of the token (only Bearer is supported for now)
   parameters:
     version:
       name: version

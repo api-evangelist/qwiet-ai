@@ -401,7 +401,171 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 components:
+  parameters:
+    search:
+      in: query
+      name: search
+      description: Search filter that looks for matches in finding titles and tags
+      schema:
+        type: string
+    appID:
+      name: appID
+      in: path
+      description: The app ID (e.g., `HelloQwiet`)
+      required: true
+      schema:
+        type: string
+    page:
+      in: query
+      name: page
+      description: 'The page of results to fetch. Results are not guaranteed to be deterministic using this approach; we recommended using the `next_page` URL in a paginated response
+
+        '
+      schema:
+        type: integer
+    compoundName:
+      name: compoundName
+      in: path
+      description: A compound's name
+      required: true
+      schema:
+        type: string
+    order:
+      in: query
+      name: order
+      description: Direction of the sort; defaults to descending
+      schema:
+        type: string
+        enum:
+        - desc
+        - asc
+    orgID:
+      name: orgID
+      in: path
+      description: The org ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    per_page:
+      in: query
+      name: per_page
+      description: Number of results per page; defaults to 50
+      schema:
+        type: integer
   schemas:
+    SuccessResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful or not
+    Dependency:
+      type: object
+      required:
+      - id
+      - app
+      - title
+      - type
+      properties:
+        id:
+          type: string
+          description: The unique identifier for this finding
+          example: '1'
+        app:
+          type: string
+          description: The app to which this finding belongs
+          example: hello-qwiet
+        type:
+          type: string
+          description: The type of finding
+          example: vuln
+        title:
+          type: string
+          description: The title of the finding
+          example: 'Sensitive Data Leak: Sensitive data contained in HTTP request/response'
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          example:
+          - key: severity
+            value: info
+          - key: cvss_score
+            value: 2
+    ScanLanguage:
+      type: string
+      description: The analysis language identifier.
+      enum:
+      - java
+      - go
+      - csharp
+      - javascript
+      - c
+      - python
+      - terraform_hcl
+      - ruby
+      - php
+      - fuzzytestlang
+      - kotlin
+      - swift
+      - plsql
+      - apex
+      - groovy
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
+            type: string
+            description: A description of the validation error
+    TagWithString:
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+          description: The key for the tag key-value pair
+          example: category
+        value:
+          type: string
+          description: The value for the tag key-value pair
+          example: XSS
+    TagWithNumber:
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+          description: The key for the tag key-value pair
+          example: cvss_score
+        value:
+          type: number
+          description: The value for the tag key-value pair
+          example: 5.2
     Tag:
       anyOf:
       - $ref: '#/components/schemas/TagWithString'
@@ -429,28 +593,6 @@ components:
       - plsql
       - apex
       - groovy
-    SuccessResponse:
-      type: object
-      required:
-      - ok
-      properties:
-        ok:
-          type: boolean
-          description: Whether the request was successful or not
-    TagWithString:
-      type: object
-      required:
-      - key
-      - value
-      properties:
-        key:
-          type: string
-          description: The key for the tag key-value pair
-          example: category
-        value:
-          type: string
-          description: The value for the tag key-value pair
-          example: XSS
     SCAPackage:
       type: object
       required:
@@ -558,20 +700,6 @@ components:
               type: boolean
             is_repo_hijackable:
               type: boolean
-    TagWithNumber:
-      type: object
-      required:
-      - key
-      - value
-      properties:
-        key:
-          type: string
-          description: The key for the tag key-value pair
-          example: cvss_score
-        value:
-          type: number
-          description: The value for the tag key-value pair
-          example: 5.2
     PackageInfo:
       type: object
       properties:
@@ -669,134 +797,6 @@ components:
               lastModifiedDate:
                 type: string
                 format: date-time
-    Error:
-      type: object
-      required:
-      - ok
-      - code
-      - message
-      properties:
-        ok:
-          type: boolean
-          description: Whether the request was successful (true) or not (false)
-        code:
-          type: string
-          description: The `enum` representing the error encountered
-          example: INTERNAL_SERVER_ERROR
-        message:
-          type: string
-          description: A message describing the error
-          example: Internal Server Error
-        validation_errors:
-          type: array
-          description: The validation errors the user should correct before re-submitting the request
-          items:
-            type: string
-            description: A description of the validation error
-    Dependency:
-      type: object
-      required:
-      - id
-      - app
-      - title
-      - type
-      properties:
-        id:
-          type: string
-          description: The unique identifier for this finding
-          example: '1'
-        app:
-          type: string
-          description: The app to which this finding belongs
-          example: hello-qwiet
-        type:
-          type: string
-          description: The type of finding
-          example: vuln
-        title:
-          type: string
-          description: The title of the finding
-          example: 'Sensitive Data Leak: Sensitive data contained in HTTP request/response'
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/Tag'
-          example:
-          - key: severity
-            value: info
-          - key: cvss_score
-            value: 2
-    ScanLanguage:
-      type: string
-      description: The analysis language identifier.
-      enum:
-      - java
-      - go
-      - csharp
-      - javascript
-      - c
-      - python
-      - terraform_hcl
-      - ruby
-      - php
-      - fuzzytestlang
-      - kotlin
-      - swift
-      - plsql
-      - apex
-      - groovy
-  parameters:
-    compoundName:
-      name: compoundName
-      in: path
-      description: A compound's name
-      required: true
-      schema:
-        type: string
-    appID:
-      name: appID
-      in: path
-      description: The app ID (e.g., `HelloQwiet`)
-      required: true
-      schema:
-        type: string
-    page:
-      in: query
-      name: page
-      description: 'The page of results to fetch. Results are not guaranteed to be deterministic using this approach; we recommended using the `next_page` URL in a paginated response
-
-        '
-      schema:
-        type: integer
-    per_page:
-      in: query
-      name: per_page
-      description: Number of results per page; defaults to 50
-      schema:
-        type: integer
-    orgID:
-      name: orgID
-      in: path
-      description: The org ID
-      required: true
-      schema:
-        type: string
-        format: uuid
-    search:
-      in: query
-      name: search
-      description: Search filter that looks for matches in finding titles and tags
-      schema:
-        type: string
-    order:
-      in: query
-      name: order
-      description: Direction of the sort; defaults to descending
-      schema:
-        type: string
-        enum:
-        - desc
-        - asc
   securitySchemes:
     BearerToken:
       description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\

@@ -508,7 +508,102 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    TagWithString:
+    AppScanCheckResponse:
+      type: object
+      required:
+      - target
+      - rules
+      properties:
+        source:
+          $ref: '#/components/schemas/AppScanCheckScanInfo'
+        target:
+          $ref: '#/components/schemas/AppScanCheckScanInfo'
+        rules:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AppScanCheckFindingsSummary'
+        totals:
+          $ref: '#/components/schemas/AppScanCheckFindingsSummary'
+    ScanDiff:
+      type: object
+      properties:
+        source:
+          $ref: '#/components/schemas/ScanInfo'
+        target:
+          $ref: '#/components/schemas/ScanInfo'
+        new:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScanDiffFinding'
+        fixed:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScanDiffFinding'
+        common:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScanDiffFinding'
+    SuccessResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful or not
+    FindingsSummary:
+      type: object
+      required:
+      - total
+      properties:
+        finding_type:
+          type: string
+          description: The type of finding this summary is for
+          example: vuln
+        total:
+          type: integer
+          description: The total number of findings
+          example: 10
+        total_reachable:
+          type: integer
+          description: The total number of reachable findings
+        total_ignored:
+          type: integer
+          description: The total number of ignored findings
+          example: 1
+        total_fixed:
+          type: integer
+          description: The total number of fixed findings
+          example: 3
+        by_severity:
+          type: object
+          description: The summary of findings (by severity)
+          example:
+            info:
+              total: 6
+            critical:
+              total: 3
+              total_fixed: 3
+            moderate:
+              total: 1
+              total_ignored: 1
+        by_category:
+          type: object
+          description: The summary of findings (by category)
+          example:
+            Sensitive Data Leak:
+              total: 10
+              total_fixed: 3
+              total_ignored: 1
+        by_assignee:
+          type: object
+          description: The summary of findings (by assignee)
+          example:
+            test@qwiet.ai:
+              total: 10
+              total_fixed: 3
+              total_ignored: 1
+    TagWithNumber:
       type: object
       required:
       - key
@@ -517,11 +612,11 @@ components:
         key:
           type: string
           description: The key for the tag key-value pair
-          example: category
+          example: cvss_score
         value:
-          type: string
+          type: number
           description: The value for the tag key-value pair
-          example: XSS
+          example: 5.2
     ScanInfo:
       type: object
       required:
@@ -564,275 +659,10 @@ components:
         tags:
           type: object
           description: The tags associated with this scan
-    ScanDiff:
-      type: object
-      properties:
-        source:
-          $ref: '#/components/schemas/ScanInfo'
-        target:
-          $ref: '#/components/schemas/ScanInfo'
-        new:
-          type: array
-          items:
-            $ref: '#/components/schemas/ScanDiffFinding'
-        fixed:
-          type: array
-          items:
-            $ref: '#/components/schemas/ScanDiffFinding'
-        common:
-          type: array
-          items:
-            $ref: '#/components/schemas/ScanDiffFinding'
-    Error:
-      type: object
-      required:
-      - ok
-      - code
-      - message
-      properties:
-        ok:
-          type: boolean
-          description: Whether the request was successful (true) or not (false)
-        code:
-          type: string
-          description: The `enum` representing the error encountered
-          example: INTERNAL_SERVER_ERROR
-        message:
-          type: string
-          description: A message describing the error
-          example: Internal Server Error
-        validation_errors:
-          type: array
-          description: The validation errors the user should correct before re-submitting the request
-          items:
-            type: string
-            description: A description of the validation error
-    TagWithNumber:
-      type: object
-      required:
-      - key
-      - value
-      properties:
-        key:
-          type: string
-          description: The key for the tag key-value pair
-          example: cvss_score
-        value:
-          type: number
-          description: The value for the tag key-value pair
-          example: 5.2
-    AppScanCheckResponse:
-      type: object
-      required:
-      - target
-      - rules
-      properties:
-        source:
-          $ref: '#/components/schemas/AppScanCheckScanInfo'
-        target:
-          $ref: '#/components/schemas/AppScanCheckScanInfo'
-        rules:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/AppScanCheckFindingsSummary'
-        totals:
-          $ref: '#/components/schemas/AppScanCheckFindingsSummary'
-    SCAVulnCounts:
-      allOf:
-      - $ref: '#/components/schemas/SASTVulnCounts'
-      - type: object
-        required:
-        - unreachable
-        properties:
-          unreachable:
-            type: integer
-            description: the number of unreachable vulnerabilities
-            example: 7
-    SASTVulnCounts:
-      type: object
-      required:
-      - critical
-      - high
-      - medium
-      - low
-      properties:
-        critical:
-          type: integer
-          description: the number of critical severity vulnerabilities
-          example: 1
-        high:
-          type: integer
-          description: the number of high severity vulnerabilities
-          example: 2
-        medium:
-          type: integer
-          description: the number of medium severity vulnerabilities
-          example: 3
-        low:
-          type: integer
-          description: the number of low severity vulnerabilities
-          example: 5
-    Severity:
+    NextPage:
       type: string
-      enum:
-      - low
-      - medium
-      - high
-      - critical
-      description: The severity of a finding
-    AppScanCheckScan:
-      type: object
-      oneOf:
-      - type: object
-        properties:
-          branch:
-            type: string
-            description: "The branch to get the scan from. For the target scan, this is the last scan in the branch. For the source scan:\n\n  - If the target scan and the source scan's branches are\n    the same, then it is the previous scan in the branch\n\n  - If the target scan and the source scan's branches are\n    NOT the same, then it is the last scan in the branch\n"
-      - type: object
-        properties:
-          scan:
-            type: integer
-            format: int64
-            description: 'the id of the scan
-
-              '
-    OSSScan:
-      type: object
-      required:
-      - enabled
-      properties:
-        enabled:
-          type: boolean
-          description: A flag indicating whether OSS Scan was enabled and allowed
-        successful:
-          type: boolean
-          description: A flag indicating whether OSS Scan was successfully performed on the project
-        failure_reason:
-          type: string
-          description: A status message with the reason for the OSS scan failure (if the scan was unsuccessful)
-    AppScanCheckFindingsSummary:
-      type: object
-      required:
-      - matched
-      - over_threshold
-      properties:
-        by_tag:
-          type: object
-          additionalProperties:
-            type: object
-            additionalProperties:
-              type: integer
-              minimum: 0
-        reachable:
-          type: integer
-          minimum: 0
-        matched:
-          type: integer
-          minimum: 0
-        over_threshold:
-          type: integer
-          minimum: 0
-        findings:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: integer
-                minimum: 0
-              title:
-                type: string
-              tags:
-                type: object
-                additionalProperties:
-                  type: array
-                  items:
-                    type: string
-    CompoundScanResponse:
-      type: object
-      properties:
-        compound_id:
-          type: string
-          format: uuid
-          description: The compound ID of the polyglot scan, if available
-        polyglot_scan_id:
-          type: integer
-          minimum: 1
-          description: The polyglot scan ID, if available
-        scans:
-          type: array
-          description: The element scans that form the polyglot scan
-          items:
-            $ref: '#/components/schemas/ScanInfo'
-        findings_summaries:
-          type: array
-          items:
-            $ref: '#/components/schemas/FindingsSummary'
-        counts:
-          type: array
-          items:
-            $ref: '#/components/schemas/TagCount'
-    StreamlinedScan:
-      type: object
-      required:
-      - polyglot_scan_id
-      - created_at
-      - agent
-      - branch
-      - languages
-      - vulns
-      - oss_vulns
-      - container_vulns
-      - secrets
-      properties:
-        polyglot_scan_id:
-          type: integer
-          description: A polyglot scan's ID
-          example: 1
-        created_at:
-          type: string
-          format: date-time
-          description: The timestamp of the scan
-        agent:
-          type: string
-          description: The agent of the scan
-          example: harness
-        branch:
-          type: string
-          description: The branch of the scan
-          example: feature/more-potatoes
-        languages:
-          type: array
-          items:
-            type: string
-            description: The language of the scan
-            example: javascript
-        platforms:
-          type: array
-          items:
-            type: string
-            description: The platform code of the scan
-            example: JAVASCRIPT
-        vulns:
-          $ref: '#/components/schemas/SASTVulnCounts'
-        oss_vulns:
-          $ref: '#/components/schemas/SCAVulnCounts'
-        container_vulns:
-          $ref: '#/components/schemas/SCAVulnCounts'
-        secrets:
-          type: integer
-          description: the number of secrets
-          example: 42
-        oss_risks:
-          type: integer
-          description: the number of OSS dependency risks
-          example: 3
-        failures:
-          type: array
-          items:
-            type: string
-            description: a problem found in this polyglot scan
-            example: Failed to create CPG File
+      description: URL for the next page of results
+      example: https://api.shiftleft.io/orgs/4c07962d-745f-4465-9965-002f6cf3c7ff/findings?page=2
     OWASPCounts:
       description: 'A hierarchical count of findings per category.
 
@@ -1304,6 +1134,228 @@ components:
             description: Finding categories and their counts for this OWASP 2025 category
             additionalProperties:
               type: integer
+    AppScanCheckScan:
+      type: object
+      oneOf:
+      - type: object
+        properties:
+          branch:
+            type: string
+            description: "The branch to get the scan from. For the target scan, this is the last scan in the branch. For the source scan:\n\n  - If the target scan and the source scan's branches are\n    the same, then it is the previous scan in the branch\n\n  - If the target scan and the source scan's branches are\n    NOT the same, then it is the last scan in the branch\n"
+      - type: object
+        properties:
+          scan:
+            type: integer
+            format: int64
+            description: 'the id of the scan
+
+              '
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
+            type: string
+            description: A description of the validation error
+    AppScanCheckScanInfo:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: integer
+          minimum: 1
+    StreamlinedScan:
+      type: object
+      required:
+      - polyglot_scan_id
+      - created_at
+      - agent
+      - branch
+      - languages
+      - vulns
+      - oss_vulns
+      - container_vulns
+      - secrets
+      properties:
+        polyglot_scan_id:
+          type: integer
+          description: A polyglot scan's ID
+          example: 1
+        created_at:
+          type: string
+          format: date-time
+          description: The timestamp of the scan
+        agent:
+          type: string
+          description: The agent of the scan
+          example: harness
+        branch:
+          type: string
+          description: The branch of the scan
+          example: feature/more-potatoes
+        languages:
+          type: array
+          items:
+            type: string
+            description: The language of the scan
+            example: javascript
+        platforms:
+          type: array
+          items:
+            type: string
+            description: The platform code of the scan
+            example: JAVASCRIPT
+        vulns:
+          $ref: '#/components/schemas/SASTVulnCounts'
+        oss_vulns:
+          $ref: '#/components/schemas/SCAVulnCounts'
+        container_vulns:
+          $ref: '#/components/schemas/SCAVulnCounts'
+        secrets:
+          type: integer
+          description: the number of secrets
+          example: 42
+        oss_risks:
+          type: integer
+          description: the number of OSS dependency risks
+          example: 3
+        failures:
+          type: array
+          items:
+            type: string
+            description: a problem found in this polyglot scan
+            example: Failed to create CPG File
+    SCAVulnCounts:
+      allOf:
+      - $ref: '#/components/schemas/SASTVulnCounts'
+      - type: object
+        required:
+        - unreachable
+        properties:
+          unreachable:
+            type: integer
+            description: the number of unreachable vulnerabilities
+            example: 7
+    Tag:
+      anyOf:
+      - $ref: '#/components/schemas/TagWithString'
+      - $ref: '#/components/schemas/TagWithNumber'
+    TagCount:
+      allOf:
+      - $ref: '#/components/schemas/Tag'
+      - type: object
+        properties:
+          finding_type:
+            type: string
+            description: The type of finding
+            example: vuln
+          count:
+            type: integer
+            example: 42
+    AppScanCheckFindingsSummary:
+      type: object
+      required:
+      - matched
+      - over_threshold
+      properties:
+        by_tag:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              type: integer
+              minimum: 0
+        reachable:
+          type: integer
+          minimum: 0
+        matched:
+          type: integer
+          minimum: 0
+        over_threshold:
+          type: integer
+          minimum: 0
+        findings:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                minimum: 0
+              title:
+                type: string
+              tags:
+                type: object
+                additionalProperties:
+                  type: array
+                  items:
+                    type: string
+    SASTVulnCounts:
+      type: object
+      required:
+      - critical
+      - high
+      - medium
+      - low
+      properties:
+        critical:
+          type: integer
+          description: the number of critical severity vulnerabilities
+          example: 1
+        high:
+          type: integer
+          description: the number of high severity vulnerabilities
+          example: 2
+        medium:
+          type: integer
+          description: the number of medium severity vulnerabilities
+          example: 3
+        low:
+          type: integer
+          description: the number of low severity vulnerabilities
+          example: 5
+    CompoundScanResponse:
+      type: object
+      properties:
+        compound_id:
+          type: string
+          format: uuid
+          description: The compound ID of the polyglot scan, if available
+        polyglot_scan_id:
+          type: integer
+          minimum: 1
+          description: The polyglot scan ID, if available
+        scans:
+          type: array
+          description: The element scans that form the polyglot scan
+          items:
+            $ref: '#/components/schemas/ScanInfo'
+        findings_summaries:
+          type: array
+          items:
+            $ref: '#/components/schemas/FindingsSummary'
+        counts:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagCount'
     Scan:
       type: object
       required:
@@ -1371,66 +1423,28 @@ components:
           description: The total ignored across all summaries
           type: integer
           example: 17
-    FindingsSummary:
+    Severity:
+      type: string
+      enum:
+      - low
+      - medium
+      - high
+      - critical
+      description: The severity of a finding
+    TagWithString:
       type: object
       required:
-      - total
+      - key
+      - value
       properties:
-        finding_type:
+        key:
           type: string
-          description: The type of finding this summary is for
-          example: vuln
-        total:
-          type: integer
-          description: The total number of findings
-          example: 10
-        total_reachable:
-          type: integer
-          description: The total number of reachable findings
-        total_ignored:
-          type: integer
-          description: The total number of ignored findings
-          example: 1
-        total_fixed:
-          type: integer
-          description: The total number of fixed findings
-          example: 3
-        by_severity:
-          type: object
-          description: The summary of findings (by severity)
-          example:
-            info:
-              total: 6
-            critical:
-              total: 3
-              total_fixed: 3
-            moderate:
-              total: 1
-              total_ignored: 1
-        by_category:
-          type: object
-          description: The summary of findings (by category)
-          example:
-            Sensitive Data Leak:
-              total: 10
-              total_fixed: 3
-              total_ignored: 1
-        by_assignee:
-          type: object
-          description: The summary of findings (by assignee)
-          example:
-            test@qwiet.ai:
-              total: 10
-              total_fixed: 3
-              total_ignored: 1
-    AppScanCheckScanInfo:
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          type: integer
-          minimum: 1
+          description: The key for the tag key-value pair
+          example: category
+        value:
+          type: string
+          description: The value for the tag key-value pair
+          example: XSS
     ScanDiffFinding:
       type: object
       properties:
@@ -1477,35 +1491,59 @@ components:
         regression:
           type: boolean
           description: Indicates if this finding is considered a regression in the context of a scan
-    NextPage:
-      type: string
-      description: URL for the next page of results
-      example: https://api.shiftleft.io/orgs/4c07962d-745f-4465-9965-002f6cf3c7ff/findings?page=2
-    TagCount:
-      allOf:
-      - $ref: '#/components/schemas/Tag'
-      - type: object
-        properties:
-          finding_type:
-            type: string
-            description: The type of finding
-            example: vuln
-          count:
-            type: integer
-            example: 42
-    SuccessResponse:
+    OSSScan:
       type: object
       required:
-      - ok
+      - enabled
       properties:
-        ok:
+        enabled:
           type: boolean
-          description: Whether the request was successful or not
-    Tag:
-      anyOf:
-      - $ref: '#/components/schemas/TagWithString'
-      - $ref: '#/components/schemas/TagWithNumber'
+          description: A flag indicating whether OSS Scan was enabled and allowed
+        successful:
+          type: boolean
+          description: A flag indicating whether OSS Scan was successfully performed on the project
+        failure_reason:
+          type: string
+          description: A status message with the reason for the OSS scan failure (if the scan was unsuccessful)
   parameters:
+    compoundName:
+      name: compoundName
+      in: path
+      description: A compound's name
+      required: true
+      schema:
+        type: string
+    tags:
+      name: tags
+      in: query
+      description: The scan tags to filter by (e.g., `branch=main`)
+      schema:
+        items:
+          type: string
+    comparableVersionIdentifierSource:
+      name: source
+      in: query
+      required: true
+      description: The source scan for a comparison
+      schema:
+        type: string
+        pattern: ^scan\.\d+|tag\.\w=\w$
+        example: scan.128|tag.branch=samplebranch
+    scanID:
+      name: scanID
+      in: path
+      description: ID of the scan
+      required: true
+      schema:
+        type: string
+    orgID:
+      name: orgID
+      in: path
+      description: The org ID
+      required: true
+      schema:
+        type: string
+        format: uuid
     appID:
       name: appID
       in: path
@@ -1522,44 +1560,6 @@ components:
         type: string
         pattern: ^scan\.\d+|tag\.\w=\w$
         example: scan.128|tag.branch=samplebranch
-    compoundName:
-      name: compoundName
-      in: path
-      description: A compound's name
-      required: true
-      schema:
-        type: string
-    scanID:
-      name: scanID
-      in: path
-      description: ID of the scan
-      required: true
-      schema:
-        type: string
-    comparableVersionIdentifierSource:
-      name: source
-      in: query
-      required: true
-      description: The source scan for a comparison
-      schema:
-        type: string
-        pattern: ^scan\.\d+|tag\.\w=\w$
-        example: scan.128|tag.branch=samplebranch
-    tags:
-      name: tags
-      in: query
-      description: The scan tags to filter by (e.g., `branch=main`)
-      schema:
-        items:
-          type: string
-    orgID:
-      name: orgID
-      in: path
-      description: The org ID
-      required: true
-      schema:
-        type: string
-        format: uuid
   securitySchemes:
     BearerToken:
       description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\
