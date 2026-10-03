@@ -401,59 +401,44 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 components:
-  parameters:
-    search:
-      in: query
-      name: search
-      description: Search filter that looks for matches in finding titles and tags
-      schema:
-        type: string
-    appID:
-      name: appID
-      in: path
-      description: The app ID (e.g., `HelloQwiet`)
-      required: true
-      schema:
-        type: string
-    page:
-      in: query
-      name: page
-      description: 'The page of results to fetch. Results are not guaranteed to be deterministic using this approach; we recommended using the `next_page` URL in a paginated response
-
-        '
-      schema:
-        type: integer
-    compoundName:
-      name: compoundName
-      in: path
-      description: A compound's name
-      required: true
-      schema:
-        type: string
-    order:
-      in: query
-      name: order
-      description: Direction of the sort; defaults to descending
-      schema:
-        type: string
-        enum:
-        - desc
-        - asc
-    orgID:
-      name: orgID
-      in: path
-      description: The org ID
-      required: true
-      schema:
-        type: string
-        format: uuid
-    per_page:
-      in: query
-      name: per_page
-      description: Number of results per page; defaults to 50
-      schema:
-        type: integer
   schemas:
+    TagWithNumber:
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+          description: The key for the tag key-value pair
+          example: cvss_score
+        value:
+          type: number
+          description: The value for the tag key-value pair
+          example: 5.2
+    ScanPlatform:
+      type: string
+      description: The analysis platform identifier.
+      enum:
+      - java
+      - go
+      - csharp
+      - javascript
+      - c
+      - python
+      - terraform_hcl
+      - ruby
+      - php
+      - fuzzytestlang
+      - kotlin
+      - javasrc
+      - pythonsrc
+      - jssrc
+      - secrets
+      - swiftsrc
+      - plsql
+      - apex
+      - groovy
     SuccessResponse:
       type: object
       required:
@@ -495,25 +480,103 @@ components:
             value: info
           - key: cvss_score
             value: 2
-    ScanLanguage:
-      type: string
-      description: The analysis language identifier.
-      enum:
-      - java
-      - go
-      - csharp
-      - javascript
-      - c
-      - python
-      - terraform_hcl
-      - ruby
-      - php
-      - fuzzytestlang
-      - kotlin
-      - swift
-      - plsql
-      - apex
-      - groovy
+    PackageInfo:
+      type: object
+      properties:
+        purl:
+          type: string
+          example: pkg:maven/commons-io/commons-io@2.5
+        licenses:
+          type: array
+          items:
+            type: string
+          example:
+          - Apache-2.0
+        cves:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                example: CVE-2021-29425
+              internalId:
+                type: string
+                example: GHSA-gwrp-pvrq-jmwv
+              assigner:
+                type: string
+                example: GitHub
+              cweIds:
+                type: array
+                items:
+                  type: string
+                example:
+                - CWE-20
+                - CWE-22
+              references:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    url:
+                      type: string
+                    name:
+                      type: string
+                    refsource:
+                      type: string
+                    tags:
+                      type: array
+                      items:
+                        type: string
+              descriptions:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    lang:
+                      type: string
+                    value:
+                      type: string
+              impact:
+                type: object
+                properties:
+                  exploitabilityScore:
+                    type: number
+                  impactScore:
+                    type: number
+                  cvssV3:
+                    type: object
+                    properties:
+                      version:
+                        type: string
+                      vectorString:
+                        type: string
+                      confidentialityImpact:
+                        type: string
+                      integrityImpact:
+                        type: string
+                      availabilityImpact:
+                        type: string
+                      baseScore:
+                        type: number
+                      attackVector:
+                        type: string
+                      attackComplexity:
+                        type: string
+                      privilegesRequired:
+                        type: string
+                      userInteraction:
+                        type: string
+                      scope:
+                        type: string
+                      baseSeverity:
+                        type: string
+              publishedDate:
+                type: string
+                format: date-time
+              lastModifiedDate:
+                type: string
+                format: date-time
     Error:
       type: object
       required:
@@ -538,41 +601,9 @@ components:
           items:
             type: string
             description: A description of the validation error
-    TagWithString:
-      type: object
-      required:
-      - key
-      - value
-      properties:
-        key:
-          type: string
-          description: The key for the tag key-value pair
-          example: category
-        value:
-          type: string
-          description: The value for the tag key-value pair
-          example: XSS
-    TagWithNumber:
-      type: object
-      required:
-      - key
-      - value
-      properties:
-        key:
-          type: string
-          description: The key for the tag key-value pair
-          example: cvss_score
-        value:
-          type: number
-          description: The value for the tag key-value pair
-          example: 5.2
-    Tag:
-      anyOf:
-      - $ref: '#/components/schemas/TagWithString'
-      - $ref: '#/components/schemas/TagWithNumber'
-    ScanPlatform:
+    ScanLanguage:
       type: string
-      description: The analysis platform identifier.
+      description: The analysis language identifier.
       enum:
       - java
       - go
@@ -585,11 +616,7 @@ components:
       - php
       - fuzzytestlang
       - kotlin
-      - javasrc
-      - pythonsrc
-      - jssrc
-      - secrets
-      - swiftsrc
+      - swift
       - plsql
       - apex
       - groovy
@@ -700,103 +727,76 @@ components:
               type: boolean
             is_repo_hijackable:
               type: boolean
-    PackageInfo:
+    Tag:
+      anyOf:
+      - $ref: '#/components/schemas/TagWithString'
+      - $ref: '#/components/schemas/TagWithNumber'
+    TagWithString:
       type: object
+      required:
+      - key
+      - value
       properties:
-        purl:
+        key:
           type: string
-          example: pkg:maven/commons-io/commons-io@2.5
-        licenses:
-          type: array
-          items:
-            type: string
-          example:
-          - Apache-2.0
-        cves:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-                example: CVE-2021-29425
-              internalId:
-                type: string
-                example: GHSA-gwrp-pvrq-jmwv
-              assigner:
-                type: string
-                example: GitHub
-              cweIds:
-                type: array
-                items:
-                  type: string
-                example:
-                - CWE-20
-                - CWE-22
-              references:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    url:
-                      type: string
-                    name:
-                      type: string
-                    refsource:
-                      type: string
-                    tags:
-                      type: array
-                      items:
-                        type: string
-              descriptions:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    lang:
-                      type: string
-                    value:
-                      type: string
-              impact:
-                type: object
-                properties:
-                  exploitabilityScore:
-                    type: number
-                  impactScore:
-                    type: number
-                  cvssV3:
-                    type: object
-                    properties:
-                      version:
-                        type: string
-                      vectorString:
-                        type: string
-                      confidentialityImpact:
-                        type: string
-                      integrityImpact:
-                        type: string
-                      availabilityImpact:
-                        type: string
-                      baseScore:
-                        type: number
-                      attackVector:
-                        type: string
-                      attackComplexity:
-                        type: string
-                      privilegesRequired:
-                        type: string
-                      userInteraction:
-                        type: string
-                      scope:
-                        type: string
-                      baseSeverity:
-                        type: string
-              publishedDate:
-                type: string
-                format: date-time
-              lastModifiedDate:
-                type: string
-                format: date-time
+          description: The key for the tag key-value pair
+          example: category
+        value:
+          type: string
+          description: The value for the tag key-value pair
+          example: XSS
+  parameters:
+    appID:
+      name: appID
+      in: path
+      description: The app ID (e.g., `HelloQwiet`)
+      required: true
+      schema:
+        type: string
+    per_page:
+      in: query
+      name: per_page
+      description: Number of results per page; defaults to 50
+      schema:
+        type: integer
+    orgID:
+      name: orgID
+      in: path
+      description: The org ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    page:
+      in: query
+      name: page
+      description: 'The page of results to fetch. Results are not guaranteed to be deterministic using this approach; we recommended using the `next_page` URL in a paginated response
+
+        '
+      schema:
+        type: integer
+    compoundName:
+      name: compoundName
+      in: path
+      description: A compound's name
+      required: true
+      schema:
+        type: string
+    search:
+      in: query
+      name: search
+      description: Search filter that looks for matches in finding titles and tags
+      schema:
+        type: string
+    order:
+      in: query
+      name: order
+      description: Direction of the sort; defaults to descending
+      schema:
+        type: string
+        enum:
+        - desc
+        - asc
   securitySchemes:
     BearerToken:
       description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\

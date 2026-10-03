@@ -177,6 +177,15 @@ components:
         ok:
           type: boolean
           description: Whether the request was successful or not
+    CompoundFixStats:
+      type: object
+      properties:
+        compound_name:
+          type: string
+          description: name of compound
+        fix_count:
+          type: integer
+          description: number of fixes available
     Error:
       type: object
       required:
@@ -201,27 +210,11 @@ components:
           items:
             type: string
             description: A description of the validation error
-    CompoundFixStats:
-      type: object
-      properties:
-        compound_name:
-          type: string
-          description: name of compound
-        fix_count:
-          type: integer
-          description: number of fixes available
   parameters:
     appID:
       name: appID
       in: path
       description: The app ID (e.g., `HelloQwiet`)
-      required: true
-      schema:
-        type: string
-    findingID:
-      name: findingID
-      in: path
-      description: The finding ID
       required: true
       schema:
         type: string
@@ -233,6 +226,13 @@ components:
       schema:
         type: string
         format: uuid
+    findingID:
+      name: findingID
+      in: path
+      description: The finding ID
+      required: true
+      schema:
+        type: string
   securitySchemes:
     BearerToken:
       description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\

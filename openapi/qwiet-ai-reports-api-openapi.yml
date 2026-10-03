@@ -152,13 +152,6 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   parameters:
-    appID:
-      name: appID
-      in: path
-      description: The app ID (e.g., `HelloQwiet`)
-      required: true
-      schema:
-        type: string
     reportExtension:
       name: ext
       in: path
@@ -170,10 +163,10 @@ components:
         enum:
         - html
         - pdf
-    scanID:
-      name: scanID
+    appID:
+      name: appID
       in: path
-      description: ID of the scan
+      description: The app ID (e.g., `HelloQwiet`)
       required: true
       schema:
         type: string
@@ -185,6 +178,13 @@ components:
       schema:
         type: string
         format: uuid
+    scanID:
+      name: scanID
+      in: path
+      description: ID of the scan
+      required: true
+      schema:
+        type: string
   schemas:
     Error:
       type: object

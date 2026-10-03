@@ -484,16 +484,48 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    SecretsConfiguration:
-      description: Secrets detection configuration
+    TagWithNumber:
       type: object
+      required:
+      - key
+      - value
       properties:
-        entropy:
+        key:
+          type: string
+          description: The key for the tag key-value pair
+          example: cvss_score
+        value:
           type: number
-          description: Entropy threshold. A floating number in range from 0.0 to 1.0
-        disable:
+          description: The value for the tag key-value pair
+          example: 5.2
+    AppSpec:
+      type: object
+      description: contains the information necessary to provision an app.
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          pattern: '[a-zA-Z0-9]([a-zA-Z0-9_:.-]*[a-zA-Z0-9])?'
+          description: the id of the app
+        name:
+          type: string
+          description: the user friendly name of the app
+        team_id:
+          type: string
+          description: the id of the team the app belongs to
+        base_branch:
+          type: string
+          description: the name of the principal branch of the app.
+          example: master
+    SuccessResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
           type: boolean
-          description: set to true to disable secrets detection altogether
+          description: Whether the request was successful or not
     App:
       type: object
       example:
@@ -550,63 +582,16 @@ components:
           type: array
           items:
             type: string
-    AppProvisionResponse:
+    SecretsConfiguration:
+      description: Secrets detection configuration
       type: object
-      description: contains the results of a bulk apps provisioning.
       properties:
-        apps:
-          type: array
-          items:
-            $ref: '#/components/schemas/AppSpec'
-        rejected_ids:
-          type: array
-          description: list of ids that were rejected due to not conforming to the provided format.
-          items:
-            type: string
-        rejected_team_ids:
-          type: array
-          description: list of team ids that were rejected due to not existing.
-          items:
-            type: string
-    SuccessResponse:
-      type: object
-      required:
-      - ok
-      properties:
-        ok:
+        entropy:
+          type: number
+          description: Entropy threshold. A floating number in range from 0.0 to 1.0
+        disable:
           type: boolean
-          description: Whether the request was successful or not
-    AppSpec:
-      type: object
-      description: contains the information necessary to provision an app.
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          pattern: '[a-zA-Z0-9]([a-zA-Z0-9_:.-]*[a-zA-Z0-9])?'
-          description: the id of the app
-        name:
-          type: string
-          description: the user friendly name of the app
-        team_id:
-          type: string
-          description: the id of the team the app belongs to
-        base_branch:
-          type: string
-          description: the name of the principal branch of the app.
-          example: master
-    AppAnalysisConfiguration:
-      description: App level analysis configuration
-      type: object
-      properties:
-        secrets:
-          $ref: '#/components/schemas/SecretsConfiguration'
-        cpg2sp:
-          type: object
-          properties:
-            max-steps:
-              type: integer
+          description: set to true to disable secrets detection altogether
     Error:
       type: object
       required:
@@ -631,6 +616,14 @@ components:
           items:
             type: string
             description: A description of the validation error
+    Tag:
+      anyOf:
+      - $ref: '#/components/schemas/TagWithString'
+      - $ref: '#/components/schemas/TagWithNumber'
+    AppProvisionRequest:
+      type: array
+      items:
+        $ref: '#/components/schemas/AppSpec'
     TagWithString:
       type: object
       required:
@@ -645,28 +638,17 @@ components:
           type: string
           description: The value for the tag key-value pair
           example: XSS
-    AppProvisionRequest:
-      type: array
-      items:
-        $ref: '#/components/schemas/AppSpec'
-    TagWithNumber:
+    AppAnalysisConfiguration:
+      description: App level analysis configuration
       type: object
-      required:
-      - key
-      - value
       properties:
-        key:
-          type: string
-          description: The key for the tag key-value pair
-          example: cvss_score
-        value:
-          type: number
-          description: The value for the tag key-value pair
-          example: 5.2
-    Tag:
-      anyOf:
-      - $ref: '#/components/schemas/TagWithString'
-      - $ref: '#/components/schemas/TagWithNumber'
+        secrets:
+          $ref: '#/components/schemas/SecretsConfiguration'
+        cpg2sp:
+          type: object
+          properties:
+            max-steps:
+              type: integer
     StatusLog:
       type: object
       properties:
@@ -676,6 +658,24 @@ components:
           type: string
         gh_pr_link:
           type: string
+    AppProvisionResponse:
+      type: object
+      description: contains the results of a bulk apps provisioning.
+      properties:
+        apps:
+          type: array
+          items:
+            $ref: '#/components/schemas/AppSpec'
+        rejected_ids:
+          type: array
+          description: list of ids that were rejected due to not conforming to the provided format.
+          items:
+            type: string
+        rejected_team_ids:
+          type: array
+          description: list of team ids that were rejected due to not existing.
+          items:
+            type: string
   parameters:
     appID:
       name: appID

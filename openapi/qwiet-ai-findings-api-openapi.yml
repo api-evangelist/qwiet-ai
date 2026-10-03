@@ -1133,19 +1133,44 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
+    TagWithNumber:
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+          description: The key for the tag key-value pair
+          example: cvss_score
+        value:
+          type: number
+          description: The value for the tag key-value pair
+          example: 5.2
+    Tag:
+      anyOf:
+      - $ref: '#/components/schemas/TagWithString'
+      - $ref: '#/components/schemas/TagWithNumber'
+    FindingStatusUpdate:
+      type: object
+      properties:
+        status:
+          type: string
+          description: The status to be set; leaving it blank will remove status
+          enum:
+          - fixed
+          - ignore
+          - codeviolationfixed
+          - codeviolationignore
+          - codeviolationremovestatus
+        optional_comment:
+          type: string
+          description: Optional text to be used as the comment that is created along with every status.
     Assignment:
       type: string
       enum:
       - unassigned
       - assigned
-    SuccessResponse:
-      type: object
-      required:
-      - ok
-      properties:
-        ok:
-          type: boolean
-          description: Whether the request was successful or not
     FindingsSummary:
       type: object
       required:
@@ -1198,24 +1223,6 @@ components:
               total: 10
               total_fixed: 3
               total_ignored: 1
-    TagWithNumber:
-      type: object
-      required:
-      - key
-      - value
-      properties:
-        key:
-          type: string
-          description: The key for the tag key-value pair
-          example: cvss_score
-        value:
-          type: number
-          description: The value for the tag key-value pair
-          example: 5.2
-    NextPage:
-      type: string
-      description: URL for the next page of results
-      example: https://api.shiftleft.io/orgs/4c07962d-745f-4465-9965-002f6cf3c7ff/findings?page=2
     Finding:
       type: object
       required:
@@ -1278,78 +1285,34 @@ components:
             value: info
           - key: cvss_score
             value: 2
-    MultipleFindingsStatusUpdate:
-      type: object
-      properties:
-        findings:
-          type: array
-          items:
-            type: integer
-        status:
-          type: string
-          description: The status to be set; leaving it blank will remove status
-          enum:
-          - fixed
-          - ignore
-          - codeviolationfixed
-          - codeviolationignore
-          - codeviolationremovestatus
-    ScanLanguage:
-      type: string
-      description: The analysis language identifier.
-      enum:
-      - java
-      - go
-      - csharp
-      - javascript
-      - c
-      - python
-      - terraform_hcl
-      - ruby
-      - php
-      - fuzzytestlang
-      - kotlin
-      - swift
-      - plsql
-      - apex
-      - groovy
-    Diff:
-      type: string
-      enum:
-      - new
-      - regression
-      - common
-      - fixed
-    Error:
+    OSSScan:
       type: object
       required:
-      - ok
-      - code
-      - message
+      - enabled
       properties:
-        ok:
+        enabled:
           type: boolean
-          description: Whether the request was successful (true) or not (false)
-        code:
+          description: A flag indicating whether OSS Scan was enabled and allowed
+        successful:
+          type: boolean
+          description: A flag indicating whether OSS Scan was successfully performed on the project
+        failure_reason:
           type: string
-          description: The `enum` representing the error encountered
-          example: INTERNAL_SERVER_ERROR
-        message:
-          type: string
-          description: A message describing the error
-          example: Internal Server Error
-        validation_errors:
-          type: array
-          description: The validation errors the user should correct before re-submitting the request
-          items:
-            type: string
-            description: A description of the validation error
-    FindingAssigneeUpdate:
+          description: A status message with the reason for the OSS scan failure (if the scan was unsuccessful)
+    TagWithString:
       type: object
+      required:
+      - key
+      - value
       properties:
-        assignee:
+        key:
           type: string
-          description: The email of the person to be assigned to the finding
+          description: The key for the tag key-value pair
+          example: category
+        value:
+          type: string
+          description: The value for the tag key-value pair
+          example: XSS
     SCAPackage:
       type: object
       required:
@@ -1457,35 +1420,21 @@ components:
               type: boolean
             is_repo_hijackable:
               type: boolean
-    FindingStatusUpdate:
-      type: object
-      properties:
-        status:
-          type: string
-          description: The status to be set; leaving it blank will remove status
-          enum:
-          - fixed
-          - ignore
-          - codeviolationfixed
-          - codeviolationignore
-          - codeviolationremovestatus
-        optional_comment:
-          type: string
-          description: Optional text to be used as the comment that is created along with every status.
-    MultipleFindingsAssigneeUpdate:
-      type: object
-      properties:
-        findings:
-          type: array
-          items:
-            type: integer
-        assignee:
-          type: string
-          description: The email of the person to be assigned to the findings
-    Tag:
-      anyOf:
-      - $ref: '#/components/schemas/TagWithString'
-      - $ref: '#/components/schemas/TagWithNumber'
+    Diff:
+      type: string
+      enum:
+      - new
+      - regression
+      - common
+      - fixed
+    Status:
+      type: string
+      enum:
+      - unset
+      - fixed
+      - ignored
+      - 3rdparty
+      - any
     ScanPlatform:
       type: string
       description: The analysis platform identifier.
@@ -1509,6 +1458,20 @@ components:
       - plsql
       - apex
       - groovy
+    SuccessResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful or not
+    FindingAssigneeUpdate:
+      type: object
+      properties:
+        assignee:
+          type: string
+          description: The email of the person to be assigned to the finding
     TagCount:
       allOf:
       - $ref: '#/components/schemas/Tag'
@@ -1521,6 +1484,87 @@ components:
           count:
             type: integer
             example: 42
+    ScanLanguage:
+      type: string
+      description: The analysis language identifier.
+      enum:
+      - java
+      - go
+      - csharp
+      - javascript
+      - c
+      - python
+      - terraform_hcl
+      - ruby
+      - php
+      - fuzzytestlang
+      - kotlin
+      - swift
+      - plsql
+      - apex
+      - groovy
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
+            type: string
+            description: A description of the validation error
+    MultipleFindingsAssigneeUpdate:
+      type: object
+      properties:
+        findings:
+          type: array
+          items:
+            type: integer
+        assignee:
+          type: string
+          description: The email of the person to be assigned to the findings
+    NextPage:
+      type: string
+      description: URL for the next page of results
+      example: https://api.shiftleft.io/orgs/4c07962d-745f-4465-9965-002f6cf3c7ff/findings?page=2
+    MultipleFindingsStatusUpdate:
+      type: object
+      properties:
+        findings:
+          type: array
+          items:
+            type: integer
+        status:
+          type: string
+          description: The status to be set; leaving it blank will remove status
+          enum:
+          - fixed
+          - ignore
+          - codeviolationfixed
+          - codeviolationignore
+          - codeviolationremovestatus
+    Severity:
+      type: string
+      enum:
+      - low
+      - medium
+      - high
+      - critical
+      description: The severity of a finding
     Scan:
       type: object
       required:
@@ -1588,51 +1632,92 @@ components:
           description: The total ignored across all summaries
           type: integer
           example: 17
-    Severity:
-      type: string
-      enum:
-      - low
-      - medium
-      - high
-      - critical
-      description: The severity of a finding
-    TagWithString:
-      type: object
-      required:
-      - key
-      - value
-      properties:
-        key:
-          type: string
-          description: The key for the tag key-value pair
-          example: category
-        value:
-          type: string
-          description: The value for the tag key-value pair
-          example: XSS
-    Status:
-      type: string
-      enum:
-      - unset
-      - fixed
-      - ignored
-      - 3rdparty
-      - any
-    OSSScan:
-      type: object
-      required:
-      - enabled
-      properties:
-        enabled:
-          type: boolean
-          description: A flag indicating whether OSS Scan was enabled and allowed
-        successful:
-          type: boolean
-          description: A flag indicating whether OSS Scan was successfully performed on the project
-        failure_reason:
-          type: string
-          description: A status message with the reason for the OSS scan failure (if the scan was unsuccessful)
   parameters:
+    finding_tags:
+      name: finding_tags
+      in: query
+      description: The findings' filtering tag
+      schema:
+        items:
+          type: string
+          example: category=XSS
+    only_counts:
+      in: query
+      name: only_counts
+      description: Whether to include only finding counts; excludes the list of findings
+      schema:
+        type: boolean
+    status:
+      in: query
+      name: status
+      description: 'The status filter. By default, only `unset` findings are included.
+
+        '
+      schema:
+        $ref: '#/components/schemas/Status'
+    optionalComparableVersionIdentifierSource:
+      name: source
+      in: query
+      description: The source scan for a comparision
+      schema:
+        type: string
+        pattern: ^scan\.\d+|tag\.\w=\w$
+        example: scan.128|tag.branch=samplebranch
+    sort:
+      in: query
+      name: sort
+      description: How to sort results; defaults to ID
+      schema:
+        type: string
+    compoundName:
+      name: compoundName
+      in: path
+      description: A compound's name
+      required: true
+      schema:
+        type: string
+    findingID:
+      name: findingID
+      in: path
+      description: The finding ID
+      required: true
+      schema:
+        type: string
+    severity:
+      in: query
+      name: severity
+      description: The severity filter
+      schema:
+        $ref: '#/components/schemas/Severity'
+    default_branch:
+      in: query
+      name: default_branch
+      description: Return findings from scans of the app's configured default branch
+      schema:
+        type: boolean
+    tags:
+      name: tags
+      in: query
+      description: The scan tags to filter by (e.g., `branch=main`)
+      schema:
+        items:
+          type: string
+    assignment:
+      in: query
+      name: assignment
+      description: 'The assignment status filter. By default, all findings, both `unassigned` and `assigned`, are returned.
+
+        '
+      schema:
+        $ref: '#/components/schemas/Assignment'
+    orgID:
+      name: orgID
+      in: path
+      description: The org ID
+      required: true
+      schema:
+        type: string
+        format: uuid
     page:
       in: query
       name: page
@@ -1647,6 +1732,12 @@ components:
       description: The email addresses of users assigned to this finding
       schema:
         type: string
+    category:
+      name: category
+      in: query
+      description: The category filter
+      schema:
+        type: string
     order:
       in: query
       name: order
@@ -1656,94 +1747,6 @@ components:
         enum:
         - desc
         - asc
-    optionalComparableVersionIdentifierSource:
-      name: source
-      in: query
-      description: The source scan for a comparision
-      schema:
-        type: string
-        pattern: ^scan\.\d+|tag\.\w=\w$
-        example: scan.128|tag.branch=samplebranch
-    only_counts:
-      in: query
-      name: only_counts
-      description: Whether to include only finding counts; excludes the list of findings
-      schema:
-        type: boolean
-    type:
-      in: query
-      name: type
-      description: The type of findings. Accepted values are `oss_vuln`, `vuln`, and `secret`
-      schema:
-        type: string
-    compoundName:
-      name: compoundName
-      in: path
-      description: A compound's name
-      required: true
-      schema:
-        type: string
-    sort:
-      in: query
-      name: sort
-      description: How to sort results; defaults to ID
-      schema:
-        type: string
-    finding_tags:
-      name: finding_tags
-      in: query
-      description: The findings' filtering tag
-      schema:
-        items:
-          type: string
-          example: category=XSS
-    tags:
-      name: tags
-      in: query
-      description: The scan tags to filter by (e.g., `branch=main`)
-      schema:
-        items:
-          type: string
-    default_branch:
-      in: query
-      name: default_branch
-      description: Return findings from scans of the app's configured default branch
-      schema:
-        type: boolean
-    severity:
-      in: query
-      name: severity
-      description: The severity filter
-      schema:
-        $ref: '#/components/schemas/Severity'
-    category:
-      name: category
-      in: query
-      description: The category filter
-      schema:
-        type: string
-    orgID:
-      name: orgID
-      in: path
-      description: The org ID
-      required: true
-      schema:
-        type: string
-        format: uuid
-    per_page:
-      in: query
-      name: per_page
-      description: Number of results per page; defaults to 50
-      schema:
-        type: integer
-    status:
-      in: query
-      name: status
-      description: 'The status filter. By default, only `unset` findings are included.
-
-        '
-      schema:
-        $ref: '#/components/schemas/Status'
     appID:
       name: appID
       in: path
@@ -1751,13 +1754,12 @@ components:
       required: true
       schema:
         type: string
-    findingID:
-      name: findingID
-      in: path
-      description: The finding ID
-      required: true
+    per_page:
+      in: query
+      name: per_page
+      description: Number of results per page; defaults to 50
       schema:
-        type: string
+        type: integer
     details_tags:
       name: details_tags
       in: query
@@ -1766,14 +1768,12 @@ components:
       schema:
         items:
           type: string
-    assignment:
+    type:
       in: query
-      name: assignment
-      description: 'The assignment status filter. By default, all findings, both `unassigned` and `assigned`, are returned.
-
-        '
+      name: type
+      description: The type of findings. Accepted values are `oss_vuln`, `vuln`, and `secret`
       schema:
-        $ref: '#/components/schemas/Assignment'
+        type: string
   securitySchemes:
     BearerToken:
       description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\

@@ -503,12 +503,58 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    OrgAutoFixConfig:
+    OrgAnalysisConfiguration:
+      description: Organization level analysis configuration
+      type: object
+      properties:
+        secrets:
+          $ref: '#/components/schemas/SecretsConfiguration'
+    SuccessResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful or not
+    AutoFixConfig:
       description: An object describing the AutoFix configuration options of an organization
       type: object
       properties:
-        autofix_configuration:
-          $ref: '#/components/schemas/AutoFixConfig'
+        enable:
+          type: boolean
+          description: set to true if AutoFix is enabled for the organization
+        disable:
+          type: boolean
+          description: set to true if AutoFix is disabled for the organization
+        auto_run:
+          type: boolean
+          description: set to true if AutoFix should run automatically
+        auto_run_disable:
+          type: boolean
+          description: set to true if AutoFix should stop running automatically, this will be stored as auto_run = false
+        manual:
+          type: boolean
+          description: set to true if AutoFix should run manually
+        manual_disable:
+          type: boolean
+          description: set to true if AutoFix should stop running manually, this will be stored as manual = false
+        max_fixes_per_run:
+          type: integer
+          description: The maximum number of AutoFix suggestions that can be generated in a single run
+        fix_only_severities:
+          type: array
+          items:
+            $ref: '#/components/schemas/Severity'
+          description: The severities of findings for which AutoFix will generate suggestions
+    Severity:
+      type: string
+      enum:
+      - low
+      - medium
+      - high
+      - critical
+      description: The severity of a finding
     SecretsConfiguration:
       description: Secrets detection configuration
       type: object
@@ -519,6 +565,36 @@ components:
         disable:
           type: boolean
           description: set to true to disable secrets detection altogether
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
+            type: string
+            description: A description of the validation error
+    OrgAutoFixConfig:
+      description: An object describing the AutoFix configuration options of an organization
+      type: object
+      properties:
+        autofix_configuration:
+          $ref: '#/components/schemas/AutoFixConfig'
     OrgConfig:
       description: An object describing the configuration options of an organization
       type: object
@@ -551,91 +627,14 @@ components:
         session_timeout_hours:
           type: integer
           description: The number of hours after which the session will expire. The default value is 168 hours (7 days).
-    SuccessResponse:
-      type: object
-      required:
-      - ok
-      properties:
-        ok:
-          type: boolean
-          description: Whether the request was successful or not
-    Severity:
-      type: string
-      enum:
-      - low
-      - medium
-      - high
-      - critical
-      description: The severity of a finding
-    Error:
-      type: object
-      required:
-      - ok
-      - code
-      - message
-      properties:
-        ok:
-          type: boolean
-          description: Whether the request was successful (true) or not (false)
-        code:
-          type: string
-          description: The `enum` representing the error encountered
-          example: INTERNAL_SERVER_ERROR
-        message:
-          type: string
-          description: A message describing the error
-          example: Internal Server Error
-        validation_errors:
-          type: array
-          description: The validation errors the user should correct before re-submitting the request
-          items:
-            type: string
-            description: A description of the validation error
-    OrgAnalysisConfiguration:
-      description: Organization level analysis configuration
-      type: object
-      properties:
-        secrets:
-          $ref: '#/components/schemas/SecretsConfiguration'
-    AutoFixConfig:
-      description: An object describing the AutoFix configuration options of an organization
-      type: object
-      properties:
-        enable:
-          type: boolean
-          description: set to true if AutoFix is enabled for the organization
-        disable:
-          type: boolean
-          description: set to true if AutoFix is disabled for the organization
-        auto_run:
-          type: boolean
-          description: set to true if AutoFix should run automatically
-        auto_run_disable:
-          type: boolean
-          description: set to true if AutoFix should stop running automatically, this will be stored as auto_run = false
-        manual:
-          type: boolean
-          description: set to true if AutoFix should run manually
-        manual_disable:
-          type: boolean
-          description: set to true if AutoFix should stop running manually, this will be stored as manual = false
-        max_fixes_per_run:
-          type: integer
-          description: The maximum number of AutoFix suggestions that can be generated in a single run
-        fix_only_severities:
-          type: array
-          items:
-            $ref: '#/components/schemas/Severity'
-          description: The severities of findings for which AutoFix will generate suggestions
   parameters:
-    orgID:
-      name: orgID
+    auditYear:
+      name: auditYear
       in: path
-      description: The org ID
+      description: The year for a requested report
       required: true
       schema:
-        type: string
-        format: uuid
+        type: number
     auditDay:
       name: auditDay
       in: path
@@ -649,20 +648,14 @@ components:
       description: whether to apply the default versioning mechanism
       schema:
         type: boolean
-    auditYear:
-      name: auditYear
+    orgID:
+      name: orgID
       in: path
-      description: The year for a requested report
+      description: The org ID
       required: true
       schema:
-        type: number
-    auditMonth:
-      name: auditMonth
-      in: path
-      description: The month for a requested report
-      required: true
-      schema:
-        type: number
+        type: string
+        format: uuid
     reference:
       name: reference
       in: path
@@ -670,6 +663,13 @@ components:
       required: true
       schema:
         type: string
+    auditMonth:
+      name: auditMonth
+      in: path
+      description: The month for a requested report
+      required: true
+      schema:
+        type: number
     checkAnalysisTags:
       name: tag
       in: query

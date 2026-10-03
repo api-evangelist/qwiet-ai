@@ -63,22 +63,6 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    UpdateAppLabelsRequest:
-      type: object
-      properties:
-        add:
-          type: array
-          items:
-            type: string
-            description: A list of labels to be added to the application
-        remove:
-          type: array
-          items:
-            type: string
-            description: A list of labels to be removed from the application
-        clear:
-          type: boolean
-          description: A boolean flag that is true when all labels should be removed from the application
     SuccessResponse:
       type: object
       required:
@@ -111,6 +95,22 @@ components:
           items:
             type: string
             description: A description of the validation error
+    UpdateAppLabelsRequest:
+      type: object
+      properties:
+        add:
+          type: array
+          items:
+            type: string
+            description: A list of labels to be added to the application
+        remove:
+          type: array
+          items:
+            type: string
+            description: A list of labels to be removed from the application
+        clear:
+          type: boolean
+          description: A boolean flag that is true when all labels should be removed from the application
   parameters:
     appID:
       name: appID

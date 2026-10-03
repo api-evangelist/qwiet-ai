@@ -240,77 +240,30 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 components:
-  schemas:
-    SAMLUserAccessTokenResetResponse:
-      type: object
-      description: contains the results of a bulk SAML user access token reset.
-      properties:
-        reset:
-          type: array
-          description: list of user IDs whose access tokens were successfully reset.
-          items:
-            type: string
-            format: uuid
-        not_found:
-          type: array
-          description: list of user IDs that were not found in the organization.
-          items:
-            type: string
-            format: uuid
-        not_saml:
-          type: array
-          description: list of user IDs that were rejected because they are not SAML users.
-          items:
-            type: string
-            format: uuid
-    SAMLUserProvisioningResponse:
-      type: object
-      description: contains the results of a bulk users provisioning.
-      properties:
-        users:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserMembershipInfo'
-        rejected_emails:
-          type: array
-          description: list of emails that were rejected due to their domain not being reserved to the user.
-          items:
-            type: string
-        rejected_org_roles:
-          type: array
-          description: list of roles that were considered invalid for an organization level role due to not conforming to the provided list.
-          items:
-            type: string
-        rejected_team_roles:
-          type: array
-          description: list of roles that were considered invalid for a team level role due to not conforming to the provided list.
-          items:
-            type: string
-    SAMLUserAccessTokenResetRequest:
-      type: object
-      description: contains the list of user IDs whose SAML access tokens should be reset.
-      required:
-      - user_ids
-      properties:
-        user_ids:
-          type: array
-          description: list of user IDs (v2) whose access tokens should be reset.
-          minItems: 1
-          items:
-            type: string
-            format: uuid
+  parameters:
     SAMLConfigName:
-      description: The name and ID of the specified SAML configuration
-      type: string
-      pattern: ^[a-zA-Z0-9-_]{1,255}$
-    SuccessResponse:
-      type: object
-      required:
-      - ok
-      properties:
-        ok:
-          type: boolean
-          description: Whether the request was successful or not
+      name: SAMLConfigName
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/SAMLConfigName'
+    orgID:
+      name: orgID
+      in: path
+      description: The org ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    userIDv2:
+      name: userIDv2
+      in: path
+      description: The user's ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  schemas:
     SAMLUser:
       type: object
       description: contains the all the necessary information to provision a SAML user.
@@ -336,23 +289,63 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SAMLUserMembership'
-    SAMLUserMembership:
+    SuccessResponse:
       type: object
-      description: contains information about a user's role in a team.
       required:
-      - team_id
-      - role
+      - ok
       properties:
-        team_id:
-          type: string
-          description: the id of the team
-        role:
-          type: string
-          description: the role of the user in the team
-          enum:
-          - TEAM_ADMIN
-          - TEAM_MEMBER
-          - TEAM_GUEST
+        ok:
+          type: boolean
+          description: Whether the request was successful or not
+    SAMLUserAccessTokenResetResponse:
+      type: object
+      description: contains the results of a bulk SAML user access token reset.
+      properties:
+        reset:
+          type: array
+          description: list of user IDs whose access tokens were successfully reset.
+          items:
+            type: string
+            format: uuid
+        not_found:
+          type: array
+          description: list of user IDs that were not found in the organization.
+          items:
+            type: string
+            format: uuid
+        not_saml:
+          type: array
+          description: list of user IDs that were rejected because they are not SAML users.
+          items:
+            type: string
+            format: uuid
+    SAMLConfig:
+      description: An object describing a SAML configuration for an organization
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/SAMLConfigCreate'
+      - type: object
+        required:
+        - sp_metadata_url
+        - sp_login_url
+        properties:
+          idp_default_relay_state:
+            type: string
+            description: 'The opaque configuration blob that should be set in the SAML identity provider configuration as the default relay state. Note that this field is only available if identity provider-initiated logins are enabled via the allow_idp_initiated_logins setting
+
+              '
+          sp_metadata_url:
+            type: string
+            description: The metadata URL that can be used to configure the SAML identity provider-initiated logins to Qwiet
+            format: uri
+          sp_login_url:
+            type: string
+            description: The login URL that can be used to start a service provider-initiated log in to Qwiet using the SAML identity provider
+            format: uri
+    SAMLUserProvisioningRequest:
+      type: array
+      items:
+        $ref: '#/components/schemas/SAMLUser'
     UserMembershipInfo:
       allOf:
       - type: object
@@ -398,29 +391,47 @@ components:
               type: integer
               format: int64
             description: List of nanosecond unix timestamps for last two user logins
-    SAMLConfig:
-      description: An object describing a SAML configuration for an organization
+    SAMLUserMembership:
       type: object
-      allOf:
-      - $ref: '#/components/schemas/SAMLConfigCreate'
-      - type: object
-        required:
-        - sp_metadata_url
-        - sp_login_url
-        properties:
-          idp_default_relay_state:
+      description: contains information about a user's role in a team.
+      required:
+      - team_id
+      - role
+      properties:
+        team_id:
+          type: string
+          description: the id of the team
+        role:
+          type: string
+          description: the role of the user in the team
+          enum:
+          - TEAM_ADMIN
+          - TEAM_MEMBER
+          - TEAM_GUEST
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
             type: string
-            description: 'The opaque configuration blob that should be set in the SAML identity provider configuration as the default relay state. Note that this field is only available if identity provider-initiated logins are enabled via the allow_idp_initiated_logins setting
-
-              '
-          sp_metadata_url:
-            type: string
-            description: The metadata URL that can be used to configure the SAML identity provider-initiated logins to Qwiet
-            format: uri
-          sp_login_url:
-            type: string
-            description: The login URL that can be used to start a service provider-initiated log in to Qwiet using the SAML identity provider
-            format: uri
+            description: A description of the validation error
     SAMLConfigUpdate:
       description: An object describing a SAML configuration for an organization
       type: object
@@ -446,34 +457,23 @@ components:
 
             '
           type: boolean
-    Error:
+    SAMLUserAccessTokenResetRequest:
       type: object
+      description: contains the list of user IDs whose SAML access tokens should be reset.
       required:
-      - ok
-      - code
-      - message
+      - user_ids
       properties:
-        ok:
-          type: boolean
-          description: Whether the request was successful (true) or not (false)
-        code:
-          type: string
-          description: The `enum` representing the error encountered
-          example: INTERNAL_SERVER_ERROR
-        message:
-          type: string
-          description: A message describing the error
-          example: Internal Server Error
-        validation_errors:
+        user_ids:
           type: array
-          description: The validation errors the user should correct before re-submitting the request
+          description: list of user IDs (v2) whose access tokens should be reset.
+          minItems: 1
           items:
             type: string
-            description: A description of the validation error
-    SAMLUserProvisioningRequest:
-      type: array
-      items:
-        $ref: '#/components/schemas/SAMLUser'
+            format: uuid
+    SAMLConfigName:
+      description: The name and ID of the specified SAML configuration
+      type: string
+      pattern: ^[a-zA-Z0-9-_]{1,255}$
     SAMLConfigCreate:
       description: An object describing a SAML configuration for an organization
       type: object
@@ -485,29 +485,29 @@ components:
         properties:
           name:
             $ref: '#/components/schemas/SAMLConfigName'
-  parameters:
-    SAMLConfigName:
-      name: SAMLConfigName
-      in: path
-      required: true
-      schema:
-        $ref: '#/components/schemas/SAMLConfigName'
-    userIDv2:
-      name: userIDv2
-      in: path
-      description: The user's ID
-      required: true
-      schema:
-        type: string
-        format: uuid
-    orgID:
-      name: orgID
-      in: path
-      description: The org ID
-      required: true
-      schema:
-        type: string
-        format: uuid
+    SAMLUserProvisioningResponse:
+      type: object
+      description: contains the results of a bulk users provisioning.
+      properties:
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserMembershipInfo'
+        rejected_emails:
+          type: array
+          description: list of emails that were rejected due to their domain not being reserved to the user.
+          items:
+            type: string
+        rejected_org_roles:
+          type: array
+          description: list of roles that were considered invalid for an organization level role due to not conforming to the provided list.
+          items:
+            type: string
+        rejected_team_roles:
+          type: array
+          description: list of roles that were considered invalid for a team level role due to not conforming to the provided list.
+          items:
+            type: string
   securitySchemes:
     BearerToken:
       description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\

@@ -147,6 +147,9 @@ components:
         ok:
           type: boolean
           description: Whether the request was successful or not
+    Scope:
+      type: string
+      pattern: ^\w+:\w+$|^\w+:\*$
     Error:
       type: object
       required:
@@ -171,18 +174,7 @@ components:
           items:
             type: string
             description: A description of the validation error
-    Scope:
-      type: string
-      pattern: ^\w+:\w+$|^\w+:\*$
   parameters:
-    rbacTeamID:
-      name: rbacTeamID
-      in: path
-      description: The team ID
-      required: true
-      schema:
-        type: string
-        format: uuid
     appID:
       name: appID
       in: path
@@ -194,6 +186,14 @@ components:
       name: orgID
       in: path
       description: The org ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    rbacTeamID:
+      name: rbacTeamID
+      in: path
+      description: The team ID
       required: true
       schema:
         type: string
