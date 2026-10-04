@@ -78,6 +78,13 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   parameters:
+    compoundName:
+      name: compoundName
+      in: path
+      description: A compound's name
+      required: true
+      schema:
+        type: string
     orgID:
       name: orgID
       in: path
@@ -86,14 +93,30 @@ components:
       schema:
         type: string
         format: uuid
-    compoundName:
-      name: compoundName
-      in: path
-      description: A compound's name
-      required: true
-      schema:
-        type: string
   schemas:
+    ScanPlatform:
+      type: string
+      description: The analysis platform identifier.
+      enum:
+      - java
+      - go
+      - csharp
+      - javascript
+      - c
+      - python
+      - terraform_hcl
+      - ruby
+      - php
+      - fuzzytestlang
+      - kotlin
+      - javasrc
+      - pythonsrc
+      - jssrc
+      - secrets
+      - swiftsrc
+      - plsql
+      - apex
+      - groovy
     ScanLanguage:
       type: string
       description: The analysis language identifier.
@@ -137,29 +160,6 @@ components:
           items:
             type: string
             description: A description of the validation error
-    ScanPlatform:
-      type: string
-      description: The analysis platform identifier.
-      enum:
-      - java
-      - go
-      - csharp
-      - javascript
-      - c
-      - python
-      - terraform_hcl
-      - ruby
-      - php
-      - fuzzytestlang
-      - kotlin
-      - javasrc
-      - pythonsrc
-      - jssrc
-      - secrets
-      - swiftsrc
-      - plsql
-      - apex
-      - groovy
   securitySchemes:
     BearerToken:
       description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\

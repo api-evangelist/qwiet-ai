@@ -214,36 +214,16 @@ components:
         ok:
           type: boolean
           description: Whether the request was successful or not
-    NewToken:
-      type: object
-      required:
-      - label
-      - role_id
-      properties:
-        label:
-          type: string
-          description: A user-defined label to identify the token
-        description:
-          type: string
-          description: A user-defined description that describes why this token was created and how it should be used
-        role_id:
-          type: string
-          description: The ID of the role attached to this token. For integration tokens, this can be either a predefined role ID from the <a href="/api/#operation/ListRoles">List access token roles</a> endpoint or a custom organization role ID from the <a href="/api/#operation/ListCustomRBACRoles">List custom RBAC roles</a> endpoint.
-        token_type:
-          $ref: '#/components/schemas/TokenType'
-        valid_for_seconds:
-          type: integer
-          description: The duration (in seconds) for which the token is valid (optional)
-    Role:
+    CreateOrgTokenResponse:
       allOf:
       - type: object
         required:
-        - id
+        - value
         properties:
-          id:
+          value:
             type: string
-            format: uuid
-      - $ref: '#/components/schemas/NewRole'
+            description: The value of the token that will only be exposed once (and only in this API response)
+      - $ref: '#/components/schemas/Token'
     Error:
       type: object
       required:
@@ -268,20 +248,6 @@ components:
           items:
             type: string
             description: A description of the validation error
-    Token:
-      allOf:
-      - type: object
-        required:
-        - id
-        properties:
-          id:
-            type: string
-            format: uuid
-            description: The ID of the token that can be used to delete the token
-          expires_at:
-            type: string
-            description: An expiry date for the token (optional)
-      - $ref: '#/components/schemas/NewToken'
     NewRole:
       type: object
       required:
@@ -300,21 +266,55 @@ components:
           - managed
           - org
           description: "Whether this role is a managed role or an org role:\n  - Managed roles are maintained by Qwiet\n  - Org roles are created/maintained by a customer's organization admin\n"
-    CreateOrgTokenResponse:
+    Role:
       allOf:
       - type: object
         required:
-        - value
+        - id
         properties:
-          value:
+          id:
             type: string
-            description: The value of the token that will only be exposed once (and only in this API response)
-      - $ref: '#/components/schemas/Token'
+            format: uuid
+      - $ref: '#/components/schemas/NewRole'
+    NewToken:
+      type: object
+      required:
+      - label
+      - role_id
+      properties:
+        label:
+          type: string
+          description: A user-defined label to identify the token
+        description:
+          type: string
+          description: A user-defined description that describes why this token was created and how it should be used
+        role_id:
+          type: string
+          description: The ID of the role attached to this token. For integration tokens, this can be either a predefined role ID from the <a href="/api/#operation/ListRoles">List access token roles</a> endpoint or a custom organization role ID from the <a href="/api/#operation/ListCustomRBACRoles">List custom RBAC roles</a> endpoint.
+        token_type:
+          $ref: '#/components/schemas/TokenType'
+        valid_for_seconds:
+          type: integer
+          description: The duration (in seconds) for which the token is valid (optional)
     TokenType:
       type: string
       enum:
       - access
       - integration
+    Token:
+      allOf:
+      - type: object
+        required:
+        - id
+        properties:
+          id:
+            type: string
+            format: uuid
+            description: The ID of the token that can be used to delete the token
+          expires_at:
+            type: string
+            description: An expiry date for the token (optional)
+      - $ref: '#/components/schemas/NewToken'
   parameters:
     orgID:
       name: orgID

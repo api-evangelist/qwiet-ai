@@ -483,7 +483,41 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 components:
+  parameters:
+    appID:
+      name: appID
+      in: path
+      description: The app ID (e.g., `HelloQwiet`)
+      required: true
+      schema:
+        type: string
+    orgID:
+      name: orgID
+      in: path
+      description: The org ID
+      required: true
+      schema:
+        type: string
+        format: uuid
   schemas:
+    SuccessResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful or not
+    SecretsConfiguration:
+      description: Secrets detection configuration
+      type: object
+      properties:
+        entropy:
+          type: number
+          description: Entropy threshold. A floating number in range from 0.0 to 1.0
+        disable:
+          type: boolean
+          description: set to true to disable secrets detection altogether
     TagWithNumber:
       type: object
       required:
@@ -498,6 +532,79 @@ components:
           type: number
           description: The value for the tag key-value pair
           example: 5.2
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
+            type: string
+            description: A description of the validation error
+    AppProvisionResponse:
+      type: object
+      description: contains the results of a bulk apps provisioning.
+      properties:
+        apps:
+          type: array
+          items:
+            $ref: '#/components/schemas/AppSpec'
+        rejected_ids:
+          type: array
+          description: list of ids that were rejected due to not conforming to the provided format.
+          items:
+            type: string
+        rejected_team_ids:
+          type: array
+          description: list of team ids that were rejected due to not existing.
+          items:
+            type: string
+    AppProvisionRequest:
+      type: array
+      items:
+        $ref: '#/components/schemas/AppSpec'
+    StatusLog:
+      type: object
+      properties:
+        message_id:
+          type: string
+        message:
+          type: string
+        gh_pr_link:
+          type: string
+    TagWithString:
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+          description: The key for the tag key-value pair
+          example: category
+        value:
+          type: string
+          description: The value for the tag key-value pair
+          example: XSS
+    Tag:
+      anyOf:
+      - $ref: '#/components/schemas/TagWithString'
+      - $ref: '#/components/schemas/TagWithNumber'
     AppSpec:
       type: object
       description: contains the information necessary to provision an app.
@@ -518,14 +625,6 @@ components:
           type: string
           description: the name of the principal branch of the app.
           example: master
-    SuccessResponse:
-      type: object
-      required:
-      - ok
-      properties:
-        ok:
-          type: boolean
-          description: Whether the request was successful or not
     App:
       type: object
       example:
@@ -582,62 +681,6 @@ components:
           type: array
           items:
             type: string
-    SecretsConfiguration:
-      description: Secrets detection configuration
-      type: object
-      properties:
-        entropy:
-          type: number
-          description: Entropy threshold. A floating number in range from 0.0 to 1.0
-        disable:
-          type: boolean
-          description: set to true to disable secrets detection altogether
-    Error:
-      type: object
-      required:
-      - ok
-      - code
-      - message
-      properties:
-        ok:
-          type: boolean
-          description: Whether the request was successful (true) or not (false)
-        code:
-          type: string
-          description: The `enum` representing the error encountered
-          example: INTERNAL_SERVER_ERROR
-        message:
-          type: string
-          description: A message describing the error
-          example: Internal Server Error
-        validation_errors:
-          type: array
-          description: The validation errors the user should correct before re-submitting the request
-          items:
-            type: string
-            description: A description of the validation error
-    Tag:
-      anyOf:
-      - $ref: '#/components/schemas/TagWithString'
-      - $ref: '#/components/schemas/TagWithNumber'
-    AppProvisionRequest:
-      type: array
-      items:
-        $ref: '#/components/schemas/AppSpec'
-    TagWithString:
-      type: object
-      required:
-      - key
-      - value
-      properties:
-        key:
-          type: string
-          description: The key for the tag key-value pair
-          example: category
-        value:
-          type: string
-          description: The value for the tag key-value pair
-          example: XSS
     AppAnalysisConfiguration:
       description: App level analysis configuration
       type: object
@@ -649,49 +692,6 @@ components:
           properties:
             max-steps:
               type: integer
-    StatusLog:
-      type: object
-      properties:
-        message_id:
-          type: string
-        message:
-          type: string
-        gh_pr_link:
-          type: string
-    AppProvisionResponse:
-      type: object
-      description: contains the results of a bulk apps provisioning.
-      properties:
-        apps:
-          type: array
-          items:
-            $ref: '#/components/schemas/AppSpec'
-        rejected_ids:
-          type: array
-          description: list of ids that were rejected due to not conforming to the provided format.
-          items:
-            type: string
-        rejected_team_ids:
-          type: array
-          description: list of team ids that were rejected due to not existing.
-          items:
-            type: string
-  parameters:
-    appID:
-      name: appID
-      in: path
-      description: The app ID (e.g., `HelloQwiet`)
-      required: true
-      schema:
-        type: string
-    orgID:
-      name: orgID
-      in: path
-      description: The org ID
-      required: true
-      schema:
-        type: string
-        format: uuid
   securitySchemes:
     BearerToken:
       description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\

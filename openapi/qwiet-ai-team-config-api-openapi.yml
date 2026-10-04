@@ -188,16 +188,6 @@ components:
       properties:
         secrets:
           $ref: '#/components/schemas/SecretsConfiguration'
-    SecretsConfiguration:
-      description: Secrets detection configuration
-      type: object
-      properties:
-        entropy:
-          type: number
-          description: Entropy threshold. A floating number in range from 0.0 to 1.0
-        disable:
-          type: boolean
-          description: set to true to disable secrets detection altogether
     Error:
       type: object
       required:
@@ -222,19 +212,29 @@ components:
           items:
             type: string
             description: A description of the validation error
+    SecretsConfiguration:
+      description: Secrets detection configuration
+      type: object
+      properties:
+        entropy:
+          type: number
+          description: Entropy threshold. A floating number in range from 0.0 to 1.0
+        disable:
+          type: boolean
+          description: set to true to disable secrets detection altogether
   parameters:
-    orgID:
-      name: orgID
-      in: path
-      description: The org ID
-      required: true
-      schema:
-        type: string
-        format: uuid
     rbacTeamID:
       name: rbacTeamID
       in: path
       description: The team ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    orgID:
+      name: orgID
+      in: path
+      description: The org ID
       required: true
       schema:
         type: string

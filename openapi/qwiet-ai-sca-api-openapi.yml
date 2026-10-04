@@ -401,44 +401,59 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 components:
+  parameters:
+    appID:
+      name: appID
+      in: path
+      description: The app ID (e.g., `HelloQwiet`)
+      required: true
+      schema:
+        type: string
+    compoundName:
+      name: compoundName
+      in: path
+      description: A compound's name
+      required: true
+      schema:
+        type: string
+    search:
+      in: query
+      name: search
+      description: Search filter that looks for matches in finding titles and tags
+      schema:
+        type: string
+    order:
+      in: query
+      name: order
+      description: Direction of the sort; defaults to descending
+      schema:
+        type: string
+        enum:
+        - desc
+        - asc
+    orgID:
+      name: orgID
+      in: path
+      description: The org ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    per_page:
+      in: query
+      name: per_page
+      description: Number of results per page; defaults to 50
+      schema:
+        type: integer
+    page:
+      in: query
+      name: page
+      description: 'The page of results to fetch. Results are not guaranteed to be deterministic using this approach; we recommended using the `next_page` URL in a paginated response
+
+        '
+      schema:
+        type: integer
   schemas:
-    TagWithNumber:
-      type: object
-      required:
-      - key
-      - value
-      properties:
-        key:
-          type: string
-          description: The key for the tag key-value pair
-          example: cvss_score
-        value:
-          type: number
-          description: The value for the tag key-value pair
-          example: 5.2
-    ScanPlatform:
-      type: string
-      description: The analysis platform identifier.
-      enum:
-      - java
-      - go
-      - csharp
-      - javascript
-      - c
-      - python
-      - terraform_hcl
-      - ruby
-      - php
-      - fuzzytestlang
-      - kotlin
-      - javasrc
-      - pythonsrc
-      - jssrc
-      - secrets
-      - swiftsrc
-      - plsql
-      - apex
-      - groovy
     SuccessResponse:
       type: object
       required:
@@ -447,39 +462,6 @@ components:
         ok:
           type: boolean
           description: Whether the request was successful or not
-    Dependency:
-      type: object
-      required:
-      - id
-      - app
-      - title
-      - type
-      properties:
-        id:
-          type: string
-          description: The unique identifier for this finding
-          example: '1'
-        app:
-          type: string
-          description: The app to which this finding belongs
-          example: hello-qwiet
-        type:
-          type: string
-          description: The type of finding
-          example: vuln
-        title:
-          type: string
-          description: The title of the finding
-          example: 'Sensitive Data Leak: Sensitive data contained in HTTP request/response'
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/Tag'
-          example:
-          - key: severity
-            value: info
-          - key: cvss_score
-            value: 2
     PackageInfo:
       type: object
       properties:
@@ -577,6 +559,20 @@ components:
               lastModifiedDate:
                 type: string
                 format: date-time
+    TagWithNumber:
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+          description: The key for the tag key-value pair
+          example: cvss_score
+        value:
+          type: number
+          description: The value for the tag key-value pair
+          example: 5.2
     Error:
       type: object
       required:
@@ -617,6 +613,62 @@ components:
       - fuzzytestlang
       - kotlin
       - swift
+      - plsql
+      - apex
+      - groovy
+    Dependency:
+      type: object
+      required:
+      - id
+      - app
+      - title
+      - type
+      properties:
+        id:
+          type: string
+          description: The unique identifier for this finding
+          example: '1'
+        app:
+          type: string
+          description: The app to which this finding belongs
+          example: hello-qwiet
+        type:
+          type: string
+          description: The type of finding
+          example: vuln
+        title:
+          type: string
+          description: The title of the finding
+          example: 'Sensitive Data Leak: Sensitive data contained in HTTP request/response'
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          example:
+          - key: severity
+            value: info
+          - key: cvss_score
+            value: 2
+    ScanPlatform:
+      type: string
+      description: The analysis platform identifier.
+      enum:
+      - java
+      - go
+      - csharp
+      - javascript
+      - c
+      - python
+      - terraform_hcl
+      - ruby
+      - php
+      - fuzzytestlang
+      - kotlin
+      - javasrc
+      - pythonsrc
+      - jssrc
+      - secrets
+      - swiftsrc
       - plsql
       - apex
       - groovy
@@ -727,10 +779,6 @@ components:
               type: boolean
             is_repo_hijackable:
               type: boolean
-    Tag:
-      anyOf:
-      - $ref: '#/components/schemas/TagWithString'
-      - $ref: '#/components/schemas/TagWithNumber'
     TagWithString:
       type: object
       required:
@@ -745,58 +793,10 @@ components:
           type: string
           description: The value for the tag key-value pair
           example: XSS
-  parameters:
-    appID:
-      name: appID
-      in: path
-      description: The app ID (e.g., `HelloQwiet`)
-      required: true
-      schema:
-        type: string
-    per_page:
-      in: query
-      name: per_page
-      description: Number of results per page; defaults to 50
-      schema:
-        type: integer
-    orgID:
-      name: orgID
-      in: path
-      description: The org ID
-      required: true
-      schema:
-        type: string
-        format: uuid
-    page:
-      in: query
-      name: page
-      description: 'The page of results to fetch. Results are not guaranteed to be deterministic using this approach; we recommended using the `next_page` URL in a paginated response
-
-        '
-      schema:
-        type: integer
-    compoundName:
-      name: compoundName
-      in: path
-      description: A compound's name
-      required: true
-      schema:
-        type: string
-    search:
-      in: query
-      name: search
-      description: Search filter that looks for matches in finding titles and tags
-      schema:
-        type: string
-    order:
-      in: query
-      name: order
-      description: Direction of the sort; defaults to descending
-      schema:
-        type: string
-        enum:
-        - desc
-        - asc
+    Tag:
+      anyOf:
+      - $ref: '#/components/schemas/TagWithString'
+      - $ref: '#/components/schemas/TagWithNumber'
   securitySchemes:
     BearerToken:
       description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\

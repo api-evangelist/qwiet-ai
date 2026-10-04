@@ -503,12 +503,6 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    OrgAnalysisConfiguration:
-      description: Organization level analysis configuration
-      type: object
-      properties:
-        secrets:
-          $ref: '#/components/schemas/SecretsConfiguration'
     SuccessResponse:
       type: object
       required:
@@ -547,54 +541,6 @@ components:
           items:
             $ref: '#/components/schemas/Severity'
           description: The severities of findings for which AutoFix will generate suggestions
-    Severity:
-      type: string
-      enum:
-      - low
-      - medium
-      - high
-      - critical
-      description: The severity of a finding
-    SecretsConfiguration:
-      description: Secrets detection configuration
-      type: object
-      properties:
-        entropy:
-          type: number
-          description: Entropy threshold. A floating number in range from 0.0 to 1.0
-        disable:
-          type: boolean
-          description: set to true to disable secrets detection altogether
-    Error:
-      type: object
-      required:
-      - ok
-      - code
-      - message
-      properties:
-        ok:
-          type: boolean
-          description: Whether the request was successful (true) or not (false)
-        code:
-          type: string
-          description: The `enum` representing the error encountered
-          example: INTERNAL_SERVER_ERROR
-        message:
-          type: string
-          description: A message describing the error
-          example: Internal Server Error
-        validation_errors:
-          type: array
-          description: The validation errors the user should correct before re-submitting the request
-          items:
-            type: string
-            description: A description of the validation error
-    OrgAutoFixConfig:
-      description: An object describing the AutoFix configuration options of an organization
-      type: object
-      properties:
-        autofix_configuration:
-          $ref: '#/components/schemas/AutoFixConfig'
     OrgConfig:
       description: An object describing the configuration options of an organization
       type: object
@@ -627,42 +573,61 @@ components:
         session_timeout_hours:
           type: integer
           description: The number of hours after which the session will expire. The default value is 168 hours (7 days).
+    Error:
+      type: object
+      required:
+      - ok
+      - code
+      - message
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful (true) or not (false)
+        code:
+          type: string
+          description: The `enum` representing the error encountered
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+          description: A message describing the error
+          example: Internal Server Error
+        validation_errors:
+          type: array
+          description: The validation errors the user should correct before re-submitting the request
+          items:
+            type: string
+            description: A description of the validation error
+    OrgAnalysisConfiguration:
+      description: Organization level analysis configuration
+      type: object
+      properties:
+        secrets:
+          $ref: '#/components/schemas/SecretsConfiguration'
+    OrgAutoFixConfig:
+      description: An object describing the AutoFix configuration options of an organization
+      type: object
+      properties:
+        autofix_configuration:
+          $ref: '#/components/schemas/AutoFixConfig'
+    Severity:
+      type: string
+      enum:
+      - low
+      - medium
+      - high
+      - critical
+      description: The severity of a finding
+    SecretsConfiguration:
+      description: Secrets detection configuration
+      type: object
+      properties:
+        entropy:
+          type: number
+          description: Entropy threshold. A floating number in range from 0.0 to 1.0
+        disable:
+          type: boolean
+          description: set to true to disable secrets detection altogether
   parameters:
-    auditYear:
-      name: auditYear
-      in: path
-      description: The year for a requested report
-      required: true
-      schema:
-        type: number
-    auditDay:
-      name: auditDay
-      in: path
-      description: The day for a requested report
-      required: true
-      schema:
-        type: number
-    useDefaults:
-      name: useDefaults
-      in: query
-      description: whether to apply the default versioning mechanism
-      schema:
-        type: boolean
-    orgID:
-      name: orgID
-      in: path
-      description: The org ID
-      required: true
-      schema:
-        type: string
-        format: uuid
-    reference:
-      name: reference
-      in: path
-      description: the reference
-      required: true
-      schema:
-        type: string
     auditMonth:
       name: auditMonth
       in: path
@@ -676,6 +641,41 @@ components:
       description: the tags
       schema:
         type: string
+    reference:
+      name: reference
+      in: path
+      description: the reference
+      required: true
+      schema:
+        type: string
+    auditYear:
+      name: auditYear
+      in: path
+      description: The year for a requested report
+      required: true
+      schema:
+        type: number
+    orgID:
+      name: orgID
+      in: path
+      description: The org ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    useDefaults:
+      name: useDefaults
+      in: query
+      description: whether to apply the default versioning mechanism
+      schema:
+        type: boolean
+    auditDay:
+      name: auditDay
+      in: path
+      description: The day for a requested report
+      required: true
+      schema:
+        type: number
   securitySchemes:
     BearerToken:
       description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\

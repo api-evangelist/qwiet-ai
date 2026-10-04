@@ -305,6 +305,15 @@ components:
       schema:
         type: string
   schemas:
+    AzureOrgProjectAssociationResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+        response:
+          $ref: '#/components/schemas/AzureAssociationSuccessResponse'
     AzureAssociationSuccessResponse:
       type: object
       properties:
@@ -317,53 +326,6 @@ components:
         finding_work_item_type:
           type: string
           description: Work item type that will be used to create work items
-    AzureOrgSuccessResponse:
-      type: object
-      properties:
-        ok:
-          type: boolean
-          description: ok/error message
-        response:
-          type: object
-          properties:
-            accounts:
-              type: array
-              items:
-                type: object
-                properties:
-                  name:
-                    type: string
-                    description: The name of the Azure account
-    SubmitFindingsToAzureBoardRequest:
-      type: object
-      required:
-      - scan_id
-      - finding_ids
-      properties:
-        scan_id:
-          type: integer
-          format: int64
-          description: The unique ID of the scan. Must be greater than 0.
-        finding_ids:
-          type: array
-          items:
-            type: integer
-            format: int64
-          description: A list of finding IDs. Each ID must be greater than 0.
-        extra_parameters:
-          type: object
-          additionalProperties:
-            type: string
-          description: A map of extra parameters for the request. The keys and values are strings.
-    AzureOrgProjectAssociationResponse:
-      type: object
-      required:
-      - ok
-      properties:
-        ok:
-          type: boolean
-        response:
-          $ref: '#/components/schemas/AzureAssociationSuccessResponse'
     AzureBoardAssociationRequest:
       type: object
       required:
@@ -379,6 +341,21 @@ components:
         finding_work_item_type:
           type: string
           description: Work item type that will be used to create work items
+    AzureFindingResponse:
+      type: object
+      properties:
+        azure_org_name:
+          type: string
+          description: name of Azure organization
+        azure_project_name:
+          type: string
+          description: name of Azure project
+        azure_workitem_id:
+          type: integer
+          description: work item id associated with the finding
+        azure_workitem_url:
+          type: string
+          description: Azure board work item url
     Error:
       type: object
       required:
@@ -403,21 +380,23 @@ components:
           items:
             type: string
             description: A description of the validation error
-    AzureFindingResponse:
+    AzureOrgSuccessResponse:
       type: object
       properties:
-        azure_org_name:
-          type: string
-          description: name of Azure organization
-        azure_project_name:
-          type: string
-          description: name of Azure project
-        azure_workitem_id:
-          type: integer
-          description: work item id associated with the finding
-        azure_workitem_url:
-          type: string
-          description: Azure board work item url
+        ok:
+          type: boolean
+          description: ok/error message
+        response:
+          type: object
+          properties:
+            accounts:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: The name of the Azure account
     AzureGenericOKResponse:
       type: object
       required:
@@ -425,6 +404,27 @@ components:
       properties:
         ok:
           type: boolean
+    SubmitFindingsToAzureBoardRequest:
+      type: object
+      required:
+      - scan_id
+      - finding_ids
+      properties:
+        scan_id:
+          type: integer
+          format: int64
+          description: The unique ID of the scan. Must be greater than 0.
+        finding_ids:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: A list of finding IDs. Each ID must be greater than 0.
+        extra_parameters:
+          type: object
+          additionalProperties:
+            type: string
+          description: A map of extra parameters for the request. The keys and values are strings.
   securitySchemes:
     BearerToken:
       description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\

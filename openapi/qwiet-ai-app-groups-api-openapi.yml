@@ -202,24 +202,6 @@ components:
         ok:
           type: boolean
           description: Whether the request was successful or not
-    UpsertAppGroupRequest:
-      type: object
-      properties:
-        rename:
-          type: string
-          description: A new name for the group (optional)
-        add_app_ids:
-          type: array
-          description: The application IDs to add to the group
-          items:
-            type: string
-            description: The application IDs to add to the group
-        remove_app_ids:
-          type: array
-          description: The application IDs to remove from the group
-          items:
-            type: string
-            description: The application IDs to remove from the group
     Error:
       type: object
       required:
@@ -244,6 +226,24 @@ components:
           items:
             type: string
             description: A description of the validation error
+    UpsertAppGroupRequest:
+      type: object
+      properties:
+        rename:
+          type: string
+          description: A new name for the group (optional)
+        add_app_ids:
+          type: array
+          description: The application IDs to add to the group
+          items:
+            type: string
+            description: The application IDs to add to the group
+        remove_app_ids:
+          type: array
+          description: The application IDs to remove from the group
+          items:
+            type: string
+            description: The application IDs to remove from the group
     ReadGroupResponse:
       type: object
       properties:
@@ -256,6 +256,13 @@ components:
             type: string
             description: The application IDs for the group
   parameters:
+    appGroupName:
+      name: appGroupName
+      in: path
+      description: The group name
+      required: true
+      schema:
+        type: string
     orgID:
       name: orgID
       in: path
@@ -264,13 +271,6 @@ components:
       schema:
         type: string
         format: uuid
-    appGroupName:
-      name: appGroupName
-      in: path
-      description: The group name
-      required: true
-      schema:
-        type: string
   securitySchemes:
     BearerToken:
       description: 'Use of the Qwiet API requires an access token, which is available via the Qwiet Dashboard (either under [Account Settings](https://app.shiftleft.io/user/profile) or [Integration Tokens](https://app.shiftleft.io/integrations)) or via the `/tokens` endpoints. You can pass an access token to the API using the HTTP `Authorization` Request header as follows:\

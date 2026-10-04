@@ -49,6 +49,14 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
+    SuccessResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was successful or not
     Error:
       type: object
       required:
@@ -73,14 +81,6 @@ components:
           items:
             type: string
             description: A description of the validation error
-    SuccessResponse:
-      type: object
-      required:
-      - ok
-      properties:
-        ok:
-          type: boolean
-          description: Whether the request was successful or not
     UserMembershipInfo:
       allOf:
       - type: object
