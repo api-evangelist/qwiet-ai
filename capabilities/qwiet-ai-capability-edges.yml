@@ -1,0 +1,66 @@
+slug: qwiet-ai
+provider: Qwiet Ai
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 5
+edges:
+- tag: Findings
+  spec_file: qwiet-ai-findings-api-openapi.yml
+  capability_id: BC-620.40
+  capability_id_l1: BC-620
+  capability_name: Vulnerability Management
+  confidence: 0.85
+  evidence: '"List app findings", "Set finding status", "Set finding assignee", schema "FindingsSummary";
+    vendor description: "what vulnerabilities were identified by Qwiet as being present"'
+  reason: Operations manage security scan findings (vulnerabilities) — triage, status, assignment — which
+    is vulnerability management under cybersecurity, not generic defect tracking.
+- tag: Scans
+  spec_file: qwiet-ai-scans-api-openapi.yml
+  capability_id: BC-620.40
+  capability_id_l1: BC-620
+  capability_name: Vulnerability Management
+  confidence: 0.8
+  evidence: '"List scans", "Check a scan against a set of rules", "Read scan''s finding counts (grouped
+    by OWASP category)", schemas "SASTVulnCounts", "SCAVulnCounts"'
+  reason: Operations run and read application security scans producing SAST/SCA vulnerability counts —
+    vulnerability scanning and tracking.
+- tag: Compounds
+  spec_file: qwiet-ai-compounds-api-openapi.yml
+  capability_id: BC-620.40
+  capability_id_l1: BC-620
+  capability_name: Vulnerability Management
+  confidence: 0.72
+  evidence: '''List scans in a compound, returning a subset of the scan summary information''; schemas
+    SASTVulnCounts, SCAVulnCounts, FindingsSummary; ''what vulnerabilities were identified by Qwiet as
+    being present'''
+  reason: A 'compound' groups applications and their security scans; operations expose scan results and
+    vulnerability counts, which realises application vulnerability scanning/management. Some ambiguity
+    as the tag itself is a grouping construct.
+- tag: RBAC
+  spec_file: qwiet-ai-rbac-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: '"List roles", "Create custom RBAC role", "List available RBAC scopes", "Update user", "Create
+    team"'
+  reason: Role, scope, user and team administration is access control administration — Identity & Access
+    Management. Some ambiguity with tenant-level user administration, but the surface is plainly RBAC.
+- tag: autofix
+  spec_file: qwiet-ai-autofix-api-openapi.yml
+  capability_id: BC-620.40
+  capability_id_l1: BC-620
+  capability_name: Vulnerability Management
+  confidence: 0.7
+  evidence: '"Read Recommended Fix if it exists", "Get the number of fixes available per compound"'
+  reason: Retrieval of recommended remediation for security findings is the remediation side of vulnerability
+    management; slightly thin surface (3 endpoints).
