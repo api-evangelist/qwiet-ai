@@ -48,6 +48,16 @@ tags:
 - Security
 - Application Security
 - SAST
+- Software Composition Analysis
+- Code Security
+- Vulnerability Management
+- DevSecOps
+- AutoFix
+tags_raw:
+- Company
+- Security
+- Application Security
+- SAST
 - SCA
 - Code Security
 - Vulnerability Management
@@ -547,9 +557,10 @@ apis:
   humanURL: https://docs.shiftleft.io/api/
   baseURL: https://app.shiftleft.io/api/v4
   tags:
-  - SCA
+  - Software Composition Analysis
   tags_raw:
   - sca
+  - SCA
   properties:
   - type: OpenAPI
     url: openapi/qwiet-ai-sca-api-openapi.yml
